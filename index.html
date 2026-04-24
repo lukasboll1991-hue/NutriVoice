@@ -10,7 +10,6 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; max-width: 480px; margin: 0 auto; padding-bottom: 60px; }
 
-  /* KEY SCREEN */
   #key-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 32px 24px; text-align: center; }
   .key-logo { font-family: 'DM Serif Display', serif; font-size: 36px; margin-bottom: 8px; }
   .key-logo span { color: var(--accent); font-style: italic; }
@@ -24,14 +23,12 @@
   .key-hint { font-size: 12px; color: var(--muted); margin-top: 16px; line-height: 1.5; }
   .key-hint a { color: var(--accent); text-decoration: none; }
 
-  /* APP */
   #app { display: none; }
   header { padding: 28px 24px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-end; justify-content: space-between; }
   .logo { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--text); line-height: 1; }
   .logo span { color: var(--accent); font-style: italic; }
   .date-badge { font-size: 12px; color: var(--muted); background: var(--card); border: 1px solid var(--border); padding: 4px 10px; border-radius: 20px; }
 
-  /* SUMMARY */
   .summary-section { padding: 20px 24px 0; }
   .summary-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
   .edit-goals-btn { font-size: 11px; color: var(--accent); background: none; border: none; cursor: pointer; }
@@ -56,12 +53,9 @@
   .bar-fill.p { background: var(--protein); } .bar-fill.c { background: var(--carbs); } .bar-fill.f { background: var(--fat); }
   .bar-fill.over { background: var(--danger) !important; }
 
-  /* TABS */
   .tabs { display: flex; margin: 20px 24px 0; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 4px; gap: 4px; }
   .tab-btn { flex: 1; padding: 10px; border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; background: none; color: var(--muted); transition: all 0.2s; }
   .tab-btn.active { background: var(--accent); color: #0f0e0c; }
-
-  /* VOICE TAB */
   .tab-content { display: none; }
   .tab-content.active { display: block; }
 
@@ -89,17 +83,30 @@
 
   /* RECIPE TAB */
   .recipe-section { padding: 20px 24px; }
-  .recipe-section h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
-  .recipe-section p { font-size: 13px; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
-  .url-row { display: flex; gap: 8px; margin-bottom: 12px; }
+  .recipe-mode-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .rmode-btn { flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; background: none; color: var(--muted); transition: all 0.2s; text-align: center; }
+  .rmode-btn.active { background: var(--card); color: var(--text); border-color: var(--accent); }
+
+  .recipe-input-block { display: none; }
+  .recipe-input-block.active { display: block; }
+
+  .recipe-section h4 { font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+  .recipe-section p { font-size: 12px; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
+
+  .url-row { display: flex; gap: 8px; margin-bottom: 8px; }
   .url-input { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none; }
   .url-input:focus { border-color: var(--accent); }
   .url-input::placeholder { color: var(--muted); }
   .url-btn { background: var(--accent); border: none; border-radius: 12px; padding: 0 18px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; color: #0f0e0c; white-space: nowrap; }
-  .url-btn:active { opacity: 0.8; }
-  .recipe-hint { font-size: 11px; color: var(--muted); margin-bottom: 0; }
 
-  /* RECIPE PREVIEW */
+  .paste-textarea { width: 100%; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none; resize: vertical; min-height: 140px; line-height: 1.5; margin-bottom: 10px; }
+  .paste-textarea:focus { border-color: var(--accent); }
+  .paste-textarea::placeholder { color: var(--muted); }
+  .paste-btn { width: 100%; background: var(--accent); border: none; border-radius: 12px; padding: 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; color: #0f0e0c; cursor: pointer; }
+
+  .info-box { background: rgba(232,197,71,0.08); border: 1px solid rgba(232,197,71,0.2); border-radius: 10px; padding: 12px 14px; font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+  .info-box strong { color: var(--accent); }
+
   #recipe-preview { display: none; margin-top: 16px; }
   .recipe-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
   .recipe-card-header { padding: 14px 16px; border-bottom: 1px solid var(--border); }
@@ -117,22 +124,20 @@
   .recipe-item-info { flex: 1; min-width: 0; }
   .recipe-item-name { font-size: 13px; font-weight: 500; }
   .recipe-item-kcal { font-size: 11px; color: var(--muted); margin-top: 1px; }
-  .recipe-item-amount { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-  .amount-input { width: 60px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; text-align: right; outline: none; }
+  .recipe-item-amount { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+  .amount-input { width: 58px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; text-align: right; outline: none; }
   .amount-input:focus { border-color: var(--accent); }
   .amount-unit { font-size: 12px; color: var(--muted); min-width: 20px; }
   .recipe-add-btn { width: 100%; background: var(--accent); border: none; border-radius: 0 0 16px 16px; padding: 16px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; color: #0f0e0c; cursor: pointer; }
-  .recipe-add-btn:active { opacity: 0.85; }
 
-  /* MEALS */
   .meals-section { padding: 0 24px; }
   .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
   .section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
   .clear-btn { font-size: 12px; color: var(--muted); background: none; border: none; cursor: pointer; padding: 4px 8px; border-radius: 6px; }
   .meal-group { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 12px; animation: slideIn 0.35s cubic-bezier(0.34,1.56,0.64,1); }
   @keyframes slideIn{from{opacity:0;transform:translateY(10px) scale(0.98);}to{opacity:1;transform:none;}}
-  .meal-group-header { padding: 10px 16px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; display: flex; align-items: center; gap: 6px; }
-  .meal-group-header .recipe-tag { background: rgba(232,197,71,0.15); color: var(--accent); border-radius: 4px; padding: 1px 6px; font-size: 10px; }
+  .meal-group-header { padding: 10px 16px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .recipe-tag { background: rgba(232,197,71,0.15); color: var(--accent); border-radius: 4px; padding: 1px 6px; font-size: 10px; }
   .food-item { display: flex; align-items: center; padding: 11px 12px; border-bottom: 1px solid var(--border); gap: 8px; }
   .food-item:last-child { border-bottom: none; }
   .food-icon { width: 34px; height: 34px; border-radius: 9px; background: var(--border); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
@@ -148,12 +153,10 @@
   .dot-badge.f { background: rgba(224,123,57,0.15); color: var(--fat); }
   .food-actions { display: flex; gap: 4px; flex-shrink: 0; }
   .action-btn { background: none; border: 1px solid var(--border); border-radius: 8px; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-  .action-btn:active { background: var(--border); }
 
   .empty-state { text-align: center; padding: 36px 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
   .empty-state .big-emoji { font-size: 44px; display: block; margin-bottom: 10px; }
 
-  /* MODALS */
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 100; align-items: flex-end; justify-content: center; }
   .modal-overlay.open { display: flex; }
   .modal { background: var(--card); border: 1px solid var(--border); border-radius: 24px 24px 0 0; padding: 28px 24px 44px; width: 100%; max-width: 480px; }
@@ -177,8 +180,9 @@
   .edit-cancel { flex: 1; background: var(--border); border: none; border-radius: 12px; padding: 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text); cursor: pointer; }
   .edit-save { flex: 2; background: var(--accent); border: none; border-radius: 12px; padding: 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; color: #0f0e0c; cursor: pointer; }
 
-  #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--danger); color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; transition: transform 0.3s; z-index: 999; white-space: nowrap; }
+  #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--danger); color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; transition: transform 0.3s; z-index: 999; white-space: nowrap; max-width: 90vw; text-align: center; }
   #toast.show { transform: translateX(-50%) translateY(0); }
+  #toast.green { background: var(--success); }
   .legend { display: flex; gap: 14px; justify-content: center; padding: 16px 24px 0; flex-wrap: wrap; }
   .legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--muted); }
   .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
@@ -193,7 +197,7 @@
     <div class="key-label">Anthropic API Key</div>
     <input class="key-input" id="key-input" type="password" placeholder="sk-ant-..." />
     <button class="key-btn" onclick="saveKey()">Los geht's →</button>
-    <div class="key-hint">Key bekommst du auf <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a><br>Wird nur lokal auf deinem Gerät gespeichert.</div>
+    <div class="key-hint">Key bekommst du auf <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a><br>Wird nur lokal gespeichert.</div>
   </div>
 </div>
 
@@ -272,10 +276,9 @@
     </div>
   </section>
 
-  <!-- TABS -->
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('voice')">🎙️ Sprache</button>
-    <button class="tab-btn" onclick="switchTab('recipe')">🍳 Rezept-Link</button>
+    <button class="tab-btn" onclick="switchTab('recipe')">🍳 Rezept</button>
   </div>
 
   <!-- VOICE TAB -->
@@ -301,15 +304,43 @@
   <!-- RECIPE TAB -->
   <div class="tab-content" id="tab-recipe">
     <section class="recipe-section">
-      <h3>Rezept-Link einfügen</h3>
-      <p>Füge den Link zu einem Rezept ein – die KI liest automatisch alle Zutaten aus. Dann kannst du die Mengen anpassen und alles ins Tagesprotokoll übernehmen.</p>
-      <div class="url-row">
-        <input class="url-input" id="url-input" type="url" placeholder="https://www.chefkoch.de/rezepte/…" />
-        <button class="url-btn" onclick="loadRecipe()">Laden</button>
-      </div>
-      <div class="loading-bar" id="recipe-loading-bar"><div class="loading-bar-inner"></div></div>
-      <p class="recipe-hint">Funktioniert mit chefkoch.de, eatsmarter.de, lecker.de u.v.m.</p>
 
+      <div class="recipe-mode-tabs">
+        <button class="rmode-btn active" onclick="switchRMode('url')">🔗 Link einfügen</button>
+        <button class="rmode-btn" onclick="switchRMode('paste')">📋 Text einfügen</button>
+      </div>
+
+      <!-- URL MODE -->
+      <div class="recipe-input-block active" id="rmode-url">
+        <h4>Rezept-Link</h4>
+        <div class="info-box">
+          <strong>Hinweis:</strong> Viele Seiten (chefkoch.de, lecker.de) blockieren automatische Zugriffe. Falls der Link nicht funktioniert → <strong>Text einfügen</strong> benutzen: Zutaten von der Webseite kopieren und dort einfügen.
+        </div>
+        <div class="url-row">
+          <input class="url-input" id="url-input" type="url" placeholder="https://www.chefkoch.de/…" />
+          <button class="url-btn" onclick="loadRecipeUrl()">Laden</button>
+        </div>
+        <div class="loading-bar" id="recipe-loading-bar"><div class="loading-bar-inner"></div></div>
+      </div>
+
+      <!-- PASTE MODE -->
+      <div class="recipe-input-block" id="rmode-paste">
+        <h4>Zutaten einfügen</h4>
+        <p>Öffne das Rezept im Browser, kopiere die Zutatenliste und füge sie hier ein. Die KI erkennt alles automatisch.</p>
+        <textarea class="paste-textarea" id="paste-input" placeholder="z.B.:
+500g Hähnchenbrust
+200g Spätzle
+1 Zwiebel
+2 EL Olivenöl
+150ml Sahne
+Salz, Pfeffer
+…"></textarea>
+        <input class="url-input" id="paste-recipe-name" type="text" placeholder="Rezeptname (optional)" style="margin-bottom:10px;" />
+        <button class="paste-btn" onclick="loadRecipePaste()">Zutaten analysieren →</button>
+        <div class="loading-bar" id="paste-loading-bar" style="margin-top:10px;"><div class="loading-bar-inner"></div></div>
+      </div>
+
+      <!-- PREVIEW -->
       <div id="recipe-preview">
         <div class="recipe-card">
           <div class="recipe-card-header">
@@ -317,7 +348,7 @@
             <div class="recipe-card-meta" id="recipe-meta"></div>
           </div>
           <div class="recipe-servings-row">
-            <span class="recipe-servings-label">Portionen anpassen:</span>
+            <span class="recipe-servings-label">Portionen:</span>
             <div class="servings-ctrl">
               <button class="srv-btn" onclick="changeServings(-1)">−</button>
               <span id="servings-val">1</span>
@@ -325,9 +356,10 @@
             </div>
           </div>
           <div id="recipe-items-list"></div>
-          <button class="recipe-add-btn" onclick="addRecipeToLog()">+ Zum Tagesprotokoll hinzufügen</button>
+          <button class="recipe-add-btn" onclick="addRecipeToLog()">+ Zum Tagesprotokoll</button>
         </div>
       </div>
+
     </section>
   </div>
 
@@ -337,7 +369,7 @@
       <button class="clear-btn" onclick="clearAll()">Alles löschen</button>
     </div>
     <div id="meals-container">
-      <div class="empty-state"><span class="big-emoji">🎙️</span>Sprich, tippe oder lade ein Rezept.</div>
+      <div class="empty-state"><span class="big-emoji">🎙️</span>Sprich, tippe oder füge ein Rezept ein.</div>
     </div>
   </section>
 
@@ -356,7 +388,7 @@ let meals = JSON.parse(localStorage.getItem('nv_meals') || '[]');
 let goals = JSON.parse(localStorage.getItem('nv_goals') || 'null');
 let recognition = null, isListening = false;
 let editTarget = null;
-let recipeData = null; // {title, servings, baseServings, items:[]}
+let recipeData = null;
 let currentServings = 1;
 
 // ── Key ──────────────────────────────────────────────────
@@ -380,14 +412,20 @@ function initApp() {
 
 // ── Tabs ─────────────────────────────────────────────────
 function switchTab(tab) {
-  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active', (i===0&&tab==='voice')||(i===1&&tab==='recipe')));
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active',(i===0&&tab==='voice')||(i===1&&tab==='recipe')));
   document.getElementById('tab-voice').classList.toggle('active', tab==='voice');
   document.getElementById('tab-recipe').classList.toggle('active', tab==='recipe');
+}
+function switchRMode(mode) {
+  document.querySelectorAll('.rmode-btn').forEach((b,i) => b.classList.toggle('active',(i===0&&mode==='url')||(i===1&&mode==='paste')));
+  document.getElementById('rmode-url').classList.toggle('active', mode==='url');
+  document.getElementById('rmode-paste').classList.toggle('active', mode==='paste');
+  document.getElementById('recipe-preview').style.display='none';
 }
 
 // ── Goals ─────────────────────────────────────────────────
 function openGoalsModal() {
-  if (goals) { document.getElementById('goal-kcal').value=goals.kcal||''; document.getElementById('goal-protein').value=goals.protein||''; document.getElementById('goal-carbs').value=goals.carbs||''; document.getElementById('goal-fat').value=goals.fat||''; }
+  if(goals){document.getElementById('goal-kcal').value=goals.kcal||'';document.getElementById('goal-protein').value=goals.protein||'';document.getElementById('goal-carbs').value=goals.carbs||'';document.getElementById('goal-fat').value=goals.fat||'';}
   document.getElementById('goals-modal').classList.add('open');
 }
 function saveGoals() {
@@ -398,9 +436,9 @@ function saveGoals() {
 }
 document.getElementById('goals-modal').addEventListener('click',e=>{if(e.target===document.getElementById('goals-modal'))document.getElementById('goals-modal').classList.remove('open');});
 
-// ── Edit Item ─────────────────────────────────────────────
+// ── Edit / Delete ─────────────────────────────────────────
 function openEditModal(groupId,itemIndex){
-  const group=meals.find(g=>g.id===groupId); if(!group)return;
+  const group=meals.find(g=>g.id===groupId);if(!group)return;
   const item=group.items[itemIndex];
   editTarget={groupId,itemIndex};
   document.getElementById('edit-item-name').textContent=(item.emoji||'')+' '+item.name;
@@ -411,58 +449,92 @@ function openEditModal(groupId,itemIndex){
 function closeEditModal(){editTarget=null;document.getElementById('edit-modal').classList.remove('open');}
 function saveEdit(){
   if(!editTarget)return;
-  const group=meals.find(g=>g.id===editTarget.groupId); if(!group)return;
+  const group=meals.find(g=>g.id===editTarget.groupId);if(!group)return;
   const item=group.items[editTarget.itemIndex];
   const newAmount=parseFloat(document.getElementById('edit-amount').value);
   const newUnit=document.getElementById('edit-unit').value.trim()||'g';
   if(!newAmount||newAmount<=0){showToast('Ungültige Menge');return;}
   const ratio=newAmount/item.amount;
-  item.amount=newAmount; item.unit=newUnit;
+  item.amount=newAmount;item.unit=newUnit;
   item.kcal=Math.round(item.kcal*ratio);
   item.protein=Math.round(item.protein*ratio*10)/10;
   item.carbs=Math.round(item.carbs*ratio*10)/10;
   item.fat=Math.round(item.fat*ratio*10)/10;
   localStorage.setItem('nv_meals',JSON.stringify(meals));
-  closeEditModal(); renderAll();
+  closeEditModal();renderAll();
 }
 function deleteItem(groupId,itemIndex){
-  const group=meals.find(g=>g.id===groupId); if(!group)return;
+  const group=meals.find(g=>g.id===groupId);if(!group)return;
   group.items.splice(itemIndex,1);
   if(!group.items.length)meals=meals.filter(g=>g.id!==groupId);
-  localStorage.setItem('nv_meals',JSON.stringify(meals));
-  renderAll();
+  localStorage.setItem('nv_meals',JSON.stringify(meals));renderAll();
 }
 
-// ── Recipe Loader ─────────────────────────────────────────
-async function loadRecipe() {
+// ── Recipe: URL Load ──────────────────────────────────────
+async function loadRecipeUrl() {
   const url = document.getElementById('url-input').value.trim();
   if (!url || !url.startsWith('http')) { showToast('Bitte eine gültige URL eingeben'); return; }
+  document.getElementById('recipe-loading-bar').classList.add('visible');
+  document.getElementById('recipe-preview').style.display='none';
 
-  setRecipeLoading(true);
-  document.getElementById('recipe-preview').style.display = 'none';
+  // Try multiple CORS proxies in sequence
+  const proxies = [
+    `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
+  ];
 
-  try {
-    // Fetch page via CORS proxy
-    const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
-    const resp = await fetch(proxyUrl);
-    const data = await resp.json();
-    const html = data.contents;
+  let html = null;
+  for (const proxy of proxies) {
+    try {
+      const resp = await fetch(proxy, { signal: AbortSignal.timeout(8000) });
+      if (!resp.ok) continue;
+      const ct = resp.headers.get('content-type') || '';
+      if (ct.includes('json')) {
+        const d = await resp.json();
+        html = d.contents || d.body || null;
+      } else {
+        html = await resp.text();
+      }
+      if (html && html.length > 500) break;
+    } catch(e) { continue; }
+  }
 
-    // Extract text from HTML (strip tags)
-    const tmp = document.createElement('div');
-    tmp.innerHTML = html;
-    // Remove scripts/styles
-    tmp.querySelectorAll('script,style,nav,footer,header').forEach(el=>el.remove());
-    const pageText = tmp.innerText || tmp.textContent;
-    const trimmed = pageText.replace(/\s+/g,' ').trim().slice(0, 8000);
+  if (!html) {
+    document.getElementById('recipe-loading-bar').classList.remove('visible');
+    showToast('Link nicht ladbar – bitte "Text einfügen" nutzen');
+    switchRMode('paste');
+    return;
+  }
 
-    // AI extracts ingredients
-    const prompt = `Du bist ein Ernährungsexperte. Aus dem folgenden Rezept-Text extrahiere:
-1. Den Rezeptnamen
-2. Die Anzahl der Portionen (falls angegeben, sonst 1)
-3. Alle Zutaten mit Mengen
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  tmp.querySelectorAll('script,style,nav,footer,header,aside').forEach(el=>el.remove());
+  const pageText = (tmp.innerText||tmp.textContent).replace(/\s+/g,' ').trim().slice(0,8000);
 
-Antworte NUR mit diesem JSON (kein Markdown, kein Text):
+  await analyzeRecipeText(pageText, url);
+  document.getElementById('recipe-loading-bar').classList.remove('visible');
+}
+
+// ── Recipe: Paste ─────────────────────────────────────────
+async function loadRecipePaste() {
+  const text = document.getElementById('paste-input').value.trim();
+  const name = document.getElementById('paste-recipe-name').value.trim();
+  if (!text || text.length < 10) { showToast('Bitte Zutaten einfügen'); return; }
+  document.getElementById('paste-loading-bar').classList.add('visible');
+  document.getElementById('recipe-preview').style.display='none';
+  await analyzeRecipeText(text, null, name);
+  document.getElementById('paste-loading-bar').classList.remove('visible');
+}
+
+// ── Recipe: AI Analysis ───────────────────────────────────
+async function analyzeRecipeText(text, sourceUrl, manualTitle) {
+  const prompt = `Du bist Ernährungsexperte. Analysiere diesen Rezepttext und extrahiere:
+1. Rezeptname
+2. Anzahl Portionen (falls angegeben, sonst 1)
+3. Alle Zutaten mit Mengen und Nährwerten
+
+Antworte NUR mit diesem JSON (kein Markdown):
 {
   "title": "Rezeptname",
   "servings": 4,
@@ -472,68 +544,66 @@ Antworte NUR mit diesem JSON (kein Markdown, kein Text):
 }
 
 Regeln:
-- Nährwerte für die angegebene Menge pro Portion (amount geteilt durch servings)
-- Wenn Mengen in Stück/TL/EL: in Gramm umrechnen wenn möglich, sonst Stück lassen
-- Nur JSON
+- amount = Menge für EINE Portion (Gesamtmenge ÷ Portionen)
+- Nährwerte für diese eine Portion der Zutat
+- Gewürze/Salz/Pfeffer in kleinen Mengen trotzdem aufführen
+- Nur JSON, kein Text davor oder danach
 
-Rezept-Text:
-${trimmed}`;
+Text:
+${text}`;
 
-    const aiResp = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {"Content-Type":"application/json","x-api-key":getKey(),"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
-      body: JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:2000,messages:[{role:"user",content:prompt}]})
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method:"POST",
+      headers:{"Content-Type":"application/json","x-api-key":getKey(),"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+      body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:2000,messages:[{role:"user",content:prompt}]})
     });
-    const aiData = await aiResp.json();
-    if (aiData.error) throw new Error(aiData.error.message);
-
-    const raw = aiData.content.map(i=>i.text||'').join('');
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const raw = data.content.map(i=>i.text||'').join('');
     const recipe = JSON.parse(raw.replace(/```json|```/g,'').trim());
-
+    if (manualTitle) recipe.title = manualTitle;
     recipeData = recipe;
     currentServings = recipe.servings || 1;
     renderRecipePreview();
-
   } catch(err) {
     console.error(err);
-    showToast('Fehler beim Laden – prüfe die URL');
-  } finally {
-    setRecipeLoading(false);
+    showToast('Analyse fehlgeschlagen: '+err.message);
   }
 }
 
-function setRecipeLoading(v) {
-  document.getElementById('recipe-loading-bar').classList.toggle('visible', v);
-}
-
+// ── Recipe Preview ────────────────────────────────────────
 function renderRecipePreview() {
   if (!recipeData) return;
   document.getElementById('recipe-title').textContent = recipeData.title || 'Rezept';
-  document.getElementById('recipe-meta').textContent = `${currentServings} Portion${currentServings!==1?'en':''}`;
+  document.getElementById('recipe-meta').textContent = `Basis: ${recipeData.servings||1} Portion${(recipeData.servings||1)!==1?'en':''}`;
   document.getElementById('servings-val').textContent = currentServings;
 
   const baseServings = recipeData.servings || 1;
   const ratio = currentServings / baseServings;
 
-  const list = document.getElementById('recipe-items-list');
-  list.innerHTML = recipeData.items.map((item, idx) => {
-    const scaledAmount = Math.round(item.amount * ratio * 10) / 10;
-    const scaledKcal = Math.round(item.kcal * ratio);
+  document.getElementById('recipe-items-list').innerHTML = recipeData.items.map((item,idx) => {
+    const sa = Math.round(item.amount * ratio * 10) / 10;
+    const sk = Math.round(item.kcal * ratio);
     return `
       <div class="recipe-item">
         <div class="recipe-item-icon">${item.emoji||'🍽️'}</div>
         <div class="recipe-item-info">
           <div class="recipe-item-name">${item.name}</div>
-          <div class="recipe-item-kcal">${scaledKcal} kcal · P:${Math.round(item.protein*ratio)}g C:${Math.round(item.carbs*ratio)}g F:${Math.round(item.fat*ratio)}g</div>
+          <div class="recipe-item-kcal">${sk} kcal · P:${Math.round(item.protein*ratio)}g C:${Math.round(item.carbs*ratio)}g F:${Math.round(item.fat*ratio)}g</div>
         </div>
         <div class="recipe-item-amount">
-          <input class="amount-input" type="number" id="ri-amount-${idx}" value="${scaledAmount}" min="0" step="1" />
+          <input class="amount-input" type="number" id="ri-${idx}" value="${sa}" min="0" step="1" oninput="updateItemKcal(${idx})" />
           <span class="amount-unit">${item.unit||'g'}</span>
         </div>
       </div>`;
   }).join('');
 
   document.getElementById('recipe-preview').style.display = 'block';
+}
+
+function updateItemKcal(idx) {
+  // Live recalc could go here – keeping it simple for now
 }
 
 function changeServings(delta) {
@@ -546,38 +616,37 @@ function addRecipeToLog() {
   const baseServings = recipeData.servings || 1;
   const ratio = currentServings / baseServings;
 
-  const items = recipeData.items.map((item, idx) => {
-    const inputEl = document.getElementById(`ri-amount-${idx}`);
-    const customAmount = inputEl ? parseFloat(inputEl.value) : item.amount * ratio;
+  const items = recipeData.items.map((item,idx) => {
+    const inputEl = document.getElementById(`ri-${idx}`);
+    const customAmount = inputEl ? parseFloat(inputEl.value)||0 : item.amount * ratio;
     const origScaled = item.amount * ratio;
-    const amountRatio = origScaled > 0 ? customAmount / origScaled : 1;
+    const ar = origScaled > 0 ? customAmount / origScaled : 1;
     return {
-      name: item.name,
-      emoji: item.emoji || '🍽️',
-      amount: customAmount,
-      unit: item.unit || 'g',
-      kcal: Math.round(item.kcal * ratio * amountRatio),
-      protein: Math.round(item.protein * ratio * amountRatio * 10) / 10,
-      carbs: Math.round(item.carbs * ratio * amountRatio * 10) / 10,
-      fat: Math.round(item.fat * ratio * amountRatio * 10) / 10,
+      name: item.name, emoji: item.emoji||'🍽️',
+      amount: customAmount, unit: item.unit||'g',
+      kcal: Math.round(item.kcal * ratio * ar),
+      protein: Math.round(item.protein * ratio * ar * 10)/10,
+      carbs: Math.round(item.carbs * ratio * ar * 10)/10,
+      fat: Math.round(item.fat * ratio * ar * 10)/10,
     };
   });
 
   meals.push({
-    id: Date.now(),
-    timestamp: new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}),
-    label: recipeData.title,
-    isRecipe: true,
+    id:Date.now(),
+    timestamp:new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}),
+    label:recipeData.title,
+    isRecipe:true,
     items
   });
-  localStorage.setItem('nv_meals', JSON.stringify(meals));
+  localStorage.setItem('nv_meals',JSON.stringify(meals));
   renderAll();
-
-  document.getElementById('recipe-preview').style.display = 'none';
-  document.getElementById('url-input').value = '';
-  recipeData = null;
+  document.getElementById('recipe-preview').style.display='none';
+  document.getElementById('url-input').value='';
+  document.getElementById('paste-input').value='';
+  document.getElementById('paste-recipe-name').value='';
+  recipeData=null;
   switchTab('voice');
-  showToast('✅ Rezept hinzugefügt!');
+  showToast('✅ Rezept hinzugefügt!', true);
 }
 
 // ── Voice ─────────────────────────────────────────────────
@@ -594,9 +663,8 @@ function toggleVoice(){
   recognition.start();
 }
 function stopListening(){isListening=false;document.getElementById('voice-btn').classList.remove('listening');}
-function showTranscript(text){const b=document.getElementById('transcript-box');b.textContent=text;b.classList.add('visible');}
+function showTranscript(t){const b=document.getElementById('transcript-box');b.textContent=t;b.classList.add('visible');}
 
-// ── AI text analyze ───────────────────────────────────────
 async function analyzeText(text){
   if(!text||text.trim().length<2)return;
   document.getElementById('text-input').value='';
@@ -631,7 +699,6 @@ function renderAll(){
   document.getElementById('total-p').textContent=Math.round(tP)+'g';
   document.getElementById('total-c').textContent=Math.round(tC)+'g';
   document.getElementById('total-f').textContent=Math.round(tF)+'g';
-
   if(goals&&goals.kcal){
     const rem=Math.round(goals.kcal-tKcal);
     document.getElementById('kcal-remaining-box').style.display='block';
@@ -639,35 +706,27 @@ function renderAll(){
     el.textContent=(rem>=0?'+'+rem:rem)+' kcal';
     el.className='remaining-value '+(rem>=0?'ok':'over');
   } else document.getElementById('kcal-remaining-box').style.display='none';
-
-  [{key:'p',total:tP,goal:goals?.protein,remId:'rem-p',goalId:'goal-p-text',barId:'bar-p',cls:'p',fb:150},
-   {key:'c',total:tC,goal:goals?.carbs,remId:'rem-c',goalId:'goal-c-text',barId:'bar-c',cls:'c',fb:250},
-   {key:'f',total:tF,goal:goals?.fat,remId:'rem-f',goalId:'goal-f-text',barId:'bar-f',cls:'f',fb:80}
+  [{total:tP,goal:goals?.protein,remId:'rem-p',goalId:'goal-p-text',barId:'bar-p',cls:'p',fb:150},
+   {total:tC,goal:goals?.carbs,remId:'rem-c',goalId:'goal-c-text',barId:'bar-c',cls:'c',fb:250},
+   {total:tF,goal:goals?.fat,remId:'rem-f',goalId:'goal-f-text',barId:'bar-f',cls:'f',fb:80}
   ].forEach(m=>{
-    const max=m.goal||m.fb;
-    const pct=Math.min(100,(m.total/max)*100);
+    const max=m.goal||m.fb,pct=Math.min(100,(m.total/max)*100);
     const bar=document.getElementById(m.barId);
-    bar.style.width=pct+'%';
-    bar.className='bar-fill '+m.cls+(pct>=100?' over':'');
-    const remEl=document.getElementById(m.remId),goalEl=document.getElementById(m.goalId);
-    if(goals&&m.goal){
-      const rem=Math.round(m.goal-m.total);
-      remEl.style.display='block';remEl.textContent=rem>=0?'noch '+rem+'g':Math.abs(rem)+'g drüber';remEl.className='macro-remaining '+(rem>=0?'ok':'over');
-      goalEl.style.display='block';goalEl.textContent='Ziel: '+m.goal+'g';
-    } else {remEl.style.display='none';goalEl.style.display='none';}
+    bar.style.width=pct+'%';bar.className='bar-fill '+m.cls+(pct>=100?' over':'');
+    const re=document.getElementById(m.remId),ge=document.getElementById(m.goalId);
+    if(goals&&m.goal){const rem=Math.round(m.goal-m.total);re.style.display='block';re.textContent=rem>=0?'noch '+rem+'g':Math.abs(rem)+'g drüber';re.className='macro-remaining '+(rem>=0?'ok':'over');ge.style.display='block';ge.textContent='Ziel: '+m.goal+'g';}
+    else{re.style.display='none';ge.style.display='none';}
   });
-
   const container=document.getElementById('meals-container');
-  if(!meals.length){container.innerHTML='<div class="empty-state"><span class="big-emoji">🎙️</span>Sprich, tippe oder lade ein Rezept.</div>';return;}
+  if(!meals.length){container.innerHTML='<div class="empty-state"><span class="big-emoji">🎙️</span>Sprich, tippe oder füge ein Rezept ein.</div>';return;}
   container.innerHTML='';
   [...meals].reverse().forEach(group=>{
     const gKcal=group.items.reduce((s,i)=>s+(i.kcal||0),0);
-    const div=document.createElement('div');
-    div.className='meal-group';
+    const div=document.createElement('div');div.className='meal-group';
     div.innerHTML=`
       <div class="meal-group-header">
         ${group.timestamp} · ${Math.round(gKcal)} kcal
-        ${group.isRecipe?'<span class="recipe-tag">🍳 '+group.label+'</span>':''}
+        ${group.isRecipe?`<span class="recipe-tag">🍳 ${group.label}</span>`:''}
       </div>
       ${group.items.map((item,idx)=>`
         <div class="food-item">
@@ -694,6 +753,10 @@ function renderAll(){
 }
 
 function clearAll(){if(!meals.length)return;meals=[];localStorage.removeItem('nv_meals');renderAll();}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
+function showToast(msg,green){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className=green?'show green':'show';
+  setTimeout(()=>t.className='',3500);
+}
 document.getElementById('text-input').addEventListener('keydown',e=>{if(e.key==='Enter')analyzeText(e.target.value);});
 </script>
