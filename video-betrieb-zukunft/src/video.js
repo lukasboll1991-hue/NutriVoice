@@ -408,7 +408,7 @@ function captions(t) {
   let idx = -1;
   for (let i = 0; i < CAP.length; i++) {
     const p = CAP[i];
-    if (p.scene === 6) continue;
+    if (p.scene === 6 || i === 8 || i === 12) continue; // these lines are already on screen as kinetic headlines
     const next = CAP[i + 1];
     const until = Math.min(next ? next.start - 0.12 : 1e9, p.end + 0.7);
     if (t >= p.start - 0.12 && t < until) idx = i;
