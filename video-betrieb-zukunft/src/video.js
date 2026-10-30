@@ -101,6 +101,8 @@ tl.to(vl, { x: 0, duration: 0.9, ease: 'elastic.out(1,0.42)', stagger: 0.014 }, 
 tl.to(hl, { y: 0, duration: 0.9, ease: 'elastic.out(1,0.42)', stagger: 0.04 }, T.cut12 + 0.05);
 [0.04, 0.13, 0.25].forEach((d, i) => sfx(T.cut12 + d, 'snap', 0.5 - i * 0.1, [-0.4, 0.4, 0][i]));
 clipIn('#s2-label', 5.95, 0.6);
+rise('#s2-l0', 5.84, 0.7);
+tl.to('#s2-l0', { yPercent: -112, duration: 0.3, ease: 'power3.in' }, W.ihre - 0.3);
 rise('#s2-l1', W.ihre - 0.06, 0.85); sfx(W.ihre - 0.06, 'swish', 0.4, -0.2);
 rise('#s2-l2', 7.84, 0.85); sfx(7.84, 'swish', 0.45, 0.2);
 tl.fromTo('#s2-ul', { scaleX: 0 }, { scaleX: 1, duration: 0.6 }, W.gehoert - 0.05); sfx(W.gehoert - 0.05, 'tick', 0.4, 0, 1.3);
@@ -381,6 +383,9 @@ const ring = $('#ringpath'), rl = ring.getTotalLength();
 gsap.set(ring, { strokeDasharray: rl, strokeDashoffset: rl });
 tl.to(ring, { strokeDashoffset: 0, duration: 1.0 }, F + 0.24);
 tl.fromTo('#logoimg', { scale: 0.55, rotation: -25, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.95, ease: 'back.out(1.5)' }, T.s6 - 0.12);
+// logo lands in the centre on "Betrieb Zukunft", then makes room for the headline
+tl.fromTo('#endlogo', { x: 649, y: 89, scale: 1.12 }, { x: 0, y: 0, scale: 1, duration: 0.75, ease: 'expo.inOut' }, W.einfacher - 0.42);
+sfx(W.einfacher - 0.42, 'swish_low', 0.35, -0.3);
 sfx(T.s6, 'impact', 0.8, 0, 1.15);
 CAP[17].words.forEach((w, i) => { rise($$('#endhead .w')[i], w.s - 0.04, 0.7); });
 sfx(W.guenstiger, 'swish', 0.3, 0.3);
