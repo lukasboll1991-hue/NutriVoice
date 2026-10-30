@@ -1,0 +1,4 @@
+node_modules/
+out/
+# personal photo and logo stay local (public repo)
+assets/

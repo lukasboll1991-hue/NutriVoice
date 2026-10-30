@@ -1,0 +1,46 @@
+/* Betrieb Zukunft – Editorial Grid: design tokens */
+@font-face {
+  font-family: "Archivo";
+  src: url("../node_modules/@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2") format("woff2-variations");
+  font-weight: 100 900; font-stretch: 62% 125%;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("../node_modules/@fontsource-variable/archivo/files/archivo-latin-ext-wdth-normal.woff2") format("woff2-variations");
+  font-weight: 100 900; font-stretch: 62% 125%;
+  unicode-range: U+0100-024F, U+20A0-20CF;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2") format("woff2-variations");
+  font-weight: 100 900;
+}
+@font-face {
+  font-family: "JBMono";
+  src: url("../node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2") format("woff2");
+  font-weight: 500;
+}
+
+:root {
+  /* colour – taken from the logo */
+  --paper: #F3F2EC;
+  --paper-2: #E9E7DF;
+  --ink: #052835;
+  --ink-2: #0B3B47;
+  --muted: rgba(5, 40, 53, .56);
+  --hair: rgba(5, 40, 53, .075);
+  --hair-strong: rgba(5, 40, 53, .22);
+  --signal: #2C8964;
+  --signal-hi: #8FD18D;
+  --panel-a: #041F2A;
+  --panel-b: #0B534E;
+
+  /* grid: 12 cols, 96px margins, 24px gutter → 122px columns */
+  --m: 96px;
+  --g: 24px;
+  --col: 122px;
+
+  --display: "Archivo", sans-serif;
+  --text: "Inter", sans-serif;
+  --mono: "JBMono", monospace;
+}

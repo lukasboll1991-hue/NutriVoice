@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Stilrahmen – Betrieb Zukunft</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--paper); }
+  .stage { position: relative; width: 1920px; height: 1080px; overflow: hidden;
+    background:
+      radial-gradient(1400px 900px at 82% 8%, #FAF9F5 0%, rgba(250,249,245,0) 60%),
+      radial-gradient(1200px 800px at 0% 100%, #E6E3DA 0%, rgba(230,227,218,0) 65%),
+      var(--paper);
+    color: var(--ink); font-family: var(--text);
+  }
+
+  /* ---------- grid ---------- */
+  .grid { position: absolute; inset: 0; pointer-events: none; }
+  .grid .v { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--hair); }
+  .grid .h { position: absolute; left: 0; right: 0; height: 1px; background: var(--hair); }
+  .grid .v.m, .grid .h.m { background: var(--hair-strong); }
+  .cross { position: absolute; width: 17px; height: 17px; transform: translate(-8px,-8px); }
+  .cross::before, .cross::after { content: ""; position: absolute; background: var(--ink); opacity: .55; }
+  .cross::before { left: 8px; top: 0; width: 1px; height: 17px; }
+  .cross::after  { top: 8px; left: 0; height: 1px; width: 17px; }
+
+  .label { font-family: var(--mono); font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+  .label b { color: var(--ink); font-weight: 500; }
+
+  /* ---------- top bar ---------- */
+  .topbar { position: absolute; top: 34px; left: 96px; right: 96px; height: 40px; display: flex; align-items: center; }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand img { width: 40px; height: 40px; }
+  .chapter { position: absolute; left: 876px; }
+  .chapter i { display: inline-block; width: 9px; height: 9px; background: var(--signal); margin-right: 12px; transform: translateY(-1px); font-style: normal; }
+  .url { margin-left: auto; }
+
+  /* ---------- portrait panel ---------- */
+  .panel { position: absolute; left: 96px; top: 236px; width: 706px; height: 664px;
+    background:
+      radial-gradient(520px 420px at 92% 6%, rgba(143,209,141,.22), rgba(143,209,141,0) 70%),
+      linear-gradient(140deg, var(--panel-b) 0%, #073A44 45%, var(--panel-a) 100%);
+    box-shadow: 0 1px 0 rgba(255,255,255,.04) inset, 0 40px 80px -30px rgba(5,40,53,.55), 0 12px 24px -12px rgba(5,40,53,.35);
+    overflow: hidden;
+  }
+  .panel .pgrid { position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(143,209,141,.09) 1px, transparent 1px);
+    background-size: 146px 100%; background-position: 0 0; }
+  .panel .pgrid2 { position: absolute; inset: 0;
+    background-image: linear-gradient(to bottom, rgba(143,209,141,.07) 1px, transparent 1px);
+    background-size: 100% 146px; }
+  .panel .tag { position: absolute; left: 32px; bottom: 30px; color: rgba(243,242,236,.86); z-index: 3; }
+  .panel .tag span { color: var(--signal-hi); }
+
+  /* cut-out breaks out over the top edge only */
+  .popout { position: absolute; left: 96px; top: -400px; width: 706px; height: 1300px;
+    overflow: hidden; z-index: 2; }
+  .popout img { position: absolute; width: 772px; left: -26px; top: 532px;
+    filter: drop-shadow(0 26px 34px rgba(5,25,35,.40)) drop-shadow(0 4px 6px rgba(5,25,35,.25)); }
+  /* scrim so the name tag stays readable over the sweater */
+  .panel .scrim { position: absolute; left: 0; right: 0; bottom: 0; height: 200px; z-index: 3;
+    background: linear-gradient(to top, rgba(4,31,42,.88), rgba(4,31,42,0)); }
+
+  /* ---------- numbers ---------- */
+  .copy { position: absolute; left: 972px; top: 236px; width: 852px; height: 664px; }
+  .copy .label { display: flex; align-items: center; gap: 12px; }
+  .copy .label::before { content: ""; width: 9px; height: 9px; background: var(--ink); }
+  .before { position: relative; display: inline-block; margin-top: 30px;
+    font-family: var(--display); font-weight: 700; font-stretch: 112%; font-size: 112px; line-height: .92;
+    letter-spacing: -.02em; color: var(--ink); opacity: .82; font-variant-numeric: tabular-nums; }
+  .before .strike { position: absolute; left: -14px; right: -18px; top: 50%; height: 12px; background: var(--signal);
+    transform: translateY(-50%) rotate(-3deg); transform-origin: center; border-radius: 2px;
+    box-shadow: 0 6px 14px -6px rgba(44,137,100,.6); }
+  .today { margin-top: 64px; display: flex; align-items: baseline; gap: 18px; }
+  .today .lead { font-family: var(--display); font-weight: 500; font-stretch: 100%; font-size: 52px; color: var(--ink); letter-spacing: -.01em; }
+  .after { display: block; margin-top: -6px; margin-left: -10px;
+    font-family: var(--display); font-weight: 800; font-stretch: 116%; font-size: 252px; line-height: .86;
+    letter-spacing: -.035em; color: var(--signal); font-variant-numeric: tabular-nums;
+    text-shadow: 0 1px 0 rgba(255,255,255,.35); }
+  .after small { font-size: .5em; letter-spacing: 0; margin-left: .06em; vertical-align: .62em; font-weight: 700; }
+
+  .modules { position: absolute; left: 0; top: 618px; display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip { display: inline-flex; align-items: center; gap: 10px; height: 46px; padding: 0 18px 0 16px; border-radius: 23px;
+    background: rgba(255,255,255,.72); border: 1px solid var(--hair-strong);
+    box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 6px 14px -8px rgba(5,40,53,.25);
+    font-weight: 600; font-size: 19px; color: var(--ink); letter-spacing: -.005em; }
+  .chip i { width: 9px; height: 9px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 0 4px rgba(44,137,100,.16); }
+
+  /* ---------- caption ---------- */
+  .caption { position: absolute; left: 96px; top: 926px; font-weight: 600; font-size: 34px; letter-spacing: -.012em; color: var(--ink); }
+  .caption .w-dim { color: rgba(5,40,53,.38); }
+  .caption em { font-style: normal; color: var(--signal); box-shadow: inset 0 -5px 0 rgba(44,137,100,.22); }
+
+  /* ---------- grain ---------- */
+  .grain { position: absolute; inset: -50%; pointer-events: none; z-index: 50; opacity: .11; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  .grain.light { mix-blend-mode: screen; opacity: .05;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.3' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid" id="grid"></div>
+
+  <div class="topbar">
+    <div class="brand"><img src="../assets/logo-alpha.png" alt=""><span class="label"><b>Betrieb Zukunft</b></span></div>
+    <div class="chapter label"><i></i><b>04</b>&nbsp;/ 06 — Der Beweis</div>
+    <div class="url label">betrieb-zukunft.de</div>
+  </div>
+
+  <div class="panel">
+    <div class="pgrid"></div><div class="pgrid2"></div>
+    <div class="scrim"></div>
+    <div class="tag label"><span>●</span>&nbsp; Lukas Boll — Gründer</div>
+  </div>
+  <div class="popout"><img src="../assets/portrait-cutout.png" alt=""></div>
+
+  <div class="copy">
+    <div class="label">Softwarekosten pro Monat · im eigenen Betrieb</div>
+    <div class="before">4.000–5.000&thinsp;€<span class="strike"></span></div>
+    <div class="today"><span class="lead">Heute unter</span></div>
+    <div class="after">500<small>€</small></div>
+    <div class="modules">
+      <span class="chip"><i></i>ATS</span>
+      <span class="chip"><i></i>WhatsApp-Bot</span>
+      <span class="chip"><i></i>Stundenzettel</span>
+      <span class="chip"><i></i>Einstellung</span>
+      <span class="chip"><i></i>KI-Agenten</span>
+    </div>
+  </div>
+
+  <div class="caption">Ich habe all das in meinem <em>eigenen</em> <span class="w-dim">Personaldienstleister aufgebaut.</span></div>
+
+  <div class="grain"></div>
+  <div class="grain light"></div>
+</div>
+<script>
+  // draw the 12-column grid + margin lines + registration crosses
+  const g = document.getElementById('grid');
+  const M = 96, G = 24, C = 122;
+  for (let i = 0; i < 12; i++) {
+    const x0 = M + i * (C + G), x1 = x0 + C;
+    const xs = i === 11 ? [x0, x1] : [x0];
+    xs.forEach((x, k) => {
+      const d = document.createElement('div');
+      d.className = 'v' + ((i === 0) || (i === 11 && k === 1) ? ' m' : '');
+      d.style.left = x + 'px'; g.appendChild(d);
+    });
+  }
+  [96, 236, 900, 984].forEach((y, k) => { const d = document.createElement('div'); d.className = 'h' + (k === 0 || k === 3 ? ' m' : ''); d.style.top = y + 'px'; g.appendChild(d); });
+  [[96,96],[1824,96],[96,984],[1824,984],[948,96],[948,984]].forEach(([x,y]) => { const c = document.createElement('div'); c.className = 'cross'; c.style.left = x+'px'; c.style.top = y+'px'; g.appendChild(c); });
+</script>
+</body>
+</html>
