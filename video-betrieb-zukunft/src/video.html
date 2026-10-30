@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Betrieb Zukunft – Spot</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="video.css">
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="paperbg"></div>
+  <div id="gridwrap" class="abs" style="inset:0"><div id="grid"></div></div>
+
+  <!-- ================= S1 · Status quo ================= -->
+  <section class="scene" id="s1"><div class="cam">
+    <div class="panel" id="s1-panel" style="left:96px;top:236px;width:706px;height:664px"><div class="pg"></div><div class="scrim"></div>
+      <div class="tag label" style="left:auto;right:32px"><span>●</span>&nbsp; Mo · 07:42</div></div>
+    <div class="popout" style="left:96px;top:-300px;width:706px;height:1200px;z-index:2"><img id="s1-dispo" src="../assets/gen/1_disponentin.png" style="width:760px;left:-27px;top:428px"></div>
+    <div class="abs" id="s1-stackzone" style="left:0;top:0;width:1920px;height:900px;overflow:hidden;z-index:5">
+      <img class="obj st" id="stC" src="../assets/gen/3_papierstapel.png" style="left:118px;top:518px;width:260px">
+      <img class="obj st" id="stD" src="../assets/gen/3_papierstapel.png" style="left:470px;top:560px;width:230px;transform:scaleX(-1)">
+      <img class="obj st" id="stA" src="../assets/gen/3_papierstapel.png" style="left:640px;top:458px;width:300px">
+      <img class="obj st" id="stB" src="../assets/gen/3_papierstapel.png" style="left:855px;top:600px;width:200px;transform:scaleX(-1)">
+    </div>
+    <div class="abs label dot" id="s1-label" style="left:972px;top:236px">Lizenzkosten · <b>jeden Monat</b></div>
+    <div class="inv" id="inv1" style="top:286px"><div class="l"><div class="label">Rechnung · Lizenz</div><div>Bewerbermanagement-System</div></div><div class="r">2.500&thinsp;€<small>/ Monat</small></div></div>
+    <div class="inv" id="inv2" style="top:398px"><div class="l"><div class="label">Rechnung · Lizenz</div><div>WhatsApp-Bot</div></div><div class="r">1.500&thinsp;€<small>/ Monat</small></div></div>
+    <div class="abs label" id="s1-sum" style="left:972px;top:548px">Summe pro Monat</div>
+    <div class="abs" id="s1-total" style="left:962px;top:582px"><span class="after" style="color:var(--ink)"><span id="s1-num">0</span><small>€</small></span></div>
+    <div class="abs label" id="s1-year" style="left:972px;top:820px"><b>× 12 Monate</b> = 48.000&thinsp;€ pro Jahr</div>
+    <div class="abs label" id="s1-case" style="left:972px;top:858px;font-size:13px">Praxisbeispiel · Personaldienstleister, Hamburg</div>
+  </div></section>
+
+  <!-- ================= S2 · Die Idee ================= -->
+  <section class="scene" id="s2"><div class="cam">
+    <div class="abs label dot g" id="s2-label" style="left:96px;top:300px">Was wäre, wenn …</div>
+    <div class="abs disp" style="left:90px;top:352px;font-size:150px;font-weight:800;font-stretch:114%">
+      <span class="mask"><span id="s2-l1">Ihre Software.</span></span>
+      <span class="mask" style="margin-top:6px"><span id="s2-l2" style="color:var(--signal)">Ihr Eigentum.</span></span>
+    </div>
+    <div class="abs" id="s2-ul" style="left:96px;top:676px;width:1150px;height:8px;background:var(--signal);transform-origin:left"></div>
+    <div class="abs" id="s2-cell" style="left:1264px;top:700px;width:560px;height:200px;background:var(--signal);transform-origin:bottom"></div>
+  </div></section>
+
+  <!-- ================= S3a · ATS ================= -->
+  <section class="scene opaque" id="s3a"><div class="paperbg"></div><div class="cam">
+    <div class="card win" id="win">
+      <div class="bar"><i></i><i></i><i></i><span class="t label">Bewerbermanagement · KI-Center</span></div>
+      <div class="side"><div class="logo">ATS<span>.</span></div>
+        <div class="it">Übersicht</div><div class="it a">Bewerber</div><div class="it">Aufträge</div><div class="it">Matching</div><div class="it ki">KI-Center</div><div class="it">WhatsApp</div><div class="it">Outlook</div></div>
+      <div class="main">
+        <div class="head"><h3>Bewerber</h3><div class="search">Suchen …</div><div class="btn">✦ KI-Center</div></div>
+        <div class="kan">
+          <div class="col"><h4>Neu <span>12</span></h4>
+            <div class="cc k"><b>Jana Peters</b><span>Produktionshelferin · Hamburg</span><div class="tags"><em>Schicht</em><em>ab sofort</em></div></div>
+            <div class="cc k"><b>Ali Demir</b><span>Lagerist · Norderstedt</span><div class="tags"><em>Stapler</em></div></div>
+            <div class="cc k"><b>Tom Weber</b><span>Elektriker · Harburg</span><div class="tags"><em>Geselle</em><em>B</em></div></div>
+            <div class="cc k"><b>Nina Brandt</b><span>Reinigungskraft · Altona</span><div class="tags"><em>Teilzeit</em></div></div>
+          </div>
+          <div class="col"><h4>Vorqualifiziert <span>7</span></h4>
+            <div class="cc k" id="cMehmet" style="visibility:hidden"><b>Mehmet Kaya</b><span>Staplerfahrer · Hamburg</span><div class="tags"><em>Stapler</em><em>B</em></div><i class="m">94 %</i></div>
+            <div class="cc k" id="cLena"><b>Lena Schulz</b><span>Kommissioniererin · Wedel</span><div class="tags"><em>Scanner</em></div><i class="m">88 %</i></div>
+            <div class="cc k lo"><b>Dariusz Lis</b><span>Lagerhelfer · Billstedt</span><div class="tags"><em>Schicht</em></div><i class="m">82 %</i></div>
+          </div>
+          <div class="col"><h4>Eingeladen <span id="cnt3">4</span></h4>
+            <div class="cc k" id="cPiotr"><b>Piotr Nowak</b><span>Schweißer · Hamburg</span><div class="tags"><em>MAG</em><em>WIG</em></div><i class="m">91 %</i></div>
+            <div class="cc k" id="cJulia"><b>Julia Hoff</b><span>Bürokraft · Eimsbüttel</span><div class="tags"><em>MS Office</em></div><i class="m">86 %</i></div>
+          </div>
+          <div class="col"><h4>Eingestellt <span>9</span></h4>
+            <div class="cc k"><b>Sven Lange</b><span>Maschinenbediener · Pinneberg</span><div class="tags"><em>CNC</em></div></div>
+            <div class="cc k"><b>Anna Wolf</b><span>Lageristin · Hamburg</span><div class="tags"><em>Stapler</em></div></div>
+            <div class="cc k"><b>Kemal Arslan</b><span>Fahrer C/CE · Wandsbek</span><div class="tags"><em>CE</em><em>Modul 95</em></div></div>
+          </div>
+        </div>
+        <div class="kistrip k" id="kistrip"><em>KI</em><span><b>KI-Center:</b> 3 neue Matches für Auftrag „Staplerfahrer, Hamburg“ – Einladungen vorbereitet</span><i>Ansehen</i></div>
+        <div class="toast" id="toast"><span class="tick"></span>Einladung per WhatsApp gesendet</div>
+      </div>
+      <div class="cc" id="drag" style="position:absolute;width:182px;margin:0;z-index:30"><b>Mehmet Kaya</b><span>Staplerfahrer · Hamburg</span><div class="tags"><em>Stapler</em><em>B</em></div><i class="m">94 %</i></div>
+    </div>
+    <svg class="cursor" id="cursor" viewBox="0 0 34 34"><path d="M6 3 L6 27 L12.5 21 L17 31 L21 29.2 L16.6 19.5 L25 19.5 Z" fill="#052835" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>
+    <div class="tcol" id="t3a"><div class="num"><b>01</b> / 05 · ATS</div><div class="title"><span class="mask"><span>Bewerber-</span></span><span class="mask"><span>management</span></span></div><div class="rule"></div><div class="sub">Mit KI-Center, Matching und Anbindung an WhatsApp und Outlook.</div></div>
+  </div></section>
+
+  <!-- ================= S3b · WhatsApp-Bot ================= -->
+  <section class="scene" id="s3b"><div class="cam">
+    <div class="panel night" id="s3b-panel" style="left:96px;top:236px;width:560px;height:664px"><div class="pg"></div><div class="scrim"></div>
+      <div class="tag label"><span>●</span>&nbsp; 22:47 · Kein Disponent erreichbar</div></div>
+    <div class="popout" style="left:96px;top:-300px;width:560px;height:1200px;z-index:2"><img id="s3b-person" src="../assets/gen/5_bewerber.png" style="width:700px;left:-120px;top:437px"></div>
+    <div class="card abs" id="atsnote" style="left:980px;top:560px;width:262px;padding:18px 18px;z-index:3">
+      <div class="label" style="font-size:12px">ATS · automatisch</div>
+      <div style="margin-top:10px;display:flex;align-items:flex-start;gap:12px;font-weight:600;font-size:19px;line-height:1.3"><span class="tick" style="margin-top:2px"></span><span style="font-size:18px">Do, 09:00<br>Gespräch M. Kaya</span></div></div>
+    <div class="phone" id="phone" style="left:590px;top:128px;z-index:4"><div class="scr">
+      <div class="sb"><span>22:47</span><span style="font-size:12px;letter-spacing:.06em">5G ▮▮▮</span></div>
+      <div class="hd"><div class="av">KI</div><div><b>Bewerber-Bot</b><span>online</span></div></div>
+      <div class="msgs" style="overflow:hidden"><div id="chat" style="display:flex;flex-direction:column;gap:8px;position:absolute;left:12px;right:12px;bottom:14px">
+        <div class="bub out m">Hallo! Ist die Stelle als Staplerfahrer noch frei?<small>22:47 ✓✓</small></div>
+        <div class="bub in m">Ja! Drei kurze Fragen: Haben Sie einen Staplerschein?<small>22:47</small></div>
+        <div class="bub out m">Ja, seit 2019.<small>22:48 ✓✓</small></div>
+        <div class="bub in m">Top. Passt Ihnen Donnerstag, 9 Uhr, für ein Gespräch?<small>22:48</small></div>
+        <div class="bub out m">Perfekt, bis Donnerstag!<small>22:48 ✓✓</small></div>
+        <div class="bub sys m"><span class="tick" style="width:16px;height:16px"></span>Termin im ATS eingetragen</div>
+      </div>
+      <div class="typing" id="typing" style="position:absolute;left:12px;bottom:14px"><i></i><i></i><i></i></div></div>
+      <div class="in-bar"><div></div><i></i></div>
+    </div></div>
+    <div class="tcol" id="t3b"><div class="num"><b>02</b> / 05 · WhatsApp</div><div class="title"><span class="mask"><span>WhatsApp-</span></span><span class="mask"><span>KI-Bot</span></span></div><div class="rule"></div><div class="sub">Qualifiziert Bewerber vor – auch abends und am Wochenende.</div><div class="stat"><span class="mask"><span>24/7</span></span></div></div>
+  </div></section>
+
+  <!-- ================= S3c · Stundennachweise ================= -->
+  <section class="scene" id="s3c"><div class="cam">
+    <div class="panel" id="s3c-panel" style="left:96px;top:236px;width:560px;height:664px"><div class="pg"></div><div class="scrim"></div>
+      <div class="tag label"><span>●</span>&nbsp; Baustelle · Freitag, 15:34</div></div>
+    <div class="popout" style="left:96px;top:-300px;width:560px;height:1200px;z-index:2"><img id="s3c-person" src="../assets/gen/2_bauarbeiter.png" style="width:700px;left:-90px;top:448px"></div>
+    <img class="obj" id="ball" src="../assets/gen/4_papierknaeuel.png" style="left:700px;top:216px;width:500px;z-index:6">
+    <div class="abs" id="ring" style="left:950px;top:466px;width:10px;height:10px;margin:-5px;border-radius:50%;border:3px solid var(--signal);z-index:7"></div>
+    <div class="card sheet" id="sheet" style="z-index:5">
+      <div class="h"><div><div class="label">Stundennachweis</div><div class="disp">KW 43</div></div><div class="label" style="margin-top:4px">Eingang · WhatsApp</div></div>
+      <div class="meta">Markus Wagner · Pers.-Nr. 10427 · NL Hamburg</div>
+      <table><tr><th>Tag</th><th>Beginn</th><th>Ende</th><th>Pause</th><th>Std.</th><th></th></tr>
+        <tr><td>Mo 20.10.</td><td>07:00</td><td>15:30</td><td>0:30</td><td>8,0</td><td><span class="tick rt"></span></td></tr>
+        <tr><td>Di 21.10.</td><td>07:00</td><td>15:30</td><td>0:30</td><td>8,0</td><td><span class="tick rt"></span></td></tr>
+        <tr><td>Mi 22.10.</td><td>07:00</td><td>16:00</td><td>0:30</td><td>8,5</td><td><span class="tick rt"></span></td></tr>
+        <tr><td>Do 23.10.</td><td>07:00</td><td>15:30</td><td>0:30</td><td>8,0</td><td><span class="tick rt"></span></td></tr>
+        <tr><td>Fr 24.10.</td><td>07:00</td><td>14:30</td><td>0:30</td><td>7,0</td><td><span class="tick rt"></span></td></tr>
+      </table>
+      <div class="sig"><svg viewBox="0 0 240 64"><path id="sigpath" d="M8 46 C 22 10, 34 12, 30 40 S 52 54, 62 30 S 80 8, 84 36 C 88 56, 104 44, 112 28 C 118 18, 126 20, 124 34 C 122 46, 140 46, 150 30 S 172 14, 182 34 C 188 46, 204 40, 230 22" fill="none" stroke="#052835" stroke-width="3" stroke-linecap="round"/></svg><span class="label">Unterschrift</span><span class="tick rt"></span></div>
+      <div class="sum"><span class="label">Gesamt</span><span class="disp" style="font-size:44px"><span id="hrs">0,0</span> h</span></div>
+    </div>
+    <div class="stamp" id="stamp" style="left:948px;top:716px;z-index:8">Geprüft<small>vollständig · abgelegt</small></div>
+    <div class="wa" id="wa3c" style="left:150px;top:640px;width:430px;z-index:9"><div class="who">Stundenzettel-Bot</div>Danke! Dein Stundennachweis KW 43 wurde geprüft und ist vollständig.<small>15:34</small></div>
+    <div class="tcol" id="t3c"><div class="num"><b>03</b> / 05 · Zeiterfassung</div><div class="title"><span class="mask"><span>Stunden-</span></span><span class="mask"><span>nachweise</span></span></div><div class="rule"></div><div class="sub">Per WhatsApp geschickt, von der KI geprüft, automatisch abgelegt.</div><div class="stat" style="font-size:120px"><span class="mask"><span><small>max.</small> 5 Min.</span></span></div><div class="label statlabel">Aufwand für den Disponenten</div></div>
+  </div></section>
+
+  <!-- ================= S3d · Gespräch & Einstellung ================= -->
+  <section class="scene" id="s3d"><div class="cam">
+    <div class="card akte" id="akte">
+      <div class="label">Bewerberakte · ATS</div>
+      <div class="disp" style="font-size:34px;margin:10px 0 12px">Mehmet Kaya</div>
+      <div class="row"><span>Staplerschein</span><span class="v">Ja <span class="tick"></span></span></div>
+      <div class="row"><span>Erfahrung</span><span class="v">6 Jahre <span class="tick"></span></span></div>
+      <div class="row"><span>Verfügbar ab</span><span class="v">01.11. <span class="tick"></span></span></div>
+      <div class="row"><span>Schicht</span><span class="v">Früh / Spät <span class="tick"></span></span></div>
+    </div>
+    <div class="card onb" id="onb">
+      <div class="label" style="margin-bottom:6px">Einstellung · digital</div>
+      <div class="it"><span class="tick"></span>Sicherheitsunterweisung</div>
+      <div class="it"><span class="tick"></span>VBG-Fragebogen</div>
+      <div class="it"><span class="tick"></span>Arbeitskleidung</div>
+      <div class="it"><span class="tick"></span>Fahrkarte</div>
+    </div>
+    <div class="card sheet" id="iv">
+      <div class="h"><div><div class="label">Vorstellungsgespräch</div><div class="disp">Aufnahme</div></div><div class="rec"><i></i><span id="timer">00:12:34</span></div></div>
+      <div class="wave" id="wave"></div>
+      <div class="tr">
+        <p class="trl"><b>Disponentin</b>Wie lange fahren Sie schon Stapler?</p>
+        <p class="trl"><b>Bewerber</b>Seit sechs Jahren, auch Schubmaststapler.</p>
+        <p class="trl"><b>Disponentin</b>Ab wann könnten Sie anfangen?</p>
+        <p class="trl"><b>Bewerber</b>Ab dem 1. November.</p>
+      </div>
+      <div class="kichip" id="kichip"><em>KI</em>Analysiert · ins ATS übertragen</div>
+    </div>
+    <div class="tcol" id="t3d"><div class="num"><b>04</b> / 05 · Einstellung</div><div class="title"><span class="mask"><span>Gespräch &amp;</span></span><span class="mask"><span>Einstellung</span></span></div><div class="rule"></div><div class="sub">Transkribiert, von der KI ausgewertet, direkt im ATS. Alle Unterlagen digital.</div></div>
+  </div></section>
+
+  <!-- ================= S3e · Agenten ================= -->
+  <section class="scene opaque" id="s3e"><div class="paperbg"></div><div class="cam">
+    <div class="card agent ag" style="left:96px;top:170px"><div class="ic"></div><h5>Prozess-Agent</h5><div class="st label"><i></i>aktiv</div><div class="task" data-t="Beschreibt den Ablauf „Einstellung“."></div><div class="bar"><i></i></div></div>
+    <div class="card agent ag" style="left:485px;top:170px"><div class="ic"></div><h5>Handbuch-Agent</h5><div class="st label"><i></i>aktiv</div><div class="task" data-t="Aktualisiert Kapitel 4: Arbeitsschutz."></div><div class="bar"><i></i></div></div>
+    <div class="card agent ag" style="left:874px;top:170px"><div class="ic"></div><h5>Onboarding-Agent</h5><div class="st label"><i></i>aktiv</div><div class="task" data-t="Einarbeitungsplan für drei neue Kollegen."></div><div class="bar"><i></i></div></div>
+    <div class="card agent ag" style="left:96px;top:537px"><div class="ic"></div><h5>Analyse-Agent</h5><div class="st label"><i></i>aktiv</div><div class="task" data-t="Wochenreport KW 43 ist fertig."></div><div class="bar"><i></i></div></div>
+    <div class="card agent ag" style="left:485px;top:537px"><div class="ic"></div><h5>Vertriebs-Agent</h5><div class="st label"><i></i>aktiv</div><div class="task" data-t="Bereitet fünf Kundenangebote vor."></div><div class="bar"><i></i></div></div>
+    <div class="card agent add" id="agadd" style="left:874px;top:537px"><div class="plus"></div><div>Ihr nächster Agent</div></div>
+    <div class="tcol" id="t3e"><div class="num"><b>05</b> / 05 · Agenten-Hub</div><div class="title"><span class="mask"><span>KI-Agenten</span></span></div><div class="rule"></div><div class="sub">Für Prozesse, Handbücher, Onboarding, Analysen und Vertrieb.</div></div>
+  </div></section>
+
+  <!-- ================= S4 · Der Beweis ================= -->
+  <section class="scene" id="s4"><div class="cam">
+    <div class="panel" id="s4-panel" style="left:96px;top:236px;width:706px;height:664px"><div class="pg"></div><div class="scrim"></div>
+      <div class="tag label"><span>●</span>&nbsp; Lukas Boll — Gründer</div></div>
+    <div class="popout" style="left:96px;top:-400px;width:706px;height:1300px;z-index:2"><img id="s4-lukas" src="../assets/portrait-cutout.png" style="width:772px;left:-26px;top:532px"></div>
+    <div class="sticker" id="sticker" style="left:600px;top:318px;z-index:6">Ohne Programmierausbildung</div>
+    <div class="abs" style="left:972px;top:236px;width:852px;height:664px">
+      <div class="label dot" id="s4-label">Softwarekosten pro Monat · Praxisbeispiel Hamburg</div>
+      <div class="abs disp" id="s4-intro" style="left:0;top:58px;font-size:68px;font-weight:700;font-stretch:108%;line-height:1.02"></div>
+      <div class="lead" id="lead1" style="margin-top:22px"><span class="mask"><span>Externe Software: rund</span></span></div>
+      <div style="margin-top:4px"><span class="mask" style="display:inline-block"><span class="before" id="before"><span id="s4-before">0</span>&thinsp;€<span class="strike" id="strike"></span></span></span></div>
+      <div class="lead" id="lead2" style="margin-top:46px"><span class="mask"><span>Selbst gebaut: unter</span></span></div>
+      <div class="after" id="after" style="margin-left:-10px">500<small>€</small></div>
+      <div class="abs" id="chips" style="left:0;top:618px;display:flex;gap:10px">
+        <span class="chip"><i></i>ATS</span><span class="chip"><i></i>WhatsApp-Bot</span><span class="chip"><i></i>Stundenzettel</span><span class="chip"><i></i>Einstellung</span><span class="chip"><i></i>KI-Agenten</span>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- ================= S5 · Drei Wege ================= -->
+  <section class="scene" id="s5"><div class="cam">
+    <div class="abs label dot g" id="s5-label" style="left:96px;top:170px">Drei Wege</div>
+    <div class="abs disp" id="s5-head" style="left:96px;top:204px;font-size:66px;font-weight:600;font-stretch:104%"></div>
+    <div class="way" id="way1" style="left:96px"><div class="top"></div><div class="n">1</div><h3><span class="mask"><span>Selbst bauen</span></span></h3><p>Mit Anleitung – Schritt für Schritt im eigenen Betrieb umgesetzt.</p>
+      <div class="ill steps"><div><span class="tick s"></span>Abläufe aufnehmen</div><div><span class="tick s"></span>Tools selbst bauen</div><div><span class="tick s"></span>Team einweisen</div></div></div>
+    <div class="way" id="way2" style="left:680px"><div class="top"></div><div class="n">2</div><h3><span class="mask"><span>Grundgerüst</span></span></h3><p>Fertige Bausteine als Start – Sie passen sie an Ihren Betrieb an.</p>
+      <div class="ill blocks"><div class="frame"></div><div class="b" style="left:18px">ATS</div><div class="b" style="left:167px">Bot</div><div class="b" style="left:316px">Zeiten</div></div></div>
+    <div class="way" id="way3" style="left:1264px"><div class="top"></div><div class="n">3</div><h3><span class="mask"><span>Komplett</span></span></h3><p>Alles aus einer Hand – maßgeschneidert für Ihren Betrieb.</p>
+      <div class="ill"><div class="mini"><div class="ln" style="width:42%"></div><div class="ln" style="width:30%"></div><div class="ln" style="width:36%;margin-bottom:0"></div><div class="badge"><span class="tick" style="background:#fff"></span>Maßgeschneidert</div></div></div></div>
+  </div></section>
+
+  <!-- ================= S6 · Kontakt ================= -->
+  <section class="scene" id="s6"><div class="cam">
+    <div class="endlogo" id="endlogo">
+      <svg viewBox="0 0 100 100"><circle id="ringpath" cx="50" cy="50" r="48" fill="none" stroke="#2C8964" stroke-width="1.2" stroke-linecap="round" transform="rotate(-90 50 50)"/></svg>
+      <img id="logoimg" src="../assets/logo-alpha.png">
+    </div>
+    <div class="endhead" id="endhead">
+      <div><span class="mask" style="display:inline-block"><span class="w">Einfacher</span></span> <span class="mask" style="display:inline-block"><span class="w">und</span></span></div>
+      <div><span class="mask" style="display:inline-block"><span class="w" style="color:var(--signal)">günstiger,</span></span> <span class="mask" style="display:inline-block"><span class="w">als</span></span></div>
+      <div><span class="mask" style="display:inline-block"><span class="w">Sie</span></span> <span class="mask" style="display:inline-block"><span class="w">denken.</span></span></div>
+    </div>
+    <div class="pills"><div class="pill">Unabhängig</div><div class="pill">Flexibel</div><div class="pill">Bezahlbar</div></div>
+    <div class="cta" id="cta"><div class="btn">Kostenloses Erstgespräch <svg viewBox="0 0 30 30"><path id="arrow" d="M4 15 H25 M17 7 L25 15 L17 23" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="url" id="url">betrieb-zukunft.de</div></div>
+    <div class="qr" id="qr"><div class="box" id="qrbox"></div><span class="label"><b>30 Min.</b> · Termin direkt buchen</span></div>
+  </div></section>
+
+  <!-- ================= global overlays ================= -->
+  <div id="topbar">
+    <div class="brand" id="brand"><img src="../assets/logo-alpha.png"><span class="label"><b>Betrieb Zukunft</b></span></div>
+    <div class="chapter label"><i></i><span id="chapterRoll">
+      <div><b>01</b> / 06 — Status quo</div><div><b>02</b> / 06 — Die Idee</div><div><b>03</b> / 06 — Die Tools</div>
+      <div><b>04</b> / 06 — Der Beweis</div><div><b>05</b> / 06 — Drei Wege</div><div><b>06</b> / 06 — Kontakt</div></span></div>
+    <div class="url label" id="topurl">betrieb-zukunft.de</div>
+  </div>
+  <div id="cap"></div>
+  <div class="wipebar" id="wipeA" style="left:0;width:1920px"></div>
+  <div class="wipebar" id="wipeB" style="left:0;width:1920px;background:var(--ink)"></div>
+  <div class="wipebar cbar" style="left:0;width:682px;background:var(--ink)"></div>
+  <div class="wipebar cbar" style="left:668px;width:598px;background:var(--ink)"></div>
+  <div class="wipebar cbar" style="left:1252px;width:668px;background:var(--ink)"></div>
+  <div class="frame-edge" id="edge"></div>
+  <div class="vignette"></div>
+  <div class="grain" id="grain1"></div>
+  <div class="grain light" id="grain2"></div>
+</div>
+<script src="../node_modules/gsap/dist/gsap.min.js"></script>
+<script src="timing.js"></script>
+<script src="qr.js"></script>
+<script src="video.js"></script>
+</body>
+</html>
