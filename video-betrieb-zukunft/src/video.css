@@ -275,3 +275,142 @@ body { font-family: var(--text); color: var(--ink); -webkit-font-smoothing: anti
 #s1-panel .tag { top: 28px; bottom: auto; }
 
 .pb { display: inline-block; background: var(--signal); color: #fff; font-weight: 500; font-size: 16px; padding: 6px 12px 5px; border-radius: 6px; margin-right: 14px; letter-spacing: .14em; }
+
+/* =====================================================================
+   4:5 feed version (1080 × 1350) – html.v45, 6-column grid, 60 px margins
+   content zone y 120–1130, captions 1158–1250
+   ===================================================================== */
+html.v45, html.v45 body, .v45 .stage { width: 1080px !important; height: 1350px !important; }
+.v45 #topbar { left: 60px; right: 60px; }
+.v45 #topbar .chapter { left: auto; right: 0; }
+.v45 #topurl { display: none; }
+.v45 #cap { left: 60px; top: 1158px; width: 960px; font-size: 40px; line-height: 1.18; white-space: normal; }
+.v45 #wipeA, .v45 #wipeB { width: 1080px !important; }
+.v45 #cb1 { left: 0 !important; width: 372px !important; }
+.v45 #cb2 { left: 356px !important; width: 372px !important; }
+.v45 #cb3 { left: 712px !important; width: 368px !important; }
+
+/* tool text block under the visual */
+.v45 .tcol { left: 60px !important; top: 860px !important; width: 960px !important; }
+.v45 .tcol .title { margin-top: 18px; font-size: 54px; }
+.v45 .tcol .rule { margin-top: 20px; }
+.v45 .tcol .sub { margin-top: 18px; font-size: 23px; max-width: 560px; }
+.v45 .tcol .stat { position: absolute; right: 0; top: 34px; margin: 0; font-size: 116px !important; text-align: right; }
+.v45 #t3c .stat { font-size: 84px !important; top: 46px; }
+.v45 #t3c .statlabel { position: absolute; right: 0; top: 136px; margin: 0; }
+
+/* S1 */
+.v45 #s1-panel { left: 60px !important; top: 190px !important; width: 960px !important; height: 450px !important; }
+.v45 #s1 .popout { left: 60px !important; top: -300px !important; width: 960px !important; height: 940px !important; }
+.v45 #s1-dispo { width: 640px !important; left: 160px !important; top: 401px !important; }
+.v45 #s1-stackzone { height: 640px !important; }
+.v45 #stC { left: 80px !important; top: 331px !important; width: 210px !important; }
+.v45 #stD { left: 250px !important; top: 419px !important; width: 150px !important; }
+.v45 #stA { left: 690px !important; top: 302px !important; width: 230px !important; }
+.v45 #stB { left: 860px !important; top: 419px !important; width: 150px !important; }
+.v45 #s1-label { left: 60px !important; top: 672px !important; }
+.v45 .inv { left: 60px; width: 960px; height: 80px; padding: 0 26px; }
+.v45 #inv1 { top: 702px !important; } .v45 #inv2 { top: 792px !important; }
+.v45 .inv .l div:last-child { font-size: 23px; }
+.v45 .inv .r { font-size: 36px; }
+.v45 #s1-sum { left: 60px !important; top: 900px !important; }
+.v45 #s1-total { left: 52px !important; top: 924px !important; }
+.v45 #s1-total .after { font-size: 170px; }
+.v45 #s1-year { left: 60px !important; top: 1084px !important; }
+.v45 #s1-case { left: 60px !important; top: 1110px !important; }
+.v45 #s1-case .pb { padding: 3px 10px 2px; }
+
+/* S2 */
+.v45 #s2-label { left: 60px !important; top: 330px !important; }
+.v45 #s2-type { left: 56px !important; top: 380px !important; font-size: 94px !important; }
+.v45 #s2-ul { left: 60px !important; top: 596px !important; width: 900px !important; }
+.v45 #s2-cell { left: 552px !important; top: 860px !important; width: 468px !important; height: 200px !important; }
+
+/* S3a ATS */
+.v45 .win { left: 60px; top: 130px; width: 960px; height: 700px; }
+.v45 .win .side { width: 176px; padding: 22px 12px; }
+.v45 .win .side .it { font-size: 15px; }
+.v45 .win .main { left: 176px; padding: 22px 20px; }
+.v45 .win .head .search { width: 190px; }
+.v45 .kan { left: 20px; right: 20px; gap: 12px; }
+.v45 .col { padding: 12px 9px; }
+.v45 .cc { padding: 10px 11px; }
+.v45 .cc b { font-size: 15px; } .v45 .cc span { font-size: 12px; }
+.v45 .kistrip { left: 20px; right: 20px; font-size: 14px; }
+.v45 .toast { right: 20px; }
+
+/* S3b WhatsApp */
+.v45 #s3b-panel { left: 60px !important; top: 230px !important; width: 480px !important; height: 600px !important; }
+.v45 #s3b .popout { left: 60px !important; top: -300px !important; width: 480px !important; height: 1130px !important; }
+.v45 #s3b-person { width: 600px !important; left: -96px !important; top: 442px !important; }
+.v45 #phone { left: 500px !important; top: 130px !important; width: 340px; height: 700px; }
+.v45 #atsnote { display: none; }
+
+/* S3c Stundennachweise */
+.v45 #s3c-panel { left: 60px !important; top: 230px !important; width: 440px !important; height: 600px !important; }
+.v45 #s3c .popout { left: 60px !important; top: -300px !important; width: 440px !important; height: 1130px !important; }
+.v45 #s3c-person { width: 560px !important; left: -61px !important; top: 456px !important; }
+.v45 .sheet { left: 520px; top: 130px; width: 500px; height: 700px; padding: 26px 28px; }
+.v45 .sheet td { padding: 10px 0; }
+.v45 #ball { left: 540px !important; top: 230px !important; width: 460px !important; }
+.v45 #ring { left: 770px !important; top: 460px !important; }
+.v45 #stamp { left: 760px !important; top: 660px !important; }
+.v45 #wa3c { left: 80px !important; top: 600px !important; width: 400px !important; }
+
+/* S3d Gespräch & Einstellung */
+.v45 .akte { left: 60px; top: 130px; width: 440px; height: 340px; }
+.v45 .onb { left: 60px; top: 490px; width: 440px; height: 340px; }
+
+/* S3e Agenten: 2 × 3 */
+.v45 .agent { width: 468px; height: 217px; padding: 18px 22px; }
+.v45 #s3e .cam > .agent:nth-child(1) { left: 60px !important; top: 130px !important; }
+.v45 #s3e .cam > .agent:nth-child(2) { left: 552px !important; top: 130px !important; }
+.v45 #s3e .cam > .agent:nth-child(3) { left: 60px !important; top: 371px !important; }
+.v45 #s3e .cam > .agent:nth-child(4) { left: 552px !important; top: 371px !important; }
+.v45 #s3e .cam > .agent:nth-child(5) { left: 60px !important; top: 612px !important; }
+.v45 #s3e .cam > .agent:nth-child(6) { left: 552px !important; top: 612px !important; }
+.v45 .agent .ic { width: 36px; height: 36px; border-radius: 10px; }
+.v45 .agent .ic::after { inset: 11px; }
+.v45 .agent h5 { margin-top: 12px; font-size: 26px; }
+.v45 .agent .task { margin-top: 10px; font-size: 17px; height: 46px; }
+.v45 .agent .bar { bottom: 20px; left: 22px; right: 22px; }
+
+/* S4 Beweis */
+.v45 #s4-panel { left: 60px !important; top: 190px !important; width: 560px !important; height: 450px !important; }
+.v45 #s4 .popout { left: 60px !important; top: -400px !important; width: 560px !important; height: 1040px !important; }
+.v45 #s4-lukas { width: 600px !important; left: -20px !important; top: 496px !important; }
+.v45 #sticker { left: 330px !important; top: 566px !important; }
+.v45 #s4-copy { left: 60px !important; top: 676px !important; width: 960px !important; height: 450px !important; }
+.v45 #s4-intro { top: 50px !important; font-size: 58px !important; }
+.v45 #s4 .lead { font-size: 36px; }
+.v45 #lead1 { margin-top: 16px !important; } .v45 #lead2 { margin-top: 22px !important; }
+.v45 #s4 .before { font-size: 92px; }
+.v45 #after { font-size: 200px; }
+.v45 #chips { left: 600px !important; top: -426px !important; flex-direction: column; align-items: flex-start; }
+
+/* S5 drei Wege: rows */
+.v45 #s5-label { left: 60px !important; top: 150px !important; }
+.v45 #s5-head { left: 60px !important; top: 180px !important; width: 960px; font-size: 50px !important; }
+.v45 .way { left: 60px !important; width: 960px; height: 250px; }
+.v45 #way1 { top: 300px; } .v45 #way2 { top: 570px; } .v45 #way3 { top: 840px; }
+.v45 .way .n { position: absolute; left: 0; top: 24px; margin: 0; font-size: 150px; }
+.v45 .way h3 { position: absolute; left: 190px; top: 34px; margin: 0; font-size: 40px; }
+.v45 .way p { position: absolute; left: 190px; top: 88px; margin: 0; font-size: 20px; max-width: 400px; }
+.v45 .way .ill { left: auto; right: 0; top: 46px; bottom: auto; width: 470px; transform: scale(.64); transform-origin: 100% 0; }
+
+/* S6 Kontakt */
+.v45 .endlogo { left: 60px; top: 150px; width: 300px; height: 300px; }
+.v45 .endhead { left: 60px; top: 500px; font-size: 84px; }
+.v45 .pills { left: 60px; top: 780px; gap: 12px; }
+.v45 .pill { height: 54px; font-size: 22px; padding: 0 22px; }
+.v45 .cta { left: 60px; top: 878px; flex-direction: column; align-items: flex-start; gap: 18px; }
+.v45 .cta .btn { height: 84px; font-size: 28px; padding: 0 34px; }
+.v45 .qr { left: 812px; top: 870px; width: 208px; }
+.v45 .qr .box { width: 208px; height: 208px; }
+.v45 .qr .label { top: 220px; }
+/* 4:5 end card: more air, balanced to the bottom */
+.v45 .endlogo { top: 176px; }
+.v45 .endhead { top: 530px; }
+.v45 .pills { top: 822px; }
+.v45 .cta { top: 920px; }
+.v45 .qr { top: 912px; }

@@ -4,10 +4,10 @@ const path = require('path');
 (async () => {
   const [prefix, ...times] = process.argv.slice(2);
   const browser = await chromium.launch({ args: ['--allow-file-access-from-files'] });
-  const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
+  const page = await browser.newPage({ viewport: process.env.F === '45' ? { width: 1080, height: 1350 } : { width: 1920, height: 1080 } });
   page.on('console', m => { if (m.type() === 'error' || m.type() === 'warning') console.log('console:', m.text()); });
   page.on('pageerror', e => console.log('pageerror:', e.message));
-  await page.goto('file://' + path.resolve('src/video.html'));
+  await page.goto('file://' + path.resolve('src/video.html') + (process.env.F === '45' ? '?f=45' : ''));
   await page.waitForFunction(() => window.__ready === true, null, { timeout: 20000 });
   await page.evaluate(() => Promise.all([...document.images].map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r; }))));
   for (const t of times) {

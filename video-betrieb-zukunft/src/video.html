@@ -34,7 +34,7 @@
   <!-- ================= S2 · Die Idee ================= -->
   <section class="scene" id="s2"><div class="cam">
     <div class="abs label dot g" id="s2-label" style="left:96px;top:300px">Eine einfache Frage</div>
-    <div class="abs disp" style="left:90px;top:352px;font-size:150px;font-weight:800;font-stretch:114%">
+    <div class="abs disp" id="s2-type" style="left:90px;top:352px;font-size:150px;font-weight:800;font-stretch:114%">
       <span class="mask" style="position:relative"><span id="s2-l1">Ihre Software.</span><span id="s2-l0" style="position:absolute;left:0;top:0;color:rgba(5,40,53,.28)">Was, wenn …</span></span>
       <span class="mask" style="margin-top:6px"><span id="s2-l2" style="color:var(--signal)">Ihr Eigentum.</span></span>
     </div>
@@ -179,7 +179,7 @@
       <div class="tag label"><span>●</span>&nbsp; Lukas Boll — Gründer</div></div>
     <div class="popout" style="left:96px;top:-400px;width:706px;height:1300px;z-index:2"><img id="s4-lukas" src="../assets/portrait-cutout.png" style="width:772px;left:-26px;top:532px"></div>
     <div class="sticker" id="sticker" style="left:600px;top:318px;z-index:6">Ohne Programmierausbildung</div>
-    <div class="abs" style="left:972px;top:236px;width:852px;height:664px">
+    <div class="abs" id="s4-copy" style="left:972px;top:236px;width:852px;height:664px">
       <div class="label" id="s4-label"><span class="pb">Praxisbeispiel Hamburg</span>Softwarekosten pro Monat</div>
       <div class="abs disp" id="s4-intro" style="left:0;top:70px;font-size:68px;font-weight:700;font-stretch:108%;line-height:1.02"></div>
       <div class="lead" id="lead1" style="margin-top:22px"><span class="mask"><span>Externe Software: rund</span></span></div>
@@ -231,9 +231,9 @@
   <div id="cap"></div>
   <div class="wipebar" id="wipeA" style="left:0;width:1920px"></div>
   <div class="wipebar" id="wipeB" style="left:0;width:1920px;background:var(--ink)"></div>
-  <div class="wipebar cbar" style="left:0;width:682px;background:var(--ink)"></div>
-  <div class="wipebar cbar" style="left:668px;width:598px;background:var(--ink)"></div>
-  <div class="wipebar cbar" style="left:1252px;width:668px;background:var(--ink)"></div>
+  <div class="wipebar cbar" id="cb1" style="left:0;width:682px;background:var(--ink)"></div>
+  <div class="wipebar cbar" id="cb2" style="left:668px;width:598px;background:var(--ink)"></div>
+  <div class="wipebar cbar" id="cb3" style="left:1252px;width:668px;background:var(--ink)"></div>
   <div class="frame-edge" id="edge"></div>
   <div class="vignette"></div>
   <div class="grain" id="grain1"></div>

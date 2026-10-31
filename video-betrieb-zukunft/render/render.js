@@ -7,12 +7,12 @@ const fs = require('fs');
   const fps = 30, from = +(process.argv[2] || 0), to = +(process.argv[3] || 60);
   const outFile = process.argv[4] || 'out/video_noaudio.mp4';
   const browser = await chromium.launch({ args: ['--allow-file-access-from-files'] });
-  const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
+  const page = await browser.newPage({ viewport: process.env.F === '45' ? { width: 1080, height: 1350 } : { width: 1920, height: 1080 } });
   page.on('pageerror', e => console.log('pageerror:', e.message));
-  await page.goto('file://' + path.resolve('src/video.html'));
+  await page.goto('file://' + path.resolve('src/video.html') + (process.env.F === '45' ? '?f=45' : ''));
   await page.waitForFunction(() => window.__ready === true, null, { timeout: 20000 });
   await page.evaluate(() => Promise.all([...document.images].map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r; }))));
-  fs.writeFileSync('out/sfx.json', JSON.stringify(await page.evaluate(() => window.SFX), null, 0));
+  if (process.env.F !== '45') fs.writeFileSync('out/sfx.json', JSON.stringify(await page.evaluate(() => window.SFX), null, 0));
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(fps), '-c:v', 'mjpeg', '-i', '-',
     '-c:v', 'libx264', '-preset', 'slow', '-crf', '14', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', outFile], { stdio: ['pipe', 'inherit', 'inherit'] });
   const n0 = Math.round(from * fps), n1 = Math.round(to * fps);

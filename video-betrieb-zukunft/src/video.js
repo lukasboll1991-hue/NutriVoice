@@ -10,12 +10,20 @@ const sfx = (t, name, g = 1, pan = 0, p = 1) => SFX.push({ t: +(+t).toFixed(3), 
 const fmt = v => Math.round(v).toLocaleString('de-DE');
 const rnd = s => { const x = Math.sin(s * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
 
+/* ---------- format: 16:9 (default) or 4:5 feed version (?f=45) ---------- */
+const F45 = /[?&]f=45\b/.test(location.search);
+if (F45) { document.documentElement.classList.add('v45'); document.body.classList.add('v45'); }
+const SW = F45 ? 1080 : 1920, SH = F45 ? 1350 : 1080;              // stage
+const GM = F45 ? 60 : 96, GC = F45 ? 140 : 122, NC = F45 ? 6 : 12;   // grid margin, column, count (gutter 24)
+const HL = F45 ? [96, 190, 1130, SH - 96] : [96, 236, 900, 984];     // horizontal grid lines
+const CX = SW / 2, CY = SH * 0.55;                                    // .cam transform origin (50% 55%)
+
 /* ---------- static build ---------- */
 const grid = $('#grid');
-const VX = []; for (let i = 0; i < 12; i++) VX.push(96 + i * 146); VX.push(1824);
-VX.forEach((x, i) => { const d = document.createElement('div'); d.className = 'v' + (i === 0 || i === 12 ? ' m' : ''); d.style.left = x + 'px'; grid.appendChild(d); });
-[96, 236, 900, 984].forEach((y, k) => { const d = document.createElement('div'); d.className = 'h' + (k === 0 || k === 3 ? ' m' : ''); d.style.top = y + 'px'; grid.appendChild(d); });
-[[96, 96], [1824, 96], [96, 984], [1824, 984], [948, 96], [948, 984]].forEach(([x, y]) => { const c = document.createElement('div'); c.className = 'cross'; c.style.left = x + 'px'; c.style.top = y + 'px'; grid.appendChild(c); });
+const VX = []; for (let i = 0; i < NC; i++) VX.push(GM + i * (GC + 24)); VX.push(SW - GM);
+VX.forEach((x, i) => { const d = document.createElement('div'); d.className = 'v' + (i === 0 || i === NC ? ' m' : ''); d.style.left = x + 'px'; grid.appendChild(d); });
+HL.forEach((y, k) => { const d = document.createElement('div'); d.className = 'h' + (k === 0 || k === 3 ? ' m' : ''); d.style.top = y + 'px'; grid.appendChild(d); });
+[[GM, 96], [SW - GM, 96], [GM, SH - 96], [SW - GM, SH - 96], [CX - 12, 96], [CX - 12, SH - 96]].forEach(([x, y]) => { const c = document.createElement('div'); c.className = 'cross'; c.style.left = x + 'px'; c.style.top = y + 'px'; grid.appendChild(c); });
 $('#qrbox').innerHTML = window.QR_SVG;
 const wave = $('#wave'); for (let i = 0; i < 46; i++) wave.appendChild(document.createElement('i'));
 // S5 headline words
@@ -27,9 +35,10 @@ const RECT = el => { const r = el.getBoundingClientRect(); return { left: r.left
 const M = {
   win: RECT($('#win')), mehmet: RECT($('#cMehmet')), piotr: RECT($('#cPiotr')), lena: RECT($('#cLena')),
   ki: RECT($('#kichip')), tiles: $$('#s3e .ag').map(RECT), chips: $$('#chips .chip').map(RECT),
+  cell: RECT($('#s2-cell')), logo: RECT($('#endlogo')), ways: ['#way1', '#way2', '#way3'].map(q => RECT($(q))),
 };
-// project a rect through a .cam scale (origin 960/594) plus an inner y offset
-const proj = (r, s, dy = 0) => { const ox = 960, oy = 594; return { left: ox + (r.left - ox) * s, top: oy + (r.top + dy - oy) * s, width: r.width * s, height: r.height * s }; };
+// project a rect through a .cam scale (origin CX/CY) plus an inner y offset
+const proj = (r, s, dy = 0) => { const ox = CX, oy = CY; return { left: ox + (r.left - ox) * s, top: oy + (r.top + dy - oy) * s, width: r.width * s, height: r.height * s }; };
 const tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
 const vis = (sel, a, b) => { tl.set(sel, { visibility: 'visible' }, a); if (b !== undefined) tl.set(sel, { visibility: 'hidden' }, b); };
 const clipIn = (el, t, d = 0.6, ease = 'expo.out') => tl.fromTo(el, { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: d, ease }, t);
@@ -88,7 +97,7 @@ gsap.set('.st', { transformOrigin: '50% 100%' });
 clipIn('#s1-year', T.spb * 6, 0.7); clipIn('#s1-case', T.spb * 6.5, 0.7);
 // exit: everything flies out, then hard cut
 const ex = 5.26;
-tl.to(['#stC', '#stA', '#stB', '#stD'], { y: -1150, rotation: i => [-14, 9, 17, -8][i], duration: 0.3, ease: 'power3.in', stagger: 0.025 }, ex);
+tl.to(['#stC', '#stA', '#stB', '#stD'], { y: -(SH + 100), rotation: i => [-14, 9, 17, -8][i], duration: 0.3, ease: 'power3.in', stagger: 0.025 }, ex);
 tl.to(['#inv1', '#inv2', '#s1-total'], { x: 520, duration: 0.3, ease: 'power3.in', stagger: 0.03 }, ex + 0.02);
 tl.to('#s1-dispo', { y: 820, duration: 0.3, ease: 'power3.in' }, ex + 0.05);
 sfx(ex + 0.06, 'whoosh', 0.42, 0);
@@ -110,9 +119,10 @@ tl.fromTo('#s2-cell', { scaleY: 0 }, { scaleY: 1, duration: 0.5 }, 7.98); sfx(7.
 tl.fromTo('#s2 .cam', { x: 0 }, { x: -36, duration: 3.6, ease: 'sine.inOut' }, T.cut12);
 // mask: grid cell opens into S3a
 vis('#s3a', T.mask23, T.s3b + 0.06);
-tl.fromTo('#s3a', { clipPath: 'inset(700px 96px 180px 1264px)' }, { clipPath: 'inset(0px 0px 0px 0px)', duration: T.s3a - T.mask23, ease: 'power4.inOut' }, T.mask23);
-tl.set('#edge', { opacity: 1, left: 1264, top: 700, width: 560, height: 200 }, T.mask23);
-tl.to('#edge', { left: -6, top: -6, width: 1932, height: 1092, duration: T.s3a - T.mask23, ease: 'power4.inOut' }, T.mask23);
+const cl = M.cell.left - 34; // S2 camera has drifted ~34 px left by the time the cell opens
+tl.fromTo('#s3a', { clipPath: `inset(${M.cell.top}px ${SW - cl - M.cell.width}px ${SH - M.cell.bottom}px ${cl}px)` }, { clipPath: 'inset(0px 0px 0px 0px)', duration: T.s3a - T.mask23, ease: 'power4.inOut' }, T.mask23);
+tl.set('#edge', { opacity: 1, left: cl, top: M.cell.top, width: M.cell.width, height: M.cell.height }, T.mask23);
+tl.to('#edge', { left: -6, top: -6, width: SW + 12, height: SH + 12, duration: T.s3a - T.mask23, ease: 'power4.inOut' }, T.mask23);
 tl.set('#edge', { opacity: 0 }, T.s3a + 0.01);
 sfx(T.mask23, 'whoosh_big', 0.7, 0.3);
 
@@ -129,7 +139,7 @@ toolCol('#t3a', T.s3a + 0.2);
 const cur = $('#cursor');
 const grab = { x: wr.x + rM.x + 92, y: wr.y + rM.y + 30 };
 const dx = rP.x - rM.x;
-tl.fromTo(cur, { x: 1560, y: 1000, opacity: 0 }, { x: grab.x, y: grab.y - 1, opacity: 1, duration: 0.55, ease: 'power3.inOut' }, 10.12);
+tl.fromTo(cur, { x: SW - 360, y: SH - 80, opacity: 0 }, { x: grab.x, y: grab.y - 1, opacity: 1, duration: 0.55, ease: 'power3.inOut' }, 10.12);
 tl.to(cur, { scale: 0.84, duration: 0.07, ease: 'power2.out' }, 10.68); sfx(10.68, 'click', 0.6, -0.1);
 tl.to('#drag', { scale: 1.05, rotation: 3, boxShadow: '0 30px 40px -18px rgba(5,40,53,.45)', duration: 0.25, ease: 'back.out(2)' }, 10.7);
 tl.to('#drag', { x: dx, y: rP.y - rM.y, duration: 0.62, ease: 'power2.inOut' }, 10.8);
@@ -146,11 +156,11 @@ tl.fromTo('#toast', { y: 90, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, e
 tl.to(win, { y: -6, duration: 2.6, ease: 'sine.inOut' }, 9.8);
 
 /* wipe A → B (double bar) */
-gsap.set(['#wipeA', '#wipeB'], { x: -1920 });
+gsap.set(['#wipeA', '#wipeB'], { x: -SW });
 tl.to('#wipeA', { x: 0, duration: 0.2, ease: 'power3.in' }, T.s3b - 0.19);
 tl.to('#wipeB', { x: 0, duration: 0.2, ease: 'power3.in' }, T.s3b - 0.14);
-tl.to('#wipeB', { x: 1920, duration: 0.26, ease: 'power3.out' }, T.s3b + 0.07);
-tl.to('#wipeA', { x: 1920, duration: 0.28, ease: 'power3.out' }, T.s3b + 0.12);
+tl.to('#wipeB', { x: SW, duration: 0.26, ease: 'power3.out' }, T.s3b + 0.07);
+tl.to('#wipeA', { x: SW, duration: 0.28, ease: 'power3.out' }, T.s3b + 0.12);
 sfx(T.s3b - 0.19, 'whoosh', 0.75, -0.6);
 
 /* ---------- S3b · WhatsApp bot ---------- */
@@ -238,9 +248,9 @@ const m0 = T.s3e - 0.2, md = 0.5;
 const kp = proj(M.ki, 1.0597, -16);
 const kr = { left: kp.left, top: kp.top, width: kp.width, height: kp.height, right: kp.left + kp.width, bottom: kp.top + kp.height };
 vis('#s3e', m0, 26.85);
-tl.fromTo('#s3e', { clipPath: `inset(${kr.top}px ${1920 - kr.right}px ${1080 - kr.bottom}px ${kr.left}px round 22px)` }, { clipPath: 'inset(0px 0px 0px 0px round 0px)', duration: md, ease: 'power4.inOut' }, m0);
+tl.fromTo('#s3e', { clipPath: `inset(${kr.top}px ${SW - kr.right}px ${SH - kr.bottom}px ${kr.left}px round 22px)` }, { clipPath: 'inset(0px 0px 0px 0px round 0px)', duration: md, ease: 'power4.inOut' }, m0);
 tl.set('#edge', { opacity: 1, left: kr.left, top: kr.top, width: kr.width, height: kr.height }, m0);
-tl.to('#edge', { left: -6, top: -6, width: 1932, height: 1092, duration: md, ease: 'power4.inOut' }, m0);
+tl.to('#edge', { left: -6, top: -6, width: SW + 12, height: SH + 12, duration: md, ease: 'power4.inOut' }, m0);
 tl.set('#edge', { opacity: 0 }, m0 + md + 0.01);
 sfx(m0, 'whoosh_big', 0.4, -0.2);
 
@@ -264,7 +274,7 @@ gsap.set(chipEls, { opacity: 0 });
 // the real tiles shrink into the chips; their content fades while they move, the chip label fades in
 tl.to('#t3e', { x: -60, opacity: 0, duration: 0.28, ease: 'power2.in' }, P0);
 tl.to('#agadd', { scale: 0.6, opacity: 0, duration: 0.25, ease: 'power2.in' }, P0);
-const CS = 1.03, inv = r => ({ left: 960 + (r.left - 960) / CS, top: 594 + (r.top - 594) / CS, width: r.width / CS, height: r.height / CS });
+const CS = 1.03, inv = r => ({ left: CX + (r.left - CX) / CS, top: CY + (r.top - CY) / CS, width: r.width / CS, height: r.height / CS });
 tiles.forEach((tile, i) => {
   const kids = [...tile.children];
   const lab = document.createElement('div');
@@ -373,7 +383,7 @@ ways.slice(0, 2).forEach(w => {
 
 /* fold S5 → S6 */
 const F = T.fold56;
-ways.forEach((w, i) => { const ox = 960 - [96, 680, 1264][i]; tl.to(w, { scaleX: 0, transformOrigin: `${ox}px 50%`, duration: 0.3, ease: 'power4.in' }, F - 0.02 + i * 0.02); });
+ways.forEach((w, i) => { const ox = CX - M.ways[i].left; tl.to(w, { scaleX: 0, transformOrigin: `${ox}px 50%`, duration: 0.3, ease: 'power4.in' }, F - 0.02 + i * 0.02); });
 tl.to(['#s5-label', '#s5-head'], { y: -50, opacity: 0, duration: 0.28, ease: 'power2.in' }, F - 0.05);
 sfx(F - 0.08, 'whoosh_rev', 0.6, 0);
 
@@ -384,7 +394,7 @@ gsap.set(ring, { strokeDasharray: rl, strokeDashoffset: rl });
 tl.to(ring, { strokeDashoffset: 0, duration: 1.0 }, F + 0.24);
 tl.fromTo('#logoimg', { scale: 0.55, rotation: -25, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.95, ease: 'back.out(1.5)' }, T.s6 - 0.12);
 // logo lands in the centre on "Betrieb Zukunft", then makes room for the headline
-tl.fromTo('#endlogo', { x: 649, y: 89, scale: 1.12 }, { x: 0, y: 0, scale: 1, duration: 0.75, ease: 'expo.inOut' }, W.einfacher - 0.42);
+tl.fromTo('#endlogo', { x: CX - (M.logo.left + M.logo.width / 2), y: SH / 2 - (M.logo.top + M.logo.height / 2), scale: 1.12 }, { x: 0, y: 0, scale: 1, duration: 0.75, ease: 'expo.inOut' }, W.einfacher - 0.42);
 sfx(W.einfacher - 0.42, 'swish_low', 0.35, -0.3);
 sfx(T.s6, 'impact', 0.8, 0, 1.15);
 CAP[17].words.forEach((w, i) => { rise($$('#endhead .w')[i], w.s - 0.04, 0.7); });
