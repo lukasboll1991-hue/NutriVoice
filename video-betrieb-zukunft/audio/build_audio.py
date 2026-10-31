@@ -219,22 +219,23 @@ for b in np.arange(17, 18, 0.125): add(drums, snare(), beat(b), 0.22, -0.1)
 add(fx, crash(), beat(18), 1.0); add(fx, sub_boom(), beat(18), 0.45)
 groove(18, 51)
 for b in (34, 45): add(fx, crash(1.6), beat(b), 0.55)
-# breakdown 51-74
+# breakdown 51-H (H = beat of the cost hit, from timing.json)
+H = int(round(C['hit500'] / SPB))
 add(fx, np.flip(crash(1.0), 0), beat(53) - 1.0, 0.6)
-for bb, ch in bar_chords(53, 74, ['Dm', 'Bb', 'F', 'C']):
-    L = min(4, 74 - bb)
+for bb, ch in bar_chords(53, H, ['Dm', 'Bb', 'F', 'C']):
+    L = min(4, H - bb)
     add(pads, pad_chord(ch, SPB * L, bright=0.6), beat(bb), 1.8)
     for e in np.arange(0, L, 1.0): add(keys, piano_chord(ch, 1.5 if e == 0 else 0.8), beat(bb + e), 1.0, 0.1)
     add(bass, bass_note(mtof(m(ROOT_N[ch])), SPB * L * 0.95), beat(bb), 0.45)
-for b in np.arange(61, 74, 0.5): add(drums, shaker(), beat(b), 0.5 + 0.3 * (b - 61) / 13, -0.3)
-r = riser(beat(74) - beat(70)); add(fx, r, beat(70), 0.55)
-for b in np.arange(72, 74, 0.25): add(drums, snare(), beat(b), 0.15 + 0.25 * (b - 72) / 2, 0.1)
-# the 500 € hit
-add(fx, crash(3.0), beat(74), 1.1); add(fx, sub_boom(1.6, 62, 30), beat(74), 0.6)
-add(keys, piano_chord('F', 1.4), beat(74), 1.0)
-for b in (74, 76): kick_at(b, 0.9)
-add(drums, clap(), beat(75), 0.4)
-add(pads, pad_chord('F', SPB * 3, bright=0.9), beat(74), 1.0)
+for b in np.arange(61, H, 0.5): add(drums, shaker(), beat(b), 0.5 + 0.3 * (b - 61) / (H - 61), -0.3)
+r = riser(beat(H) - beat(H - 4)); add(fx, r, beat(H - 4), 0.55)
+for b in np.arange(H - 2, H, 0.25): add(drums, snare(), beat(b), 0.15 + 0.25 * (b - H + 2) / 2, 0.1)
+# the cost hit ("500 €")
+add(fx, crash(3.0), beat(H), 1.1); add(fx, sub_boom(1.6, 62, 30), beat(H), 0.6)
+add(keys, piano_chord('F', 1.4), beat(H), 1.0)
+for b in [x for x in (H, H + 2) if x < 77]: kick_at(b, 0.9)
+if H + 1 < 77: add(drums, clap(), beat(H + 1), 0.4)
+add(pads, pad_chord('F', SPB * (77 - H), bright=0.9), beat(H), 1.0)
 # groove 2 77-99 (lighter)
 groove(77, 99, full=False)
 add(fx, crash(1.6), beat(78), 0.6)
@@ -340,12 +341,14 @@ if missing: print('missing sfx:', missing)
 fxbus = fxbus * 0.85 + reverb(fxbus, 0.18) * 0.15
 
 # ---------------------------------------------------------------- voice placement
-vo_src = ROOT / 'assets/audio/vo_julian.mp3'
-raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', str(vo_src), '-ac', '1', '-ar', str(SR), '-f', 'f32le', '-'], capture_output=True).stdout
-vo_in = np.frombuffer(raw, np.float32).astype(np.float64)
+def load_mono(path):
+    raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', str(path), '-ac', '1', '-ar', str(SR), '-f', 'f32le', '-'], capture_output=True).stdout
+    return np.frombuffer(raw, np.float32).astype(np.float64)
+VO_IN = {k: load_mono(ROOT / f) for k, f in TM['vo_files'].items()}
+VO_GAIN = {'orig': 1.0, 'pick': 10 ** (-0.3 / 20)}  # pickup take is 0.3 LU louder
 vo = np.zeros(N)
-for a, b, v in TM['blocks']:
-    seg = vo_in[sec(a):sec(b)].copy(); fl = sec(0.012)
+for src, a, b, v in TM['blocks']:
+    seg = VO_IN[src][sec(a):sec(b)].copy() * VO_GAIN[src]; fl = sec(0.012)
     seg[:fl] *= np.linspace(0, 1, fl); seg[-fl:] *= np.linspace(1, 0, fl)
     i = sec(v); vo[i:i + len(seg)] += seg[:N - i]
 
