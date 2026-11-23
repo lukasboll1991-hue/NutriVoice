@@ -1,0 +1,32 @@
+/* YouTube ad cuts – additions on top of video.css (16:9) and the 4:5 layer (.v45).
+   9:16 (.v916) reuses the 4:5 layout, shifted down 250 px, with Shorts safe zones kept free. */
+
+/* S0 hook */
+#s0-type { left: 90px; top: 372px; font-size: 104px; font-weight: 800; font-stretch: 112%; }
+#s0-type em { font-style: normal; color: var(--signal); }
+#s0-ul { left: 96px; top: 510px; width: 1180px; height: 8px; background: var(--signal); transform-origin: left; }
+.hl1, .hl2 { display: inline; }
+
+/* end card: audience label above the campaign line */
+#e-label { left: 680px; top: 286px; }
+.endlogo { top: 326px; }
+.endhead { top: 326px; }
+#chapterbox #aud b { color: var(--ink); }
+.cta { top: 690px; }                 /* no pills in the ads: CTA sits right under the line */
+.v45 .cta { top: 860px; }
+
+/* ---------- 4:5 / 9:16 ---------- */
+.v45 #s0-type { left: 56px; top: 420px; font-size: 88px; line-height: .98; }
+.v45 .hl1, .v45 .hl2 { display: block; }
+.v45 .hl1::after { content: "-"; }
+.v45 #s0-ul { left: 60px; top: 640px; width: 900px; }
+.v45 #e-label { left: 60px; top: 494px; }
+
+html.v916, html.v916 body, .v916 .stage { width: 1080px !important; height: 1920px !important; }
+.v916 .scene { top: 250px; bottom: auto; height: 1350px; }
+.v916 .paperbg { background: var(--paper); }       /* flat paper so scene and stage backgrounds match */
+.v916 #topbar { top: 196px; }
+.v916 #cap { top: 1408px; }
+.v916 .tcol .stat { right: 90px; }
+.v916 #t3c .statlabel { right: 90px; }
+.v916 .inv { width: 870px; }
