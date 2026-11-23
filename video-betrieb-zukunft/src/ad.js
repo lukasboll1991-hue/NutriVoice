@@ -316,7 +316,7 @@ if (SPOT === 'a') {
   const cut1 = B(11), m0 = B(17), m1 = B(18), cBot = B(20), cStd = B(22), cEin = B(24), km0 = B(26.5), P0 = B(32.5), S4 = P0 + 0.3, cEnd = B(48);
   hook(0, 1.3);
   status(1.25, w('sie'), w('tausende') - 0.3, w('software') + 0.1, cut1);
-  wende(cut1, m1 + 0.05, 'Betrieb Zukunft zeigt Ihnen, wie …', 'Ihre Software.', 'Selbst gebaut.', w('betrieb'), w('zeigt'), w('eigene'));
+  wende(cut1, m1 + 0.05, 'Betrieb Zukunft zeigt Ihnen, wie …', 'Ihre Software.', 'Selbst gebaut.', w('betrieb'), w('betrieb') + 0.3, w('eigene'));
   cellMask(m0, m1, '#s3a');
   ats(m1, cBot + 0.06, w('bewerbermanagement') + 0.45);
   wipe(cBot);
@@ -325,7 +325,7 @@ if (SPOT === 'a') {
   einstellung(cEin, km0 + 0.5);
   kiMask(km0, B(27.5) - km0);
   vis('#s3e', km0, S4 + 0.75);
-  agenten(B(27.5), P0);
+  agenten(B(27.5) - 0.35, P0);                                   // tiles land while the mask opens
   proof(S4, cEnd + 0.05, w('statt'), w('4000'), w('selbst'), B(45));
   colWipe(cEnd);
   endcard(cEnd, { tLogo: cEnd + 0.08, tMove: w('jetzt') - 0.95, tLabel: w('jetzt') - 0.5, tHead: [w('jetzt') - 0.45, w('jetzt') - 0.32, w('jetzt') - 0.22, w('jetzt') - 0.1], tCta: w('jetzt') + 0.1, pulse: [w('kostenloses') + 1.25, 29.0] });
