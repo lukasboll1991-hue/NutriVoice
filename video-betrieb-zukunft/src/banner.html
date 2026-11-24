@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>YouTube-Kanalbanner – Betrieb Zukunft</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="video.css">
+<style>
+  /* YouTube channel art: 2560 × 1440. Safe area for logo/text (all devices): 1546 × 423, centred
+     → x 507–2053, y 508–931. Desktop shows the full-width band y 508–931; TV shows everything. */
+  html, body, .stage { width: 2560px !important; height: 1440px !important; }
+  .paperbg { background:
+      radial-gradient(1800px 900px at 70% 40%, #FAF9F5 0%, rgba(250,249,245,0) 60%),
+      radial-gradient(1600px 900px at 0% 100%, #E6E3DA 0%, rgba(230,227,218,0) 65%), var(--paper); }
+  #grid .v { background: rgba(5,40,53,.07); }
+  #grid .h { background: rgba(5,40,53,.09); }
+  .safe { position: absolute; left: 507px; top: 508px; width: 1546px; height: 423px; }
+  .logo { position: absolute; left: 24px; top: 46px; width: 330px; height: 330px; }
+  .logo img { width: 100%; height: 100%; }
+  .copy { position: absolute; left: 410px; top: 34px; width: 1136px; }
+  .copy .label { font-size: 22px; }
+  .pb { display: inline-block; background: var(--signal); color: #fff; font-weight: 500; padding: 8px 16px 7px; border-radius: 8px; margin-right: 18px; letter-spacing: .14em; }
+  .head { margin-top: 26px; font-family: var(--display); font-weight: 800; font-stretch: 112%; font-size: 92px; line-height: .98; letter-spacing: -.03em; color: var(--ink); }
+  .head em { font-style: normal; color: var(--signal); }
+  .chips { margin-top: 34px; display: flex; gap: 12px; }
+  .chips .chip { height: 52px; font-size: 22px; padding: 0 20px 0 18px; border-radius: 26px; }
+  .chips .chip i { width: 10px; height: 10px; }
+  /* right: the "Ihr System" hub as a dark panel, bleeding off the edge (desktop/TV only) */
+  .panel.hub { left: 2112px; top: 300px; width: 520px; height: 840px; }
+  .hub svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hub svg line { stroke: rgba(143,209,141,.55); stroke-width: 2.5; }
+  .hub svg circle { fill: #8FD18D; }
+  .hub .core { position: absolute; width: 150px; height: 150px; margin: -75px 0 0 -75px; border-radius: 50%; background: var(--paper); border: 3px solid var(--signal);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    box-shadow: 0 0 0 12px rgba(143,209,141,.10), 0 0 0 26px rgba(143,209,141,.05), 0 24px 40px -18px rgba(0,0,0,.6); }
+  .hub .core b { font-family: var(--display); font-weight: 800; font-stretch: 114%; font-size: 38px; letter-spacing: -.03em; color: var(--ink); line-height: 1; }
+  .hub .core .label { font-size: 11px; letter-spacing: .16em; }
+  .hub .chip { position: absolute; font-size: 17px; height: 40px; padding: 0 14px 0 12px; }
+  /* left: quiet editorial labels (desktop/TV only) */
+  .side { position: absolute; left: 96px; top: 560px; width: 360px; }
+  .side .label { display: block; margin-bottom: 16px; font-size: 18px; }
+  .url { position: absolute; left: 410px; top: 374px; font-family: var(--mono); font-size: 22px; letter-spacing: .08em; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="paperbg"></div>
+  <div id="grid" class="abs" style="inset:0"></div>
+
+  <div class="side">
+    <span class="label dot g">KI-Betriebssystem</span>
+    <span class="label">Bewerbermanagement</span>
+    <span class="label">WhatsApp-KI-Bot</span>
+    <span class="label">Stundenzettel</span>
+  </div>
+
+  <div class="safe">
+    <div class="logo"><img src="../assets/logo-alpha.png" alt=""></div>
+    <div class="copy">
+      <div class="label"><span class="pb">Für Personaldienstleister</span>Unabhängig · Flexibel · Bezahlbar</div>
+      <div class="head">Software, die Ihnen <em>gehört.</em></div>
+      <div class="chips">
+        <span class="chip"><i></i>ATS</span><span class="chip"><i></i>WhatsApp-Bot</span><span class="chip"><i></i>Stundenzettel</span><span class="chip"><i></i>Einstellung</span><span class="chip"><i></i>KI-Agenten</span>
+      </div>
+    </div>
+    <div class="url">betrieb-zukunft.de</div>
+  </div>
+
+  <div class="panel hub" id="hub"><div class="pg"></div><svg id="hubsvg"></svg>
+    <div class="core" id="core"><span class="label">Ihr System</span><b>100&thinsp;%</b><span class="label" style="color:var(--signal)">Eigentum</span></div>
+  </div>
+
+  <div class="vignette"></div>
+  <div class="grain"></div>
+  <div class="grain light"></div>
+</div>
+<script>
+  // grid: 16 columns across 2560 with 96 px margins, guide lines along the safe band
+  const g = document.getElementById('grid');
+  const M = 96, G = 24, N = 16, C = (2560 - 2 * M - (N - 1) * G) / N;
+  for (let i = 0; i <= N; i++) { const d = document.createElement('div'); d.className = 'v'; d.style.left = (i < N ? M + i * (C + G) : 2560 - M) + 'px'; g.appendChild(d); }
+  [508, 931].forEach(y => { const d = document.createElement('div'); d.className = 'h'; d.style.top = y + 'px'; g.appendChild(d); });
+  [[M, 508], [2560 - M, 508], [M, 931], [2560 - M, 931], [1280, 508], [1280, 931]].forEach(([x, y]) => { const c = document.createElement('div'); c.className = 'cross'; c.style.left = x + 'px'; c.style.top = y + 'px'; g.appendChild(c); });
+  // hub: five modules around the core, centred on the desktop band
+  const hub = document.getElementById('hub'), svg = document.getElementById('hubsvg'), NS = 'http://www.w3.org/2000/svg';
+  const cx = 228, cy = 720 - 300, r = 150;
+  const core = document.getElementById('core'); core.style.left = cx + 'px'; core.style.top = cy + 'px';
+  ['ATS', 'WhatsApp-Bot', 'Stundenzettel', 'Einstellung', 'KI-Agenten'].forEach((t, i) => {
+    const a = (-90 + i * 72) * Math.PI / 180, x = cx + r * Math.cos(a), y = cy + r * Math.sin(a) * 1.05;
+    const ln = document.createElementNS(NS, 'line');
+    [['x1', cx], ['y1', cy], ['x2', x], ['y2', y]].forEach(([k, v]) => ln.setAttribute(k, v)); svg.appendChild(ln);
+    const dot = document.createElementNS(NS, 'circle'); const f = 0.35 + 0.12 * i;
+    dot.setAttribute('cx', cx + (x - cx) * f); dot.setAttribute('cy', cy + (y - cy) * f); dot.setAttribute('r', 5); svg.appendChild(dot);
+    const ch = document.createElement('span'); ch.className = 'chip'; ch.innerHTML = '<i></i>' + t; hub.appendChild(ch);
+    ch.style.left = (x - ch.offsetWidth / 2) + 'px'; ch.style.top = (y - ch.offsetHeight / 2) + 'px';
+  });
+  window.__ready = true;
+</script>
+</body>
+</html>
