@@ -32,7 +32,29 @@ $('#ring').style.display = 'none';
 $('#atsnote').style.display = 'none';
 $('#s4-intro') && ($('#s4-intro').style.display = 'none');
 
+// hub geometry: chips on an orbit around the core, lines + travelling data dots (dots move in proc())
+const HUB = { t0: 1e9, pts: [] };
+function layoutHub() {
+  const panel = $('#s4-panel'), PW = panel.offsetWidth, PH = panel.offsetHeight, chips = $$('#chips .chip');
+  const cx = PW / 2, cy = PH / 2 - (V916 ? 0 : 14);
+  let rx = PW / 2 - 118, ry = PH / 2 - 62;
+  if (!V916) rx = ry = Math.min(rx, ry);                       // circle in 16:9, ellipse in the wide 9:16 panel
+  const core = $('#hubcore'); core.style.left = cx + 'px'; core.style.top = cy + 'px';
+  const svg = $('#hubsvg'), NS = 'http://www.w3.org/2000/svg';
+  chips.forEach((ch, i) => {
+    const a = (-90 + i * 72) * Math.PI / 180, x = cx + rx * Math.cos(a), y = cy + ry * Math.sin(a);
+    ch.style.left = (x - ch.offsetWidth / 2) + 'px'; ch.style.top = (y - ch.offsetHeight / 2) + 'px';
+    const ln = document.createElementNS(NS, 'line');
+    ln.setAttribute('x1', cx); ln.setAttribute('y1', cy); ln.setAttribute('x2', x); ln.setAttribute('y2', y);
+    svg.appendChild(ln);
+    const dots = [0, 1].map(() => { const d = document.createElementNS(NS, 'circle'); d.setAttribute('r', 4); d.setAttribute('opacity', 0); svg.appendChild(d); return d; });
+    HUB.pts.push({ x, y, ln, dots, len: Math.hypot(x - cx, y - cy) });
+  });
+  HUB.cx = cx; HUB.cy = cy;
+}
+
 function build() {
+layoutHub();
 const RECT = el => { const r = el.getBoundingClientRect(); return { left: r.left, top: r.top, width: r.width, height: r.height, right: r.right, bottom: r.bottom }; };
 const M = { ki: RECT($('#kichip')), tiles: $$('#s3e .ag').map(RECT), chips: $$('#chips .chip').map(RECT), cell: RECT($('#s2-cell')), logo: RECT($('#endlogo')), s2t: RECT($('#s2-type')) };
 const tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
@@ -232,6 +254,9 @@ function agenten(t0, P0) {
   sfx(t0 + 0.3, 'type', 0.2, 0);
   // collapse: the tiles shrink into the five chips of the proof scene
   const chipEls = $$('#chips .chip'); gsap.set(chipEls, { opacity: 0 });
+  // the tiles fly into the proof panel: lift the agent scene above it and drop its paper background
+  tl.set('#s3e', { zIndex: 30 }, P0);
+  tl.set('#s3e > .paperbg', { visibility: 'hidden' }, P0);
   tl.to('#t3e', { x: -60, opacity: 0, duration: 0.28, ease: 'power2.in' }, P0);
   tl.to('#agadd', { scale: 0.6, opacity: 0, duration: 0.25, ease: 'power2.in' }, P0);
   const CS = 1.0, inv = r => ({ left: CX + (r.left - CX) / CS, top: CY + (r.top - CY) / CS - OY, width: r.width / CS, height: r.height / CS });
@@ -255,10 +280,18 @@ function proof(t0, tEnd, tStatt, tCount, tSelbst, tHit) {
   vis('#s4', t0, tEnd);
   tl.fromTo('#s4 .cam', { scale: 1 }, { scale: 1.035, duration: tEnd - t0, ease: 'sine.inOut' }, t0);
   tl.fromTo('#s4-panel', { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.65 }, t0);
-  tl.fromTo('#s4-lukas', { y: 780 }, { y: 0, duration: 0.85, ease: 'back.out(1.15)' }, t0 + 0.2);
-  tl.to('#s4-lukas', { y: -12, duration: tEnd - t0 - 1, ease: 'sine.inOut' }, t0 + 1);
-  tl.fromTo('#s4-panel .tag', { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, t0 + 0.7);
-  sfx(t0, 'swish_low', 0.45, -0.4); sfx(t0 + 0.2, 'rise', 0.4, -0.4);
+  // hub: the chips have just landed on the orbit; the core pops, lines draw, data starts to flow
+  tl.fromTo('#hubcore', { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(1.8)' }, t0 + 0.5);
+  sfx(t0 + 0.5, 'pop', 0.4, -0.3, 0.8);
+  HUB.pts.forEach((p, i) => {
+    gsap.set(p.ln, { attr: { 'stroke-dasharray': p.len, 'stroke-dashoffset': p.len } });
+    tl.to(p.ln, { attr: { 'stroke-dashoffset': 0 }, duration: 0.45, ease: 'power2.out' }, t0 + 0.6 + i * 0.06);
+    sfx(t0 + 0.6 + i * 0.06, 'tick', 0.22, -0.5 + i * 0.25, 1.1 + i * 0.06);
+  });
+  HUB.t0 = t0 + 1.0;
+  tl.fromTo('#s4-panel .tag', { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, t0 + 0.8);
+  tl.to('#hubcore b', { keyframes: [{ scale: 1.08, duration: 0.25, ease: 'power2.out' }, { scale: 1, duration: 0.6, ease: 'elastic.out(1,0.4)' }] }, t0 + 2.2);
+  sfx(t0, 'swish_low', 0.3, -0.4);
   clipIn('#s4-label', t0 + 0.45, 0.6);
   $('#lead1 .mask > span').textContent = 'Statt rund';
   rise('#lead1 .mask > span', tStatt - 0.05, 0.7);
@@ -273,6 +306,12 @@ function proof(t0, tEnd, tStatt, tCount, tSelbst, tHit) {
   tl.fromTo('#after', { scale: 1.5, opacity: 0, y: -24 }, { scale: 1, opacity: 1, y: 0, duration: 0.16, ease: 'power4.in' }, tHit - 0.16);
   tl.fromTo('#after', { scale: 0.96 }, { scale: 1, duration: 0.7, ease: 'elastic.out(1,0.35)', immediateRender: false }, tHit);
   sfx(tHit, 'impact', 1.0, 0); shake('#s4 .cam', tHit, 6);
+  HUB.pts.forEach(p => {
+    tl.to(p.ln, { attr: { 'stroke-width': 4 }, stroke: '#8FD18D', duration: 0.08, ease: 'none' }, tHit);
+    tl.to(p.ln, { attr: { 'stroke-width': 2 }, stroke: 'rgba(143,209,141,.55)', duration: 0.9, ease: 'power2.out' }, tHit + 0.1);
+  });
+  tl.to('#hubcore', { keyframes: [{ boxShadow: '0 0 0 22px rgba(143,209,141,.35), 0 0 0 48px rgba(143,209,141,.12), 0 24px 40px -18px rgba(0,0,0,.6)', duration: 0.1 },
+                  { boxShadow: '0 0 0 12px rgba(143,209,141,.10), 0 0 0 26px rgba(143,209,141,.05), 0 24px 40px -18px rgba(0,0,0,.6)', duration: 0.9, ease: 'power2.out' }] }, tHit);
   tl.to(vl, { backgroundColor: 'rgba(44,137,100,.45)', duration: 0.06, ease: 'none' }, tHit);
   tl.to(vl, { backgroundColor: i => (i === 0 || i === NC) ? 'rgba(5,40,53,.22)' : 'rgba(5,40,53,.075)', duration: 0.7, ease: 'power2.out' }, tHit + 0.08);
 }
@@ -381,6 +420,13 @@ function proc(t) {
   });
   $('#timer').textContent = `00:12:${String(34 + Math.floor(t) % 25).padStart(2, '0')}`;
   $$('#s3e .st i').forEach((d, i) => { d.style.opacity = (0.45 + 0.55 * (0.5 + 0.5 * Math.sin(t * 5 + i))).toFixed(2); });
+  HUB.pts.forEach((p, i) => p.dots.forEach((d, k) => {
+    if (t < HUB.t0) { d.setAttribute('opacity', 0); return; }
+    const f = ((t - HUB.t0) * 0.6 + i * 0.19 + k * 0.5) % 1, out = (i + k) % 2 === 0;
+    const g = out ? f : 1 - f;
+    d.setAttribute('cx', (HUB.cx + (p.x - HUB.cx) * g).toFixed(1)); d.setAttribute('cy', (HUB.cy + (p.y - HUB.cy) * g).toFixed(1));
+    d.setAttribute('opacity', (Math.sin(Math.PI * f) * Math.min(1, (t - HUB.t0) * 2)).toFixed(2));
+  }));
   captions(t);
 }
 

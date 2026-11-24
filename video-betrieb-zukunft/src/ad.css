@@ -30,3 +30,20 @@ html.v916, html.v916 body, .v916 .stage { width: 1080px !important; height: 1920
 .v916 .tcol .stat { right: 90px; }
 .v916 #t3c .statlabel { right: 90px; }
 .v916 .inv { width: 870px; }
+
+/* proof scene without a portrait: "Ihr System" hub – five modules around a core, inside the dark panel */
+#s4-panel #chips { position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 5; }
+#s4-panel #chips .chip { position: absolute; }
+html.v45 #chips { left: 0 !important; top: 0 !important; display: block !important; }
+html.v45 #s4-panel { width: 960px !important; }
+.hubsvg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 2; overflow: visible; }
+.hubsvg line { stroke: rgba(143,209,141,.55); stroke-width: 2; }
+.hubsvg circle { fill: #8FD18D; }
+#hubcore { position: absolute; z-index: 4; width: 176px; height: 176px; margin: -88px 0 0 -88px; border-radius: 50%;
+  background: var(--paper); border: 3px solid var(--signal); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  box-shadow: 0 0 0 12px rgba(143,209,141,.10), 0 0 0 26px rgba(143,209,141,.05), 0 24px 40px -18px rgba(0,0,0,.6); }
+#hubcore b { font-family: var(--display); font-weight: 800; font-stretch: 114%; font-size: 46px; letter-spacing: -.03em; color: var(--ink); line-height: 1; }
+#hubcore .label { font-size: 12px; letter-spacing: .16em; }
+#hubcore .label.g { color: var(--signal); }
+.v45 #hubcore { width: 150px; height: 150px; margin: -75px 0 0 -75px; }
+.v45 #hubcore b { font-size: 38px; }
