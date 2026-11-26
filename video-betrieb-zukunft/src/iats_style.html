@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>IATS – Style-Frames</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="video.css">
+<link rel="stylesheet" href="iats.css">
+<style>
+  .topbar { position: absolute; top: 34px; left: 96px; right: 96px; height: 40px; display: flex; align-items: center; z-index: 75; }
+  .topbar .brand { display: flex; align-items: center; gap: 14px; }
+  .topbar .brand img { width: 40px; height: 40px; }
+  .topbar .chap { position: absolute; left: 876px; }
+  .topbar .chap i { display: inline-block; width: 9px; height: 9px; background: var(--signal); margin-right: 12px; transform: translateY(-1px); }
+  .night .topbar .chap i { background: var(--signal-hi); }
+  .topbar .url { margin-left: auto; }
+  .persp { position: absolute; inset: 0; perspective: 2400px; perspective-origin: 36% 50%; }
+  .night .brand img { filter: brightness(0) invert(1); opacity: .9; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage"></div>
+<script>
+const P = new URLSearchParams(location.search), F = P.get('f') || 'a';
+const NS = 'http://www.w3.org/2000/svg';
+const ICON = {
+  dashboard: 'M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z',
+  ki: 'M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z',
+  inbox: 'M22 12h-6l-2 3h-4l-2-3H2M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z',
+  user: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
+  users: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75',
+  zap: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z',
+  sales: 'M22 7l-8.5 8.5-5-5L2 17M16 7h6v6',
+  building: 'M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18zM6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2M10 6h4M10 10h4M10 14h4M10 18h4',
+  contact: 'M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM16 16a4 4 0 0 0-8 0M12 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z',
+  brief: 'M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16M4 6h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z',
+  mail: 'M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM22 6l-10 7L2 6',
+  msg: 'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z',
+  task: 'M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11',
+  search: 'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3',
+  bell: 'M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0',
+  menu: 'M3 6h18M3 12h18M3 18h18',
+  pin: 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0zM12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
+  cal: 'M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM16 2v4M8 2v4M3 10h18',
+};
+const ic = (n, col) => `<svg viewBox="0 0 24 24" fill="none" stroke="${col || 'currentColor'}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="${ICON[n]}"/></svg>`;
+const el = (html) => { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstChild; };
+const stage = document.getElementById('stage');
+const night = F === 'b';
+stage.classList.toggle('night', night);
+
+// background + grid
+stage.appendChild(el(night ? '<div class="nightbg"><div class="pg"></div></div>' : '<div class="paperbg"></div>'));
+if (!night) {
+  const g = el('<div id="grid"></div>'); stage.appendChild(g);
+  for (let i = 0; i <= 12; i++) { const x = i < 12 ? 96 + i * 146 : 1824; g.appendChild(el(`<div class="v${i === 0 || i === 12 ? ' m' : ''}" style="left:${x}px"></div>`)); }
+  [236, 900].forEach(y => g.appendChild(el(`<div class="h" style="top:${y}px"></div>`)));
+}
+[[96, 236], [1824, 236], [96, 900], [1824, 900]].forEach(([x, y]) => stage.appendChild(el(`<div class="cross" style="left:${x}px;top:${y}px"></div>`)));
+stage.appendChild(el(`<div class="topbar">
+  <div class="brand"><img src="../assets/logo-alpha.png" alt=""><span class="label"><b>IATS</b> · von Betrieb Zukunft</span></div>
+  <div class="chap label"><i></i>${night ? '<b>Kür</b> · Highlight 01 / 05' : '<b>Pflichtprogramm</b> · 01 / 06'}</div>
+  <div class="url label">betrieb-zukunft.de</div></div>`));
+
+// sidebar of the ATS window
+function sidebar(active) {
+  const items = [['dashboard', 'Dashboard'], ['ki', 'KI-Center'], 0, ['inbox', 'Bewerbungen', '48'], ['user', 'Kandidaten'], ['users', 'Mitarbeiter'], ['zap', 'Matching'], 0,
+    ['sales', 'Sales'], ['building', 'Unternehmen'], ['contact', 'Ansprechpartner'], ['brief', 'Vakanzen'], ['mail', 'Mailings'], 0, ['msg', 'Kommunikation', '', '6'], ['task', 'Aufgaben']];
+  const col = { inbox: '#f2c06b', user: '#8fa6ff', users: '#8fa6ff', zap: '#b59cf7', sales: '#6fd3a1', building: '#6fd3a1', contact: '#6fd3a1', brief: '#6fd3a1', mail: '#6fd3a1' };
+  return `<div class="sb"><div class="brand">IATS</div>${items.map(it => it === 0 ? '<div class="sep"></div>' :
+    `<div class="nv${it[1] === active ? ' on' : ''}">${ic(it[0], col[it[0]])}<span>${it[1]}</span>${it[2] ? `<span class="n">${it[2]}</span>` : ''}${it[3] ? `<span class="badge">${it[3]}</span>` : ''}</div>`).join('')}</div>`;
+}
+function topbar(title, col) {
+  return `<div class="tb">${ic('menu', '#6b7280').replace('<svg', '<svg style="width:20px;height:20px"')}
+    <div class="pt"><i style="background:${col}"></i>${title}</div>
+    <div class="srch">${ic('search')}Im ATS suchen – Name, Firma, Telefon, PLZ …</div>
+    <div style="margin-left:auto;display:flex;gap:9px">
+      <div class="ic" style="background:#f1f2f5;color:#6b7280">${ic('bell')}</div>
+      <div class="ic" style="background:#e7f6ee;color:#18704a">S</div>
+      <div class="ic" style="background:#3b5bdb;color:#fff">${ic('ki', '#fff')}</div></div></div>`;
+}
+function caption(words, on, now) {
+  return `<div class="cap">${words.split(' ').map((w, i) => `<span class="${i < on ? 'on' : ''}${i === now ? ' now' : ''}">${w}</span>`).join(' ')}</div>`;
+}
+
+if (!night) {
+  /* ---------------- Frame A: Pflichtprogramm – Bewerbungen aus allen Portalen ---------------- */
+  stage.appendChild(el(`<div class="ncol"><div class="num"><b>01</b> — Bewerbungen</div>
+    <div class="title">Aus allen<br><em>Portalen.</em></div><div class="rule"></div>
+    <div class="sub">Jede Bewerbung landet mit Quelle im Board – automatisch an die richtige Niederlassung.</div></div>`));
+  const cards = {
+    'Neu': [['JP', 'Jonas Petersen', 'Staplerfahrer', '21073 Hamburg-Harburg', 'Indeed', 'gerade eben', 'land'],
+            ['AK', 'Aylin Kaya', 'Kommissioniererin', '22117 Hamburg-Billstedt', 'StepStone', 'vor 6 Min'],
+            ['MN', 'Marek Nowak', 'Lagerhelfer', '21029 Hamburg-Bergedorf', 'Arbeitsagentur', 'vor 14 Min'],
+            ['LS', 'Lea Schubert', 'Produktionshelferin', '22041 Hamburg-Wandsbek', 'Kleinanzeigen', 'vor 31 Min']],
+    'In Prüfung': [['DV', 'Dennis Vogt', 'Fachlagerist', '22525 Hamburg-Stellingen', 'Meta', 'vor 1 Std'],
+                   ['SR', 'Sofia Rossi', 'Reinigungskraft', '22305 Hamburg-Barmbek', 'Stellenseite', 'vor 2 Std']],
+    'Kontaktiert': [['TA', 'Tim Albers', 'Elektriker', '25421 Pinneberg', 'WhatsApp-Bot', 'gestern'],
+                    ['NH', 'Nadia Haddad', 'Verkäuferin', '22767 Hamburg-Altona', 'Indeed', 'gestern'],
+                    ['PW', 'Paul Weber', 'Maler', '22880 Wedel', 'StepStone', 'gestern']],
+    'Kandidat übernehmen': [['OJ', 'Ole Jensen', 'Schweißer', '21129 Hamburg-Finkenwerder', 'Arbeitsagentur', 'Mo']],
+  };
+  const cstyle = { 'Neu': ['#5b7cfa', '#eef1fe', '#dfe6fe', '#2f4fd6', 12], 'In Prüfung': ['#e0a33b', '#fdf6ea', '#fbe9c8', '#8a5b00', 5],
+    'Kontaktiert': ['#8b6cf0', '#f4f0fe', '#e6defd', '#5b3fc4', 9], 'Kandidat übernehmen': ['#1f9d55', '#ebf7f1', '#d0eedf', '#1e7a46', 3] };
+  const board = Object.entries(cards).map(([name, list]) => { const s = cstyle[name];
+    return `<div class="col" style="background:${s[1]}"><h4><i style="background:${s[0]}"></i>${name}<span class="cnt" style="background:${s[2]};color:${s[3]}">${s[4]}</span></h4>${list.map(c =>
+      `<div class="bc${c[6] ? ' land' : ''}">${c[6] ? '<span class="neu">NEU</span>' : ''}<div class="r1"><div class="av" style="background:${s[2]};color:${s[3]}">${c[0]}</div><div><div class="nm">${c[1]}</div><div class="bf">${c[2]}</div></div></div>
+       <div class="ort">${ic('pin')}${c[3]}</div><div class="ft"><span class="q">${c[4]}</span><span class="t">${c[5]}</span></div></div>`).join('')}</div>`; }).join('');
+  const persp = el('<div class="persp"></div>'); stage.appendChild(persp);
+  persp.appendChild(el(`<div class="win" style="left:690px;top:206px;width:1300px;height:700px;transform-origin:0 50%;transform:rotateY(14deg) rotateX(-2deg)">
+    ${sidebar('Bewerbungen')}${topbar('Bewerbungen', '#d48a14')}
+    <div class="main"><div class="frow"><div class="inp" style="width:250px">Bewerber oder Beruf suchen</div><span class="lbl">Quelle:</span><div class="inp" style="width:130px;color:#16181d">Alle</div>
+      <span class="lbl">NL:</span><div class="inp" style="width:120px;color:#16181d">Harburg</div><span style="margin-left:auto" class="lbl">48 Bewerbungen</span><span class="btn">+ Bewerbung</span></div>
+      <div class="board">${board}</div></div></div>`));
+  // portal chips on three depths, flying right → left into the "Neu" column
+  const chips = [
+    ['Indeed', 905, 268, 'mid', 0],            // just landed (its card glows)
+    ['StepStone', 1290, 128, 'mid', 170],
+    ['Kleinanzeigen', 1600, 150, 'far', 0],
+    ['Meta', 1770, 430, 'far', 0],
+    ['Ihre Stellenseite', 1640, 600, 'mid', 120],
+    ['WhatsApp-Bot', 1650, 770, 'far', 0],
+    ['Bundesagentur für Arbeit', 1310, 874, 'near', 240],
+  ];
+  chips.slice(1).forEach(([t, x, y, d, tr]) => {
+    if (tr) stage.appendChild(el(`<div class="trail" style="left:${x + 40}px;top:${y + 28}px;width:${tr}px;transform:scaleX(-1);transform-origin:0 50%"></div>`));
+    stage.appendChild(el(`<div class="pchip ${d}" style="left:${x}px;top:${y}px"><i></i>${t}</div>`));
+  });
+  stage.appendChild(el(caption('Bewerbungen aus allen Portalen – von Indeed bis zur Arbeitsagentur.', 4, 3)));
+} else {
+  /* ---------------- Frame B: Kür – KI-Assistent, approval card ---------------- */
+  stage.appendChild(el(`<div class="ncol"><div class="num"><b>01</b> — KI-Assistent</div>
+    <div class="title">Sie sprechen.<br><em>Er erledigt.</em></div><div class="rule"></div>
+    <div class="sub">Sucht, matcht, plant Termine, schreibt Nachrichten – mit Ihren Vorlagen.</div></div>`));
+  const persp = el('<div class="persp"></div>'); stage.appendChild(persp);
+  const win = el(`<div class="win dark" style="left:676px;top:200px;width:1330px;height:712px;transform-origin:0 50%;transform:rotateY(12deg) rotateX(-2deg)">
+    ${topbar('KI-Center', '#3b5bdb').replace('class="tb"', 'class="tb" style="left:0"')}
+    <div class="ls"><div class="lp"><div class="hd"><b>Sprachassistenz</b><span>Beenden</span></div>
+      <div class="orbbox"><svg id="orb" viewBox="0 0 190 190" width="190" height="190"></svg></div>
+      <div class="phase">Ich höre zu</div><div class="hint">Sprich einfach – ich lege dir alles auf die Bühne.</div>
+      <div class="msgs"><div class="bub u">Such mir Staplerfahrer mit Schein in Harburg.</div>
+        <div class="bub a">Drei passen. Jonas Petersen hat 91 % – soll ich ihn zum VG am Donnerstag einladen?</div>
+        <div class="bub live">„Ja, schick ihm die Einladung.“</div></div></div>
+      <div class="stg"><div class="sh">Bühne <span>4 Karten</span></div></div></div></div>`);
+  persp.appendChild(win);
+  const stg = win.querySelector('.stg');
+  const kand = (x, y, n, s, p, ort, schein) => `<div class="lk" style="left:${x}px;top:${y}px"><div class="kh"><div class="ki" style="background:rgba(143,166,255,.18);color:#8fa6ff">${ic('user')}</div>
+    <div><div class="kw" style="color:#8fa6ff">Kandidat</div><div class="kt">${n}</div><div class="ku">Staplerfahrer · ${ort}</div></div></div>
+    <div class="kb"><span class="st" style="background:rgba(111,211,161,.18);color:#6fd3a1">${s}</span><dl><dt>Match</dt><dd>${p} %</dd><dt>Scheine</dt><dd>${schein}</dd></dl>
+    <div class="bt"><span class="h">In den Fokus</span><span>Passende Vakanzen</span></div></div></div>`;
+  stg.insertAdjacentHTML('beforeend', kand(18, 64, 'Jonas Petersen', 'Verfügbarer Kandidat', 91, 'Harburg', 'Stapler, Schubmast') + kand(300, 64, 'Aylin Kaya', 'Top Kandidat', 86, 'Wilhelmsburg', 'Stapler')
+    + kand(582, 64, 'Marek Nowak', 'Bewerberpool', 82, 'Neugraben', 'Stapler'));
+  stg.insertAdjacentHTML('beforeend', `<div class="lk" style="left:18px;top:300px"><div class="kh"><div class="ki" style="background:rgba(242,192,107,.18);color:#f2c06b">${ic('cal')}</div>
+    <div><div class="kw" style="color:#f2c06b">Termin</div><div class="kt">VG · Do, 10:30 Uhr</div><div class="ku">Jonas Petersen · Harburg</div></div></div>
+    <div class="kb"><dl><dt>Kalender</dt><dd>Outlook ✓</dd><dt>Erinnerung</dt><dd>1 Tag vorher</dd></dl></div></div>`);
+  // approval card breaks out of the window (front layer)
+  stage.appendChild(el(`<div class="fg" style="left:1090px;top:452px;transform:rotate(-1.5deg)">
+    <div class="fh"><span class="k">Freigabe nötig</span><span class="w"><i></i>WhatsApp</span></div>
+    <div class="fb"><div class="ft2">Nachricht an Jonas Petersen</div>
+      <div><div class="fl">Vorlage</div><div class="sel"><span>VG-Einladung</span><span style="color:#6f7795">▾</span></div></div>
+      <div><div class="fl">Text</div><div class="txt">Hallo Jonas, danke für deine Bewerbung als Staplerfahrer! Passt dir <b>Donnerstag, 10:30 Uhr</b> für ein kurzes Kennenlernen in unserer Niederlassung Harburg? Viele Grüße, Sarah</div></div>
+      <div class="acts"><span class="ja">Ausführen</span><span class="nein">Abbrechen</span></div></div></div>`));
+  stage.appendChild(el(`<svg class="cursor" style="left:1168px;top:792px" viewBox="0 0 24 24"><path d="M4 2l16 9.2-7 1.6 4.2 7.4-3 1.6-4.1-7.4L4 19z" fill="#fff" stroke="#111" stroke-width="1.3" stroke-linejoin="round"/></svg>`));
+  stage.appendChild(el(caption('Raus geht erst, was Sie freigeben.', 6, 5)));
+  // listening orb: wavy concentric rings + glowing core (green = "Ich höre zu")
+  const orb = document.getElementById('orb');
+  orb.innerHTML = `<defs><radialGradient id="glow"><stop offset="0" stop-color="#6fd3a1" stop-opacity=".55"/><stop offset="1" stop-color="#6fd3a1" stop-opacity="0"/></radialGradient>
+    <radialGradient id="core" cx=".38" cy=".35"><stop offset="0" stop-color="#e9fff2"/><stop offset=".45" stop-color="#8fe3b6"/><stop offset="1" stop-color="#2f9a68"/></radialGradient></defs>
+    <circle cx="95" cy="95" r="92" fill="url(#glow)"/>`;
+  for (let k = 0; k < 5; k++) {
+    const r0 = 30 + k * 12, amp = 2.2 + k * 1.3, n = 5 + (k % 3), ph = k * 1.1; let d = '';
+    for (let i = 0; i <= 120; i++) { const t = i / 120 * Math.PI * 2, r = r0 + amp * Math.sin(n * t + ph) + amp * .5 * Math.sin((n + 2) * t - ph);
+      d += (i ? 'L' : 'M') + (95 + r * Math.cos(t)).toFixed(2) + ' ' + (95 + r * Math.sin(t)).toFixed(2); }
+    orb.insertAdjacentHTML('beforeend', `<path d="${d}Z" fill="none" stroke="#6fd3a1" stroke-opacity="${.85 - k * .14}" stroke-width="1.4"/>`);
+  }
+  orb.insertAdjacentHTML('beforeend', '<circle cx="95" cy="95" r="20" fill="url(#core)"/>');
+}
+stage.appendChild(el('<div class="vignette"></div>'));
+stage.appendChild(el('<div class="grain"></div>'));
+stage.appendChild(el('<div class="grain light"></div>'));
+window.__ready = true;
+</script>
+</body>
+</html>
