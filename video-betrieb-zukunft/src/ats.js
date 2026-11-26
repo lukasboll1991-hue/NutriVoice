@@ -486,7 +486,7 @@ tl.to(['#mp1', '#mp2', '#mp3'], { y: -1150, duration: 0.42, ease: 'power3.in', s
 
 /* S6 feature list + stamp, then the curtain */
 const A = w('alles');
-vis('#s6', A - 0.23, A + 1.85);
+vis('#s6', A - 0.23, w('jetzt') + 0.12);
 tl.fromTo('#fl1', { y: PORT ? 1400 : 1180 }, { y: PORT ? (FMT === '916' ? -100 : -260) : -880, duration: 1.15, ease: 'power3.out' }, A - 0.2);
 tl.fromTo('#fl2', { y: PORT ? 1700 : 1500 }, { y: PORT ? (FMT === '916' ? 0 : -150) : -560, duration: 1.4, ease: 'power3.out' }, A - 0.2);
 tl.fromTo(['#fl1', '#fl2'], { filter: 'blur(7px)' }, { filter: 'blur(0px)', duration: 0.6, ease: 'power2.out' }, A - 0.05);
@@ -512,7 +512,7 @@ sfx(w('ein') - 0.42, 'whoosh_pop', 0.3);
 
 /* H1 KI-Assistent */
 const F = w('freigeben');
-vis('#h1', w('ein') - 0.4, CUT ? w('ihr') - 0.2 : F + 0.962);
+vis('#h1', w('ein') - 0.4, CUT ? w('ihr') - 0.1 : F + 0.962);
 tl.set('#orbbox', { opacity: 0 }, 0); tl.set('#orbbox', { opacity: 1 }, w('ein') + 0.2);
 tl.fromTo('#h1-win', { x: 260, opacity: 0, rotationY: 24 }, { x: 0, opacity: 1, rotationY: 12, duration: 0.9 }, w('ein') - 0.12);
 ncol('#nh1', w('ein') + 0.12, w('sprechen'));
@@ -593,6 +593,7 @@ $$('#mapsvg .route').forEach((p, k) => tl.to(p, { strokeDashoffset: 0, duration:
 tl.to('#h3-move', { x: -1500, duration: 0.6, ease: 'power3.inOut' }, w('vorstellungsgespräch') - 0.32);
 sfx(w('vorstellungsgespräch') - 0.32, 'whoosh', 0.35, -0.3);
 fadeOut('#nh3', w('vorstellungsgespräch') - 0.4, 0.22);
+if (PORT) tl.to('#map', { x: -1300, duration: 0.6, ease: 'power3.inOut' }, w('vorstellungsgespräch') - 0.32);
 
 /* H4 tablet */
 vis('#h4', w('vorstellungsgespräch') - 0.35, 54.6);
