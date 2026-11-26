@@ -1,4 +1,4 @@
-"""Music, sound effects and voice for the ATS spot: python3 audio/ats_audio.py main|pitch
+"""Music, sound effects and voice for the ATS spot: python3 audio/ats_audio.py main|pitch|cut30
 
 Same palette as the earlier spots (audio/synth.py), on the 118 BPM grid of ats_timing.json:
 tension under the hook, a driving groove through the "Pflichtprogramm", riser and stamp,
@@ -75,20 +75,31 @@ def button(b, tail_to):
     add(keys, piano_chord('F', 1.3), beat(b), 1.0)
     add(bass, bass_note(mtof(m('F2')), min(1.6, tail_to - beat(b))), beat(b), 0.7)
 
-END_B = 120
-tension(0, 8)                                   # hook
-add(fx, crash(1.8), beat(8), 0.6); add(fx, sub_boom(1.0, 52, 34), beat(8), 0.3)
-groove(8, 24, full=False)                       # Pflichtprogramm, lighter
-add(fx, crash(1.4), beat(24), 0.4)
-groove(24, 41, full=True)                       # Pflichtprogramm, full
-build_into(41, 45)                              # "Alles drin." – riser + roll
-hit(45, 'F', 1.0)                               # drop on "Kür"
-kick_at(45, 1.0); add(pads, pad_chord('F', SPB * 2, bright=1.0), beat(45), 1.0)
-groove(47, 63, ('F', 'C', 'Dm', 'Bb'))          # H1 KI-Assistent
-for b in (64, 80, 90, 106):                     # accents at highlights 2–5
-    add(fx, crash(1.6), beat(b), 0.42); add(fx, sub_boom(0.8, 60, 40), beat(b), 0.18)
-groove(63, 117, ('Bb', 'C', 'F', 'Dm'))
-build_into(117, END_B, roll=False)
+if SPOT == 'cut30':                             # 30 s: Kür on beat 23, KI-Assistent from 25, end card on 45
+    END_B = 45
+    tension(0, 8)
+    add(fx, crash(1.8), beat(8), 0.6); add(fx, sub_boom(1.0, 52, 34), beat(8), 0.3)
+    groove(8, 19, full=False)                   # portals
+    build_into(19, 23)                          # "Alles drin." – riser + roll
+    hit(23, 'F', 1.0)                           # drop on "Kür"
+    kick_at(23, 1.0); add(pads, pad_chord('F', SPB * 2, bright=1.0), beat(23), 1.0)
+    groove(25, 43, ('F', 'C', 'Dm', 'Bb'))      # KI-Assistent
+    build_into(43, END_B, roll=False)
+else:
+    END_B = 120
+    tension(0, 8)                               # hook
+    add(fx, crash(1.8), beat(8), 0.6); add(fx, sub_boom(1.0, 52, 34), beat(8), 0.3)
+    groove(8, 24, full=False)                   # Pflichtprogramm, lighter
+    add(fx, crash(1.4), beat(24), 0.4)
+    groove(24, 41, full=True)                   # Pflichtprogramm, full
+    build_into(41, 45)                          # "Alles drin." – riser + roll
+    hit(45, 'F', 1.0)                           # drop on "Kür"
+    kick_at(45, 1.0); add(pads, pad_chord('F', SPB * 2, bright=1.0), beat(45), 1.0)
+    groove(47, 63, ('F', 'C', 'Dm', 'Bb'))      # H1 KI-Assistent
+    for b in (64, 80, 90, 106):                 # accents at highlights 2–5
+        add(fx, crash(1.6), beat(b), 0.42); add(fx, sub_boom(0.8, 60, 40), beat(b), 0.18)
+    groove(63, 117, ('Bb', 'C', 'F', 'Dm'))
+    build_into(117, END_B, roll=False)
 button(END_B, DUR)
 for s in range(int((DUR - beat(END_B) - 1.2) / (SPB / 2))):   # soft arpeggio under the end card
     f = mtof(m(['F4', 'A4', 'C5', 'A4', 'G4', 'C5'][s % 6]))

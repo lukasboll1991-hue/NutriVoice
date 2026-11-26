@@ -1,4 +1,4 @@
-"""Timing for the ATS feature spot (main 69.5 s, plus variants).
+"""Timing for the ATS feature spot (main 69.5 s, sales-meeting 66.5 s, short cut 30 s).
 
 Voice: ElevenLabs take A (Theo), with the spoken "I-A-T-S" already cut out
 (assets/audio_iats/theo_ats_A.wav). The take is cut into four segments at
@@ -20,6 +20,10 @@ SEG = {  # source ranges (s) in the take, cut at mid-silence
     'H': (22.59, 59.34),  # five highlights
     'E1': (59.34, 63.05), # "Ihr eigenes ATS – angepasst an Ihren Betrieb."
     'E2': (63.05, 65.81), # "Jetzt kostenloses Erstgespräch vereinbaren."
+    # short cut (30 s): hook + Pflicht + portals, "Alles drin. Jetzt die Kür.", KI-Assistent, end
+    'P1': (0.00, 9.79),
+    'AK': (20.38, 22.59),
+    'H1': (22.59, 31.77),
 }
 def src_of(word, n=1):
     k = 0
@@ -64,12 +68,17 @@ PH_MAIN = [
     ('', 'Und Mailings, deren Antworten sich selbst sortieren.'),
     ('end', 'Ihr eigenes ATS – angepasst an Ihren Betrieb.'),
 ]
+CTA = ('end', 'Jetzt kostenloses Erstgespräch vereinbaren.')
+E1_30 = at('E1', 59.60, beat(45))
 SPOTS = {
     # advert: with the call to action
-    'main': {'dur': 69.5, 'segs': ['P', 'K', 'H', 'E1', 'E2'],
-             'phrases': PH_MAIN + [('end', 'Jetzt kostenloses Erstgespräch vereinbaren.')]},
+    'main': {'dur': 69.5, 'segs': [(k, PL[k]) for k in ['P', 'K', 'H', 'E1', 'E2']], 'phrases': PH_MAIN + [CTA]},
     # sales meeting: same film, no call to action
-    'pitch': {'dur': 66.5, 'segs': ['P', 'K', 'H', 'E1'], 'phrases': PH_MAIN},
+    'pitch': {'dur': 66.5, 'segs': [(k, PL[k]) for k in ['P', 'K', 'H', 'E1']], 'phrases': PH_MAIN},
+    # YouTube short cut: "Kür" on beat 23, "Ein KI-Assistent" on 25, "Ihr eigenes ATS" on 45
+    'cut30': {'dur': 30.0, 'segs': [('P1', 0.05), ('AK', at('AK', src_of('kür'), beat(23))), ('H1', at('H1', 22.76, beat(25))),
+                                    ('E1', E1_30), ('E2', round(E1_30 + SEG['E2'][0] - SEG['E1'][0], 3))],
+              'phrases': PH_MAIN[:4] + [PH_MAIN[8], PH_MAIN[9], PH_MAIN[10], PH_MAIN[11], PH_MAIN[12], PH_MAIN[-1], CTA]},
 }
 
 # voice envelope at 30 fps (for the listening orb and the recording waveform)
@@ -80,8 +89,8 @@ VO = np.frombuffer(raw, dtype=np.float32)
 out = {'spb': SPB, 'vo_file': VO_FILE, 'kuer': KUER, 'h_on': H_ON, 'end_on': END_ON, 'spots': {}}
 for key, sp in SPOTS.items():
     words = []
-    for seg in sp['segs']:
-        a, b = SEG[seg]; v = PL[seg]
+    for seg, v in sp['segs']:
+        a, b = SEG[seg]
         for x in WORDS:
             if a <= x['s'] < b: words.append((round(v + x['s'] - a, 3), round(v + x['e'] - a, 3), x['w']))
     chars = []
@@ -110,15 +119,15 @@ for key, sp in SPOTS.items():
     # envelope of the placed voice, 30 fps, 0..1
     nf = int(sp['dur'] * 30) + 1
     env = np.zeros(nf)
-    for seg in sp['segs']:
-        a, b = SEG[seg]; v = PL[seg]
+    for seg, v in sp['segs']:
+        a, b = SEG[seg]
         for f in range(nf):
             t = f / 30
             if v <= t < v + (b - a):
                 i = int((a + t - v) * 24000); blk = VO[max(0, i - 400):i + 400]
                 if len(blk): env[f] = max(env[f], float(np.sqrt(np.mean(blk ** 2))))
     env = np.clip(env / (np.percentile(env[env > 0], 95) if (env > 0).any() else 1), 0, 1)
-    out['spots'][key] = {'dur': sp['dur'], 'segs': [[seg, SEG[seg][0], SEG[seg][1], PL[seg]] for seg in sp['segs']],
+    out['spots'][key] = {'dur': sp['dur'], 'segs': [[seg, SEG[seg][0], SEG[seg][1], v] for seg, v in sp['segs']],
                          'captions': caps, 'w': W, 'env': [round(x, 3) for x in env]}
     print(key, 'last word', words[-1], 'dur', sp['dur'])
 print('Kür', KUER, 'H', H_ON, 'End', END_ON, {k: round(v, 3) for k, v in PL.items()})

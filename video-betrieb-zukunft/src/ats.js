@@ -1,5 +1,8 @@
 /* ATS feature spot – "Erst das Pflichtprogramm, dann die Kür."
- * ?spot=main (advert, with call to action) | pitch (sales meeting, without).
+ * ?spot=main (advert, with call to action) | pitch (sales meeting, without) | cut30 (YouTube short cut).
+ * ?f=169 (default) | 45 (LinkedIn 1080×1350) | 916 (Shorts 1080×1920). Portrait: the interface parts of every scene stay
+ * in a 1920×1080 canvas that is scaled into the lower part of a 1080×1350 block; titles move to a text layer above it,
+ * full-frame masks (wipes, cells, curtains) to a layer the size of the frame. 9:16 = the 4:5 block 250 px down.
  * All text, numbers and interface are built here from code; one paused GSAP timeline, window.__seek(t).
  * Interface look = the ATS (lib/design.tsx of the ATS); all people, companies and numbers are invented. */
 (function () {
@@ -8,7 +11,14 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const Q = new URLSearchParams(location.search);
 const SPOT = Q.get('spot') || 'main';
 const SP = AT.spots[SPOT], W = SP.w, CAP = SP.captions, DUR = SP.dur, ENV = SP.env;
-const CTA = SPOT === 'main';
+const CTA = SPOT === 'main' || SPOT === 'cut30';
+const CUT = SPOT === 'cut30';
+const FMT = Q.get('f') || '169';
+const PORT = FMT !== '169';
+const SW = PORT ? 1080 : 1920, SH = FMT === '45' ? 1350 : FMT === '916' ? 1920 : 1080;
+const OY = FMT === '916' ? 250 : 0;
+const K = PORT ? 0.78 : 1, X0 = PORT ? 40 - 620 * K : 0, Y0 = PORT ? 520 - 130 * K : 0;   // canvas → block
+if (PORT) document.documentElement.classList.add('portrait', 'f' + FMT);
 const SFX = [];
 const sfx = (t, name, g = 1, pan = 0, p = 1) => SFX.push({ t: +(+t).toFixed(3), name, g, pan, p });
 const rnd = s => { const x = Math.sin(s * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
@@ -78,7 +88,8 @@ scene('s0', `<div id="hk-label" class="label"><b>Für Personaldienstleister</b><
   <div class="persp">${winHTML('hk-win', 'left:1180px;top:170px;width:1240px;height:740px', sidebar('Kandidaten') + topUI('Kandidaten-Pipeline', '#4c6ef5') +
     `<div class="main">${board([['Neuer Kandidat', 'blau', 10, [{ i: 'LS', n: 'Lea Schubert', b: 'Produktionshelferin', o: '22041 Hamburg-Wandsbek' }, { i: 'TA', n: 'Tim Albers', b: 'Elektriker', o: '25421 Pinneberg' }]],
       ['Bewerberpool', 'lila', 4, [{ i: 'NH', n: 'Nadia Haddad', b: 'Verkäuferin', o: '22767 Hamburg-Altona' }]], ['Vorstellungsgespräch', 'tuerkis', 5, [{ i: 'JP', n: 'Jonas Petersen', b: 'Staplerfahrer', o: '21073 Hamburg-Harburg' }]]])}</div>`)}</div>`);
-[0, 1, 2].forEach(i => $('#s0').appendChild(el(`<div class="wipecol" id="wc${i}" style="left:${i * 640}px;width:641px"></div>`)));
+const wipeCols = (s, p) => [0, 1, 2].forEach(i => $(s).appendChild(el(`<div class="wipecol" id="${p}${i}" style="left:${i * SW / 3}px;width:${SW / 3 + 1}px;height:${SH}px"></div>`)));
+wipeCols('#s0', 'wc');
 
 // 01 portals
 const BW_CARDS = {
@@ -103,6 +114,7 @@ const PCH = [['StepStone', 1290, 128, 'mid', 6.0], ['Kleinanzeigen', 1600, 150, 
   ['WhatsApp-Bot', 1650, 770, 'far', 6.88], ['Bundesagentur für Arbeit', 1310, 874, 'near', null]];
 PCH.forEach(([t, x, y, d], i) => $('#s1').appendChild(el(`<div class="pchip ${d}" id="pc${i}" style="left:${x}px;top:${y}px"><i></i>${t}</div>`)));
 $('#s1').appendChild(el(`<div class="pchip mid" id="pc-indeed" style="left:1500px;top:330px"><i></i>Indeed</div>`));
+wipeCols('#s1', 'wd');
 
 // 02 CV
 scene('s2', `<div class="ncol" id="n2"><div class="num"><b>02</b> — Lebenslauf</div><div class="title"><span class="m"><span>Lebenslauf rein.</span></span><span class="m"><span><em>Profil fertig.</em></span></span></div><div class="rule"></div>
@@ -115,9 +127,11 @@ scene('s2', `<div class="ncol" id="n2"><div class="num"><b>02</b> — Lebenslauf
     <div class="ok" id="pf-ok">✓ Aus Lebenslauf übernommen</div><div class="scanline" id="scan" style="left:0;width:690px;top:0"></div></div>
   <div class="sheet" id="s2-sheet" style="left:700px;top:250px"><span class="file">PDF</span><h5>Lebenslauf</h5><h3>Jonas Petersen</h3>
     ${[1, 1, .8, 0, 1, .9, 1, .7, 0, 1, .85, 1, .6].map(x => x ? `<div class="ln" style="width:${x * 100}%"></div>` : '<div class="ln b"></div>').join('')}</div>`);
-for (let r = 0; r < 6; r++) for (let c = 0; c < 12; c++) $('#s2').appendChild(el(`<div class="cell" style="position:absolute;left:${c * 160}px;top:${r * 180}px;width:161px;height:181px;background:#052835;z-index:80;transform:scale(0)"></div>`));
+const CC = PORT ? 6 : 12, CR = PORT ? Math.round(SH / 170) : 6, CWD = SW / CC, CHT = SH / CR;
+const cellGrid = (s, cls, sc) => { for (let r = 0; r < CR; r++) for (let c = 0; c < CC; c++) $(s).appendChild(el(`<div class="${cls}" style="position:absolute;left:${c * CWD}px;top:${r * CHT}px;width:${CWD + 1}px;height:${CHT + 1}px;background:#052835;z-index:80;transform:scale(${sc})"></div>`)); };
+cellGrid('#s2', 'cell', 0);
 
-// 03 overview: three boards fanned
+// 03 overview: three boards fanned (its cell mask is added after the markup)
 scene('s3', `<div class="ncol" id="n3"><div class="num"><b>03</b> — Überblick</div><div class="title"><span class="m"><span>Alles auf</span></span><span class="m"><span><em>einen Blick.</em></span></span></div><div class="rule"></div>
     <div class="sub">Kandidaten, Kunden und Vakanzen – jeweils als Board zum Ziehen.</div></div>
   <div id="s3-cam" class="abs" style="inset:0">
@@ -202,6 +216,7 @@ scene('h1', `<div class="ncol" id="nh1"><div class="num"><b>01</b> — KI-Assist
       <div><div class="fl">Text</div><div class="txt" id="fg-txt" style="min-height:96px"></div></div>
       <div class="acts"><span class="ja" id="fg-ja">Ausführen</span><span class="nein">Abbrechen</span></div></div></div>`);
 $('#scenes').appendChild(el(`<div id="flyorb" style="left:0;top:0;visibility:hidden">${ORB_SVG('orb2')}</div>`));
+if (CUT) $('#h1').appendChild(el('<div id="pcurtain"></div>'));
 
 // H2 dashboard
 scene('h2', `<div class="ncol" id="nh2"><div class="num"><b>02</b> — Bewerbungen</div><div class="title"><span class="m"><span>Jede Bewerbung</span></span><span class="m"><span><em>vorbereitet.</em></span></span></div><div class="rule"></div>
@@ -299,16 +314,40 @@ scene('end', `<img id="e-logo" src="../assets/logo-alpha.png" alt=""><div id="e-
   <div id="e-sub">${['Angepasst', 'an', 'Ihren', 'Betrieb.'].map(x => `<span class="m"><span>${x}</span></span>`).join(' ')}</div>
   ${CTA ? '<div id="e-cta"><i>Jetzt</i>Kostenloses Erstgespräch<u>→</u></div>' : '<div id="e-url">betrieb-zukunft.de</div>'}
   <div id="e-recap">${['KI-Assistent', 'Bewerbungen vorbereitet', 'Matching mit Fahrzeit', 'Vorstellungsgespräch am Tablet', 'Telefonlisten & Mailings'].map((x, i) =>
-    `<div class="pchip mid" style="position:absolute;left:${1400 + (i % 2) * 50}px;top:${262 + i * 92}px;height:50px;font-size:20px;padding:0 20px 0 18px;transform:none;filter:none"><i></i>${x}</div>`).join('')}</div>`);
+    `<div class="pchip mid" style="position:absolute;left:${PORT ? 60 + (i % 2) * 46 : 1400 + (i % 2) * 50}px;top:${PORT ? 690 + i * 84 : 262 + i * 92}px;height:50px;font-size:20px;padding:0 20px 0 18px;transform:none;filter:none"><i></i>${x}</div>`).join('')}</div>`);
 
 $('#scenes').appendChild(el('<div id="zoomflash" class="abs" style="inset:0;background:#7c55e0;opacity:0;z-index:70"></div>'));
 
 /* ---------- grid lines (paper) ---------- */
 const grid = $('#grid');
-for (let i = 0; i <= 12; i++) { const x = i < 12 ? 96 + i * 146 : 1824; grid.appendChild(el(`<div class="v${i === 0 || i === 12 ? ' m' : ''}" style="left:${x}px"></div>`)); }
-[236, 900].forEach(y => grid.appendChild(el(`<div class="h" style="top:${y}px"></div>`)));
-[[96, 236], [1824, 236], [96, 900], [1824, 900]].forEach(([x, y]) => grid.appendChild(el(`<div class="cross" style="left:${x}px;top:${y}px"></div>`)));
+const GX = PORT ? [0, 1, 2, 3, 4, 5, 6].map(i => 60 + i * 160) : [...Array(13)].map((_, i) => i < 12 ? 96 + i * 146 : 1824);
+const GY = PORT ? [OY + 130, OY + 1180] : [236, 900];
+GX.forEach((x, i) => grid.appendChild(el(`<div class="v${i === 0 || i === GX.length - 1 ? ' m' : ''}" style="left:${x}px"></div>`)));
+GY.forEach(y => grid.appendChild(el(`<div class="h" style="top:${y}px"></div>`)));
+[[GX[0], GY[0]], [GX[GX.length - 1], GY[0]], [GX[0], GY[1]], [GX[GX.length - 1], GY[1]]].forEach(([x, y]) => grid.appendChild(el(`<div class="cross" style="left:${x}px;top:${y}px"></div>`)));
+cellGrid('#s3', 'cell3', 1.02);
 $('#stage').appendChild(el(`<svg class="cursor" id="cursor" viewBox="0 0 24 24" style="left:0;top:0;opacity:0"><path d="M4 2l16 9.2-7 1.6 4.2 7.4-3 1.6-4.1-7.4L4 19z" fill="#fff" stroke="#111" stroke-width="1.3" stroke-linejoin="round"/></svg>`));
+
+/* ---------- portrait: canvas + text layer + full-frame layer ---------- */
+const TEXT_SEL = { s0: ['#hk-label', '#hk-ats', '#hk-line', '#hk-ul'], s1: ['#s1-big', '#n1'], s2: ['#n2'], s3: ['#n3'], s4: ['#n4'],
+  s6: ['#fl1', '#fl2', '#stamp'], s7: ['#k-small', '#k-big'], h1: ['#nh1'], h2: ['#nh2'], h3: ['#nh3', '#map'], h4: ['#nh4'], h5: ['#nh5'], end: null };
+const FULL_SEL = { s0: ['.wipecol'], s1: ['.wipecol'], s2: ['.cell'], s3: ['.cell3'], s6: ['#curtain'], h1: ['#pcurtain'] };
+if (PORT) {
+  const stage = $('#stage'), blk = el(`<div id="blk" style="top:${OY}px"></div>`), canvas = el(`<div id="canvas" style="transform:translate(${X0}px,${Y0}px) scale(${K})"></div>`);
+  const tlay = el('<div id="tlayer"></div>'), flay = el('<div id="flayer"></div>');
+  canvas.appendChild($('#scenes'));
+  blk.append(canvas, tlay, $('#topbar'), $('#cap'));
+  stage.insertBefore(blk, $('.vignette')); stage.insertBefore(flay, $('.vignette'));
+  $$('#scenes > .scene').forEach(s => {
+    const ts = TEXT_SEL[s.id], kids = ts === null ? [...s.children] : (ts || []).flatMap(q => $$(q, s));
+    if (kids.length) { const t = el(`<div class="scene" id="${s.id}-t"></div>`); kids.forEach(k => t.appendChild(k)); tlay.appendChild(t); }
+    const fk = (FULL_SEL[s.id] || []).flatMap(q => $$(q, s));
+    if (fk.length) { const f = el(`<div class="scene" id="${s.id}-f"></div>`); fk.forEach(k => f.appendChild(k)); flay.appendChild(f); }
+  });
+  flay.append($('#flyorb'), $('#zoomflash'));
+}
+// screen rect → canvas-local rect (identity in 16:9)
+const loc = r => ({ x: (r.x - X0) / K, y: (r.y - OY - Y0) / K, w: r.w / K, h: r.h / K, cx: (r.cx - X0) / K, cy: (r.cy - OY - Y0) / K });
 
 /* ---------- timeline ---------- */
 function build() {
@@ -323,17 +362,22 @@ $$('.scene').forEach(s => { s.style.visibility = 'visible'; });
 $('#draft').textContent = DRAFT;
 const xpH = $('#xp').scrollHeight;
 const M = {
-  jp: RECT('#jp-card'), orb: RECT('#orbbox'), dot: RECT('#k-dot'), fgja: RECT('#fg-ja'), fg: RECT('#fg'), fi0: RECT('#fi0'), target: RECT('#s3-target'),
-  send: RECT('#send'), chip82: RECT('#chip82'), map: RECT('#map'),
-  pr: [0, 1, 2, 3].map(i => RECT('#pr' + i)), h4v: [0, 1, 2, 3].map(i => RECT('#h4v' + i)), card4: RECT('#h4-card'), tl: RECT('#h5-tl'),
-  lanes: [0, 1, 2, 3].map(i => RECT('#ln' + i)), ml: RECT('#h5-ml'),
+  // screen coordinates: flyorb and cursor live on the frame
+  orb: RECT('#orbbox'), dot: RECT('#k-dot'), fgja: RECT('#fg-ja'), send: RECT('#send'),
+  // canvas-local: everything that moves inside the canvas
+  jp: loc(RECT('#jp-card')), fg: loc(RECT('#fg')), fi0: loc(RECT('#fi0')), target: loc(RECT('#s3-target')), chip82: loc(RECT('#chip82')),
+  pr: [0, 1, 2, 3].map(i => loc(RECT('#pr' + i))), h4v: [0, 1, 2, 3].map(i => loc(RECT('#h4v' + i))), card4: loc(RECT('#h4-card')), tl: loc(RECT('#h5-tl')),
+  lanes: [0, 1, 2, 3].map(i => loc(RECT('#ln' + i))), ml: loc(RECT('#h5-ml')),
 };
 $$('.scene').forEach(s => { s.style.visibility = ''; });
 $('#xp').style.height = '0px';
 $('#draft').textContent = '';
 
 const tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
-const vis = (sel, a, b) => { tl.set(sel, { visibility: 'visible' }, a); if (b !== undefined) tl.set(sel, { visibility: 'hidden' }, b); };
+const vis = (sel, a, b) => {   // portrait: also the scene's twins in the text and full-frame layers
+  const ids = [sel]; if (PORT) ['-t', '-f'].forEach(x => { if ($(sel + x)) ids.push(sel + x); });
+  tl.set(ids, { visibility: 'visible' }, a); if (b !== undefined) tl.set(ids, { visibility: 'hidden' }, b);
+};
 const clipIn = (e, t, d = 0.6) => tl.fromTo(e, { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: d }, t);
 const rise = (els, t, d = 0.7, st = 0.08) => tl.fromTo(els, { yPercent: 115 }, { yPercent: 0, duration: d, stagger: st }, t);
 const pop = (e, t, d = 0.5, from = 0.85) => tl.fromTo(e, { scale: from, opacity: 0 }, { scale: 1, opacity: 1, duration: d, ease: 'back.out(1.7)' }, t);
@@ -360,8 +404,8 @@ tl.to('#hk-win', { x: -60, duration: 2.6, ease: 'none' }, 2.4);
 [0, 1, 2].forEach(i => { tl.fromTo('#wc' + i, { yPercent: -100 }, { yPercent: 0, duration: 0.34, ease: 'power3.in' }, 3.58 + i * 0.06); });
 sfx(3.6, 'whoosh_big', 0.7);
 // S1 is revealed by the same columns moving on down
-vis('#s1', 3.94, 10.4);
-[0, 1, 2].forEach(i => { $('#s1').appendChild(el(`<div class="wipecol" id="wd${i}" style="left:${i * 640}px;width:641px"></div>`)); tl.fromTo('#wd' + i, { yPercent: 0 }, { yPercent: 100, duration: 0.45, ease: 'power3.out' }, 3.97 + i * 0.06); });
+vis('#s1', 3.94, CUT ? w('alles') + 0.35 : 10.4);
+[0, 1, 2].forEach(i => tl.fromTo('#wd' + i, { yPercent: 0 }, { yPercent: 100, duration: 0.45, ease: 'power3.out' }, 3.97 + i * 0.06));
 tl.set(['#wd0', '#wd1', '#wd2'], { visibility: 'hidden' }, 4.7);
 
 /* S1 portals */
@@ -382,8 +426,10 @@ tl.fromTo('#pc-indeed', { x: 700, y: -120, opacity: 0 }, { x: M.jp.cx - 1500 - 6
 tl.to('#pc-indeed', { scale: 0.5, opacity: 0, duration: 0.22, ease: 'power2.in' }, w('indeed') + 0.08);
 pop('#jp-card', w('indeed') + 0.12, 0.5, 0.8); sfx(w('indeed') + 0.12, 'pop', 0.8, -0.2);
 // out: everything drops away, the CV sheet falls in
-fadeOut(['#n1', '#s1-win', ...PCH.map((_, i) => '#pc' + i)], 9.62, 0.35, { y: 40 });
+if (!CUT) fadeOut(['#n1', '#s1-win', ...PCH.map((_, i) => '#pc' + i)], 9.62, 0.35, { y: 40 });
+else { tl.to(['#n1', '#s1-win', ...PCH.map((_, i) => '#pc' + i)], { y: -1250, duration: 0.42, ease: 'power3.in', stagger: 0.02 }, w('alles') - 0.45); sfx(w('alles') - 0.42, 'whoosh', 0.3); }
 
+if (!CUT) {
 /* S2 CV */
 vis('#s2', 9.6, 12.5);
 tl.fromTo('#s2-sheet', { y: -820, rotation: -16 }, { y: 0, rotation: -4, duration: 0.5, ease: 'power2.in' }, 9.58);
@@ -396,12 +442,11 @@ tl.fromTo('#scan', { y: 0, opacity: 1 }, { y: 650, duration: 0.85, ease: 'power1
 $$('#s2-card .fv').forEach((f, i) => { tl.fromTo(f, { opacity: 0, clipPath: 'inset(0% 100% 0% 0%)' }, { opacity: 1, clipPath: 'inset(0% 0% 0% 0%)', duration: 0.45 }, w('profil') + i * 0.075); if (i % 2 === 0) sfx(w('profil') + i * 0.075, 'tick', 0.5); });
 tl.fromTo('#pf-ok', { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4 }, w('profil') + 0.65);
 // cell mask to S3
-const cells = $$('#s2 .cell'), order = cells.map((c, i) => i).sort((a, b) => rnd(a + 5) - rnd(b + 5));
+const cells = $$('.cell'), order = cells.map((c, i) => i).sort((a, b) => rnd(a + 5) - rnd(b + 5));
 order.forEach((ci, k) => tl.fromTo(cells[ci], { scale: 0 }, { scale: 1.02, duration: 0.16, ease: 'power2.in' }, 12.12 + k * 0.0042));
 sfx(12.12, 'whoosh', 0.5, -0.3);
 vis('#s3', 12.44, w('whatsapp'));
-for (let r = 0; r < 6; r++) for (let c = 0; c < 12; c++) $('#s3').appendChild(el(`<div class="cell3" style="position:absolute;left:${c * 160}px;top:${r * 180}px;width:161px;height:181px;background:#052835;z-index:80"></div>`));
-const cells3 = $$('#s3 .cell3');
+const cells3 = $$('.cell3');
 order.forEach((ci, k) => tl.fromTo(cells3[ci], { scale: 1.02 }, { scale: 0, duration: 0.18, ease: 'power2.out' }, 12.46 + k * 0.0042));
 
 /* S3 overview: pull back from one card, the boards fan in */
@@ -437,56 +482,71 @@ $$('#mp2 .ev').forEach((e, i) => pop(e, w('termine') + 0.25 + i * 0.07, 0.35, 0.
 tl.fromTo('#mp3 .bars i', { scaleY: 0 }, { scaleY: 1, duration: 0.6, stagger: 0.06 }, w('controlling') + 0.2);
 tl.to(['#mp1', '#mp2', '#mp3'], { y: -1150, duration: 0.42, ease: 'power3.in', stagger: 0.04 }, 20.42);
 
+}
+
 /* S6 feature list + stamp, then the curtain */
-vis('#s6', 20.42, 22.5);
-tl.fromTo('#fl1', { y: 1180 }, { y: -880, duration: 1.15, ease: 'power3.out' }, 20.45);
-tl.fromTo('#fl2', { y: 1500 }, { y: -560, duration: 1.4, ease: 'power3.out' }, 20.45);
-tl.fromTo(['#fl1', '#fl2'], { filter: 'blur(7px)' }, { filter: 'blur(0px)', duration: 0.6, ease: 'power2.out' }, 20.6);
-sfx(20.45, 'whoosh_big', 0.6);
+const A = w('alles');
+vis('#s6', A - 0.23, A + 1.85);
+tl.fromTo('#fl1', { y: PORT ? 1400 : 1180 }, { y: PORT ? (FMT === '916' ? -100 : -260) : -880, duration: 1.15, ease: 'power3.out' }, A - 0.2);
+tl.fromTo('#fl2', { y: PORT ? 1700 : 1500 }, { y: PORT ? (FMT === '916' ? 0 : -150) : -560, duration: 1.4, ease: 'power3.out' }, A - 0.2);
+tl.fromTo(['#fl1', '#fl2'], { filter: 'blur(7px)' }, { filter: 'blur(0px)', duration: 0.6, ease: 'power2.out' }, A - 0.05);
+sfx(A - 0.2, 'whoosh_big', 0.6);
 tl.fromTo('#stamp', { scale: 2.3, opacity: 0, rotation: -14 }, { scale: 1, opacity: 1, rotation: -7, duration: 0.32, ease: 'back.out(2.2)' }, w('drin') - 0.08); sfx(w('drin') + 0.2, 'stamp', 0.6);
-tl.to(['#fl1', '#fl2'], { y: '-=60', duration: 1.2, ease: 'none' }, 21.6);
+tl.to(['#fl1', '#fl2'], { y: '-=60', duration: 1.2, ease: 'none' }, A + 0.95);
 tl.fromTo('#curtain', { yPercent: -101 }, { yPercent: 0, duration: 0.36, ease: 'power3.in' }, w('jetzt') - 0.36); sfx(w('jetzt') - 0.34, 'swish_low', 0.6);
 
 /* night stage from here */
 tl.set('#nightwrap', { opacity: 1 }, w('jetzt'));
-vis('#s7', w('jetzt'), H_ON() + 0.4);
+vis('#s7', w('jetzt'), w('ein') + 0.4);
 clipIn('#k-small', w('jetzt') + 0.02, 0.4);
 $$('#k-big > span:not(#k-dot)').forEach((s, i) => tl.fromTo(s, { y: 60, scale: 1.25, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.5)' }, w('kür') - 0.04 + i * 0.05));
 tl.fromTo('#k-dot', { scale: 0 }, { scale: 1, duration: 0.45, ease: 'back.out(2.5)' }, w('kür') + 0.1);
 sfx(w('kür') - 0.02, 'impact', 0.6);
-tl.to(['#k-big > span:not(#k-dot)', '#k-small'], { x: -220, opacity: 0, duration: 0.3, ease: 'power3.in', stagger: 0.025 }, H_ON() - 0.5);
+tl.to(['#k-big > span:not(#k-dot)', '#k-small'], { x: -220, opacity: 0, duration: 0.3, ease: 'power3.in', stagger: 0.025 }, w('ein') - 0.5);
 // the dot becomes the assistant's orb
-tl.set('#k-dot', { opacity: 0 }, H_ON() - 0.4);
-tl.set('#flyorb', { visibility: 'visible' }, H_ON() - 0.4);
-tl.fromTo('#flyorb', { x: M.dot.cx - 95, y: M.dot.cy - 95, scale: 92 / 190 * 1.6 }, { x: M.orb.cx - 95, y: M.orb.cy - 95, scale: M.orb.w / 190, duration: 0.6, ease: 'power3.inOut' }, H_ON() - 0.4);
-tl.set('#flyorb', { visibility: 'hidden' }, H_ON() + 0.22);
-sfx(H_ON() - 0.42, 'whoosh_pop', 0.3);
+tl.set('#k-dot', { opacity: 0 }, w('ein') - 0.4);
+tl.set('#flyorb', { visibility: 'visible' }, w('ein') - 0.4);
+tl.fromTo('#flyorb', { x: M.dot.cx - 95, y: M.dot.cy - 95, scale: M.dot.w / 190 * 1.6 }, { x: M.orb.cx - 95, y: M.orb.cy - 95, scale: M.orb.w / 190, duration: 0.6, ease: 'power3.inOut' }, w('ein') - 0.4);
+tl.set('#flyorb', { visibility: 'hidden' }, w('ein') + 0.22);
+sfx(w('ein') - 0.42, 'whoosh_pop', 0.3);
 
 /* H1 KI-Assistent */
-vis('#h1', H_ON() - 0.4, 33.0);
-tl.set('#orbbox', { opacity: 0 }, 0); tl.set('#orbbox', { opacity: 1 }, H_ON() + 0.2);
-tl.fromTo('#h1-win', { x: 260, opacity: 0, rotationY: 24 }, { x: 0, opacity: 1, rotationY: 12, duration: 0.9 }, H_ON() - 0.12);
-ncol('#nh1', H_ON() + 0.12, w('sprechen'));
-tl.to('#h1-win', { x: -30, duration: 8, ease: 'none' }, H_ON() + 0.7);
+const F = w('freigeben');
+vis('#h1', w('ein') - 0.4, CUT ? w('ihr') - 0.2 : F + 0.962);
+tl.set('#orbbox', { opacity: 0 }, 0); tl.set('#orbbox', { opacity: 1 }, w('ein') + 0.2);
+tl.fromTo('#h1-win', { x: 260, opacity: 0, rotationY: 24 }, { x: 0, opacity: 1, rotationY: 12, duration: 0.9 }, w('ein') - 0.12);
+ncol('#nh1', w('ein') + 0.12, w('sprechen'));
+tl.to('#h1-win', { x: -30, duration: 8, ease: 'none' }, w('ein') + 0.7);
 ['#lk0', '#lk1', '#lk2'].forEach((k, i) => { tl.fromTo(k, { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.5)' }, w('sucht') + i * 0.12); sfx(w('sucht') + i * 0.12, 'drop', 0.45, 0.2 + i * 0.2); });
 tl.fromTo('#lk3', { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.5)' }, w('plant')); sfx(w('plant'), 'drop', 0.5, 0.1);
 tl.fromTo('#a1', { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4 }, w('matcht') + 0.15);
 tl.set('#u2', { opacity: 0 }, 0); tl.set('#u2', { opacity: 1 }, w('schreibt') - 0.25);
 tl.fromTo('#fg', { y: 50, scale: 0.86, opacity: 0, rotation: -1.5 }, { y: 0, scale: 1, opacity: 1, rotation: -1.5, duration: 0.6, ease: 'back.out(1.4)' }, w('schreibt') - 0.02); sfx(w('schreibt'), 'whoosh_pop', 0.6, 0.3);
-tl.set('#cursor', { opacity: 0, x: 1560, y: 1040 }, 0);
+tl.set('#cursor', { opacity: 0, x: SW - 360, y: OY + (PORT ? 1240 : 1040) }, 0);
 tl.set('#cursor', { opacity: 1 }, w('raus') - 0.1);
 cursorTo(M.fgja.cx - 6, M.fgja.cy - 6, w('raus') - 0.1, 1.0);
 click(w('freigeben') + 0.02);
 tl.to('#fg-ja', { scale: 0.93, duration: 0.07, yoyo: true, repeat: 1 }, w('freigeben'));
 tl.to('#fg-h2', { opacity: 1, duration: 0.25 }, w('freigeben') + 0.1); sfx(w('freigeben') + 0.7, 'send', 0.45);
 tl.to('#cursor', { opacity: 0, duration: 0.25 }, w('freigeben') + 0.5);
+if (!CUT) {
 // out: the sent message lands in the dashboard's "Gerade eben"
-tl.to('#h1-win', { x: -700, opacity: 0, duration: 0.55, ease: 'power3.in' }, 32.55);
-fadeOut('#nh1', 32.5, 0.3);
-tl.to('#fg', { x: M.fi0.cx - M.fg.cx, y: M.fi0.cy - M.fg.cy, scale: M.fi0.w / M.fg.w, rotation: 0, duration: 0.7, ease: 'power3.inOut' }, 32.62);
-tl.to('#fg', { opacity: 0, duration: 0.2 }, 33.22);
-sfx(32.78, 'whoosh', 0.3, 0.4);
+tl.to('#h1-win', { x: -700, opacity: 0, duration: 0.55, ease: 'power3.in' }, F + 0.512);
+fadeOut('#nh1', F + 0.462, 0.3);
+tl.to('#fg', { x: M.fi0.cx - M.fg.cx, y: M.fi0.cy - M.fg.cy, scale: M.fi0.w / M.fg.w, rotation: 0, duration: 0.7, ease: 'power3.inOut' }, F + 0.582);
+tl.to('#fg', { opacity: 0, duration: 0.2 }, F + 1.182);
+sfx(F + 0.742, 'whoosh', 0.3, 0.4);
+} else {
+// out: light back on – a paper curtain rises over the night stage
+const I = w('ihr');
+tl.to(['#h1-win', '#fg'], { x: '-=760', opacity: 0, duration: 0.5, ease: 'power3.in', stagger: 0.05 }, I - 1.0);
+fadeOut('#nh1', I - 1.05, 0.3);
+tl.fromTo('#pcurtain', { yPercent: 101 }, { yPercent: 0, duration: 0.45, ease: 'power3.inOut' }, I - 0.62);
+sfx(I - 0.6, 'swish_low', 0.45);
+tl.set('#nightwrap', { opacity: 0 }, I - 0.17);
+}
 
+if (!CUT) {
 /* H2 dashboard */
 vis('#h2', 32.6, w('passende2') - 0.02);
 tl.fromTo('#h2-win', { x: 700, opacity: 0, rotationY: 22 }, { x: 0, opacity: 1, rotationY: 9, duration: 0.9 }, 32.62);
@@ -604,32 +664,34 @@ fadeOut(['#h5-ml', '#h5-tl', '#nh5'], 60.62, 0.25);
 sfx(60.46, 'snap', 0.6);
 tl.to('#nightwrap', { opacity: 0, duration: 0.4, ease: 'power2.inOut' }, 60.62);
 
+}
+
 /* end card */
-vis('#end', 60.75);
-pop('#e-logo', 60.85, 0.6, 0.7); sfx(60.85, 'thunk', 0.5);
-clipIn('#e-label', 60.95, 0.5);
+const I = w('ihr');
+vis('#end', I - 0.267);
+pop('#e-logo', I - 0.167, 0.6, 0.7); sfx(I - 0.167, 'thunk', 0.5);
+clipIn('#e-label', I - 0.067, 0.5);
 const hw = $$('#e-head .m > span');
 [w('ihr'), w('eigenes'), w('ats2')].forEach((t, i) => rise(hw[i], t - 0.06, 0.65));
 const sw = $$('#e-sub .m > span');
 [w('angepasst'), w('an'), w('ihren'), w('betrieb')].forEach((t, i) => rise(sw[i], t - 0.06, 0.6));
-$$('#e-recap .pchip').forEach((c, i) => { tl.fromTo(c, { x: 260, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8 }, 61.25 + i * 0.11); tl.to(c, { x: -26 - i * 6, duration: 7, ease: 'none' }, 62.05 + i * 0.11); });
-sfx(61.25, 'swish', 0.35, 0.5);
+$$('#e-recap .pchip').forEach((c, i) => { tl.fromTo(c, { x: 260, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8 }, I + 0.233 + i * 0.11); tl.to(c, { x: -26 - i * 6, duration: 7, ease: 'none' }, I + 1.033 + i * 0.11); });
+sfx(I + 0.233, 'swish', 0.35, 0.5);
 if (CTA) {
   tl.fromTo('#e-cta', { y: 30, opacity: 0, scale: 0.94 }, { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.6)' }, w('jetzt2') - 0.05); sfx(w('jetzt2') - 0.03, 'pop', 0.7);
-  tl.to('#e-cta', { scale: 1.04, duration: 0.25, yoyo: true, repeat: 1, ease: 'power1.inOut' }, 67.4);
+  tl.to('#e-cta', { scale: 1.04, duration: 0.25, yoyo: true, repeat: 1, ease: 'power1.inOut' }, w('vereinbaren') + 1.0);
 } else {
   tl.fromTo('#e-url', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5 }, w('betrieb') + 0.4);
 }
 tl.set({}, {}, DUR);
 return tl;
 }
-function H_ON() { return AT.h_on; }
 
 /* ---------- per-frame procedural layers ---------- */
-const CHAP = [[0, ''], [3.97, '<b>Pflichtprogramm</b> · 01 / 06'], [9.95, '<b>Pflichtprogramm</b> · 02 / 06'], [12.44, '<b>Pflichtprogramm</b> · 03 / 06'],
+const CHAP = CUT ? [[0, ''], [3.97, '<b>Pflichtprogramm</b>'], [W.jetzt, '<b>Kür</b>'], [W.ein - 0.3, '<b>Kür</b> · KI-Assistent'], [W.ihr - 0.267, '<b>Kostenloses Erstgespräch</b>']] : [[0, ''], [3.97, '<b>Pflichtprogramm</b> · 01 / 06'], [9.95, '<b>Pflichtprogramm</b> · 02 / 06'], [12.44, '<b>Pflichtprogramm</b> · 03 / 06'],
   [W.whatsapp, '<b>Pflichtprogramm</b> · 04 / 06'], [W['einsätze'] - 0.2, '<b>Pflichtprogramm</b> · 05 / 06'], [20.42, '<b>Pflichtprogramm</b> · 06 / 06'], [W.jetzt, '<b>Kür</b>'],
-  [AT.h_on - 0.3, '<b>Kür</b> · Highlight 01 / 05'], [32.6, '<b>Kür</b> · Highlight 02 / 05'], [W.passende2 - 0.02, '<b>Kür</b> · Highlight 03 / 05'],
-  [W['vorstellungsgespräch'] - 0.35, '<b>Kür</b> · Highlight 04 / 05'], [W.vertrieb - 0.3, '<b>Kür</b> · Highlight 05 / 05'], [60.75, CTA ? '<b>Kostenloses Erstgespräch</b>' : '<b>Betrieb Zukunft</b>']];
+  [W.ein - 0.3, '<b>Kür</b> · Highlight 01 / 05'], [32.6, '<b>Kür</b> · Highlight 02 / 05'], [W.passende2 - 0.02, '<b>Kür</b> · Highlight 03 / 05'],
+  [W['vorstellungsgespräch'] - 0.35, '<b>Kür</b> · Highlight 04 / 05'], [W.vertrieb - 0.3, '<b>Kür</b> · Highlight 05 / 05'], [W.ihr - 0.267, CTA ? '<b>Kostenloses Erstgespräch</b>' : '<b>Betrieb Zukunft</b>']];
 const chapEl = $('#chap span'); let chapCur = -1;
 const capEl = $('#cap'); let capCur = -2;
 function captions(t) {
@@ -667,7 +729,7 @@ function proc(t) {
   $('#grain1').style.transform = `translate(${Math.round((rnd(f) - 0.5) * 100)}px,${Math.round((rnd(f + 7) - 0.5) * 100)}px)`;
   $('#grain2').style.transform = `translate(${Math.round((rnd(f + 3) - 0.5) * 100)}px,${Math.round((rnd(f + 11) - 0.5) * 100)}px)`;
   $('#gridwrap').style.transform = `translate(${(Math.sin(t * 0.42) * 5).toFixed(2)}px,${(Math.cos(t * 0.31) * 4).toFixed(2)}px)`;
-  $('#stage').classList.toggle('night', t >= W.jetzt && t < 60.85);
+  $('#stage').classList.toggle('night', t >= W.jetzt && t < W.ihr - 0.167);
   let ci = 0; for (let i = 0; i < CHAP.length; i++) if (t >= CHAP[i][0]) ci = i;
   if (ci !== chapCur) { chapCur = ci; chapEl.innerHTML = CHAP[ci][1]; $('#chap').style.opacity = CHAP[ci][1] ? 1 : 0; }
   // 01: counter of new applications
@@ -678,8 +740,8 @@ function proc(t) {
   $('#kp1').textContent = Math.round(214 * ease3((t - W.controlling - 0.15) / 0.9));
   $('#kp2').textContent = Math.round(17 * ease3((t - W.controlling - 0.25) / 0.9));
   // H1: typing, phase, orb, counts
-  typeText('#u1', 'Such mir Staplerfahrer mit Schein in Harburg.', AT.h_on + 0.75, W.sprechen + 0.4, t);
-  $('#u1').style.opacity = t >= AT.h_on + 0.7 ? 1 : 0;
+  typeText('#u1', 'Such mir Staplerfahrer mit Schein in Harburg.', W.ein + 0.75, W.sprechen + 0.4, t);
+  $('#u1').style.opacity = t >= W.ein + 0.7 ? 1 : 0;
   typeText('#u2', '„Lad ihn zum VG am Donnerstag ein.“', W.schreibt - 0.2, W.nachrichten + 0.5, t);
   const ph = t < W.sucht - 0.05 ? 0 : t < W.schreibt - 0.1 ? 1 : t < W.raus ? 2 : 0;
   const phEl = $('#phase'); phEl.textContent = PHASE[ph][0]; phEl.style.color = PHASE[ph][1];

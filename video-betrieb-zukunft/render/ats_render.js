@@ -1,4 +1,4 @@
-// Render the ATS spot: node render/ats_render.js <spot main|pitch> <out.mp4> [--sfx-only | --from=SECONDS [--to=SECONDS]]
+// Render the ATS spot: FMT=169|45|916 node render/ats_render.js <spot main|pitch|cut30> <out.mp4> [--sfx-only | --from=SECONDS [--to=SECONDS]]
 // Also writes out/sfx_ats_<spot>.json (sound cues on the same clock).
 const { chromium } = require('playwright');
 const { spawn } = require('child_process');
@@ -8,9 +8,10 @@ const fs = require('fs');
   const [spot, outFile, flag] = process.argv.slice(2);
   const fps = 30;
   const browser = await chromium.launch({ args: ['--allow-file-access-from-files'] });
-  const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
+  const fmt = process.env.FMT || '169';
+  const page = await browser.newPage({ viewport: fmt === '45' ? { width: 1080, height: 1350 } : fmt === '916' ? { width: 1080, height: 1920 } : { width: 1920, height: 1080 } });
   page.on('pageerror', e => console.log('pageerror:', e.message));
-  await page.goto('file://' + path.resolve('src/ats.html') + `?spot=${spot}`);
+  await page.goto('file://' + path.resolve('src/ats.html') + `?spot=${spot}&f=${fmt}`);
   await page.waitForFunction(() => window.__ready === true, null, { timeout: 20000 });
   await page.evaluate(() => Promise.all([...document.images].map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r; }))));
   const dur = await page.evaluate(() => window.__dur);

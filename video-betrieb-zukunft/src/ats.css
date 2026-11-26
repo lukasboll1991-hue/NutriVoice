@@ -272,3 +272,52 @@
 .night #cap span { color: rgba(243,242,236,.34); }
 .night #cap span.on { color: #F3F2EC; }
 .night #cap span.now { color: var(--signal-hi); box-shadow: inset 0 -5px 0 rgba(143,209,141,.25); }
+
+/* cut30: paper curtain that ends the night stage */
+#pcurtain { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 85;
+  background: radial-gradient(1400px 900px at 82% 8%, #FAF9F5 0%, rgba(250,249,245,0) 60%), radial-gradient(1200px 800px at 0% 100%, #E6E3DA 0%, rgba(230,227,218,0) 65%), var(--paper); }
+
+/* ---------- portrait: 4:5 (1080×1350) and 9:16 (1080×1920, the 4:5 block 250 px down) ---------- */
+html.portrait, html.portrait body, .portrait .stage { width: 1080px !important; }
+html.f45, html.f45 body, .f45 .stage { height: 1350px !important; }
+html.f916, html.f916 body, .f916 .stage { height: 1920px !important; }
+#blk { position: absolute; left: 0; width: 1080px; height: 1350px; }
+#canvas { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
+#tlayer { position: absolute; inset: 0; }
+#flayer { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
+.portrait #topbar { left: 60px; right: 60px; }
+.portrait #topbar .url { display: none; }
+.portrait #topbar #chap { position: static; margin-left: auto; }
+.portrait #cap { left: 60px; top: 1196px; width: 960px; font-size: 38px; line-height: 1.22; white-space: normal; }
+.f916 #cap { top: 1160px; width: 860px; }
+.portrait .ncol { left: 60px; top: 140px; width: 960px; }
+.portrait .ncol .title { font-size: 70px; }
+.portrait .ncol .rule { margin-top: 26px; }
+.portrait .ncol .sub { margin-top: 20px; font-size: 25px; max-width: 900px; }
+.portrait #nh4 { top: 140px !important; }
+.portrait #hk-label { left: 60px; top: 150px; }
+.portrait #hk-ats { left: 46px; top: 190px; font-size: 270px; }
+.portrait #hk-line { left: 60px; top: 450px; font-size: 52px; width: 960px; }
+.portrait #hk-ul { left: 60px; top: 584px; width: 640px; }
+.portrait #hk-win { left: 1300px !important; top: 400px !important; }
+.portrait #s1-big { left: 56px; top: 300px !important; font-size: 104px; }
+.portrait #fl1 { left: 60px !important; font-size: 54px; }
+.portrait #fl2 { left: 700px !important; font-size: 26px; opacity: .6; }
+.portrait #stamp { left: 380px; top: 640px; font-size: 92px; border-width: 8px; }
+.portrait #curtain, .portrait #pcurtain { width: 100%; height: 100%; }
+.portrait #k-small { left: 60px; top: 440px; }
+.portrait #k-big { left: 44px; top: 470px; font-size: 300px; }
+.portrait #k-dot { width: 68px; height: 68px; margin-left: 12px; }
+.portrait #map { left: 690px !important; top: 150px !important; width: 330px; height: 260px; }
+.portrait #h4-card { left: 600px !important; top: 640px !important; z-index: 30; }
+.portrait .tri { width: 400px; }
+.portrait .tri .win { zoom: .714; }
+.portrait #mp1 { left: 630px !important; }
+.portrait #mp2 { left: 1060px !important; }
+.portrait #mp3 { left: 1490px !important; }
+.portrait #e-logo { left: 60px; top: 140px; width: 100px; height: 100px; }
+.portrait #e-label { left: 60px; top: 272px; }
+.portrait #e-head { left: 54px; top: 306px; font-size: 98px; }
+.portrait #e-sub { left: 60px; top: 430px; font-size: 48px; }
+.portrait #e-cta { left: 60px; top: 540px; }
+.portrait #e-url { left: 60px; top: 560px; }
