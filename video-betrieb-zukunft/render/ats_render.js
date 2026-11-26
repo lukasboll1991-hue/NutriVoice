@@ -1,4 +1,4 @@
-// Render the ATS spot: node render/ats_render.js <spot main|pitch> <out.mp4> [--sfx-only | --from=SECONDS]
+// Render the ATS spot: node render/ats_render.js <spot main|pitch> <out.mp4> [--sfx-only | --from=SECONDS [--to=SECONDS]]
 // Also writes out/sfx_ats_<spot>.json (sound cues on the same clock).
 const { chromium } = require('playwright');
 const { spawn } = require('child_process');
@@ -19,7 +19,8 @@ const fs = require('fs');
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(fps), '-c:v', 'mjpeg', '-i', '-',
     '-c:v', 'libx264', '-preset', 'slow', '-crf', '14', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', outFile], { stdio: ['pipe', 'inherit', 'inherit'] });
   const from = flag && flag.startsWith('--from=') ? Math.round(parseFloat(flag.slice(7)) * fps) : 0;
-  const n1 = Math.round(dur * fps), t0 = Date.now();
+  const to = process.argv[5] && process.argv[5].startsWith('--to=') ? Math.round(parseFloat(process.argv[5].slice(5)) * fps) : null;
+  const n1 = to !== null ? to : Math.round(dur * fps), t0 = Date.now();
   for (let n = from; n < n1; n++) {
     await page.evaluate(t => window.__seek(t), n / fps);
     const buf = await page.screenshot({ type: 'jpeg', quality: 96 });

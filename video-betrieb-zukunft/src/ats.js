@@ -538,7 +538,7 @@ fadeOut('#nh3', w('vorstellungsgespräch') - 0.4, 0.22);
 vis('#h4', w('vorstellungsgespräch') - 0.35, 54.6);
 tl.fromTo('#tab', { x: 1300, rotation: 4 }, { x: 0, rotation: 0, duration: 0.6, ease: 'power3.inOut' }, w('vorstellungsgespräch') - 0.32);
 tl.to('#tab', { rotation: -1.2, y: -6, duration: 7, ease: 'none' }, w('vorstellungsgespräch') + 0.4);
-ncol('#nh4', w('vorstellungsgespräch') + 0.05, w('protokoll'));
+ncol('#nh4', w('vorstellungsgespräch') + 0.3, w('protokoll'));
 const VS = ['#vs1', '#vs2', '#vs3', '#vs4'], VT = [0, w('unterschrift') - 0.08, w('aufnahme') - 0.08, w('protokoll') - 0.08];
 VS.forEach((v, i) => {
   if (i === 0) { tl.set(v, { opacity: 1 }, 0); return; }
