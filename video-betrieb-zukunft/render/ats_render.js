@@ -1,4 +1,4 @@
-// Render the ATS spot: node render/ats_render.js <spot main|pitch> <out.mp4> [--sfx-only]
+// Render the ATS spot: node render/ats_render.js <spot main|pitch> <out.mp4> [--sfx-only | --from=SECONDS]
 // Also writes out/sfx_ats_<spot>.json (sound cues on the same clock).
 const { chromium } = require('playwright');
 const { spawn } = require('child_process');
@@ -18,8 +18,9 @@ const fs = require('fs');
   if (flag === '--sfx-only') { await browser.close(); console.log('sfx only', spot); return; }
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(fps), '-c:v', 'mjpeg', '-i', '-',
     '-c:v', 'libx264', '-preset', 'slow', '-crf', '14', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', outFile], { stdio: ['pipe', 'inherit', 'inherit'] });
+  const from = flag && flag.startsWith('--from=') ? Math.round(parseFloat(flag.slice(7)) * fps) : 0;
   const n1 = Math.round(dur * fps), t0 = Date.now();
-  for (let n = 0; n < n1; n++) {
+  for (let n = from; n < n1; n++) {
     await page.evaluate(t => window.__seek(t), n / fps);
     const buf = await page.screenshot({ type: 'jpeg', quality: 96 });
     if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once('drain', r));

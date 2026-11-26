@@ -387,7 +387,7 @@ fadeOut(['#n1', '#s1-win', ...PCH.map((_, i) => '#pc' + i)], 9.62, 0.35, { y: 40
 /* S2 CV */
 vis('#s2', 9.6, 12.5);
 tl.fromTo('#s2-sheet', { y: -820, rotation: -16 }, { y: 0, rotation: -4, duration: 0.5, ease: 'power2.in' }, 9.58);
-tl.to('#s2-sheet', { y: -10, duration: 0.18, ease: 'power1.out', yoyo: true, repeat: 1 }, 10.08); sfx(10.06, 'paperthud', 0.9);
+tl.to('#s2-sheet', { y: -10, duration: 0.18, ease: 'power1.out', yoyo: true, repeat: 1 }, 10.08); sfx(10.06, 'paperthud', 0.45);
 ncol('#n2', w('lebenslauf'), w('profil'));
 tl.fromTo('#s2-card', { x: 120, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8 }, 10.2);
 tl.set('.pcard .fv, #pf-ok', { opacity: 0 }, 0);
@@ -430,9 +430,9 @@ fadeOut('#n4', w('einsätze') - 0.3, 0.25);
 
 /* S5 three-way split */
 vis('#s5', w('einsätze') - 0.2, 20.9);
-tl.fromTo('#mp1', { x: -760 }, { x: 0, duration: 0.7 }, w('einsätze') - 0.12); sfx(w('einsätze') - 0.1, 'whoosh', 0.5, -0.6);
-tl.fromTo('#mp2', { y: 980 }, { y: 0, duration: 0.7 }, w('termine') - 0.12); sfx(w('termine') - 0.1, 'whoosh', 0.5, 0);
-tl.fromTo('#mp3', { x: 760 }, { x: 0, duration: 0.7 }, w('controlling') - 0.12); sfx(w('controlling') - 0.1, 'whoosh', 0.5, 0.6);
+tl.fromTo('#mp1', { x: -760 }, { x: 0, duration: 0.7 }, w('einsätze') - 0.12); sfx(w('einsätze') - 0.18, 'whoosh', 0.3, -0.6);
+tl.fromTo('#mp2', { y: 980 }, { y: 0, duration: 0.7 }, w('termine') - 0.12); sfx(w('termine') - 0.18, 'whoosh', 0.3, 0);
+tl.fromTo('#mp3', { x: 760 }, { x: 0, duration: 0.7 }, w('controlling') - 0.12); sfx(w('controlling') - 0.18, 'whoosh', 0.3, 0.6);
 $$('#mp2 .ev').forEach((e, i) => pop(e, w('termine') + 0.25 + i * 0.07, 0.35, 0.8));
 tl.fromTo('#mp3 .bars i', { scaleY: 0 }, { scaleY: 1, duration: 0.6, stagger: 0.06 }, w('controlling') + 0.2);
 tl.to(['#mp1', '#mp2', '#mp3'], { y: -1150, duration: 0.42, ease: 'power3.in', stagger: 0.04 }, 20.42);
@@ -443,7 +443,7 @@ tl.fromTo('#fl1', { y: 1180 }, { y: -880, duration: 1.15, ease: 'power3.out' }, 
 tl.fromTo('#fl2', { y: 1500 }, { y: -560, duration: 1.4, ease: 'power3.out' }, 20.45);
 tl.fromTo(['#fl1', '#fl2'], { filter: 'blur(7px)' }, { filter: 'blur(0px)', duration: 0.6, ease: 'power2.out' }, 20.6);
 sfx(20.45, 'whoosh_big', 0.6);
-tl.fromTo('#stamp', { scale: 2.3, opacity: 0, rotation: -14 }, { scale: 1, opacity: 1, rotation: -7, duration: 0.32, ease: 'back.out(2.2)' }, w('drin') - 0.08); sfx(w('drin') - 0.02, 'stamp', 1.0);
+tl.fromTo('#stamp', { scale: 2.3, opacity: 0, rotation: -14 }, { scale: 1, opacity: 1, rotation: -7, duration: 0.32, ease: 'back.out(2.2)' }, w('drin') - 0.08); sfx(w('drin') + 0.2, 'stamp', 0.6);
 tl.to(['#fl1', '#fl2'], { y: '-=60', duration: 1.2, ease: 'none' }, 21.6);
 tl.fromTo('#curtain', { yPercent: -101 }, { yPercent: 0, duration: 0.36, ease: 'power3.in' }, w('jetzt') - 0.36); sfx(w('jetzt') - 0.34, 'swish_low', 0.6);
 
@@ -453,14 +453,14 @@ vis('#s7', w('jetzt'), H_ON() + 0.4);
 clipIn('#k-small', w('jetzt') + 0.02, 0.4);
 $$('#k-big > span:not(#k-dot)').forEach((s, i) => tl.fromTo(s, { y: 60, scale: 1.25, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.5)' }, w('kür') - 0.04 + i * 0.05));
 tl.fromTo('#k-dot', { scale: 0 }, { scale: 1, duration: 0.45, ease: 'back.out(2.5)' }, w('kür') + 0.1);
-sfx(w('kür') - 0.02, 'impact', 0.8);
+sfx(w('kür') - 0.02, 'impact', 0.6);
 tl.to(['#k-big > span:not(#k-dot)', '#k-small'], { x: -220, opacity: 0, duration: 0.3, ease: 'power3.in', stagger: 0.025 }, H_ON() - 0.5);
 // the dot becomes the assistant's orb
 tl.set('#k-dot', { opacity: 0 }, H_ON() - 0.4);
 tl.set('#flyorb', { visibility: 'visible' }, H_ON() - 0.4);
 tl.fromTo('#flyorb', { x: M.dot.cx - 95, y: M.dot.cy - 95, scale: 92 / 190 * 1.6 }, { x: M.orb.cx - 95, y: M.orb.cy - 95, scale: M.orb.w / 190, duration: 0.6, ease: 'power3.inOut' }, H_ON() - 0.4);
 tl.set('#flyorb', { visibility: 'hidden' }, H_ON() + 0.22);
-sfx(H_ON() - 0.38, 'whoosh_pop', 0.6);
+sfx(H_ON() - 0.42, 'whoosh_pop', 0.3);
 
 /* H1 KI-Assistent */
 vis('#h1', H_ON() - 0.4, 33.0);
@@ -478,14 +478,14 @@ tl.set('#cursor', { opacity: 1 }, w('raus') - 0.1);
 cursorTo(M.fgja.cx - 6, M.fgja.cy - 6, w('raus') - 0.1, 1.0);
 click(w('freigeben') + 0.02);
 tl.to('#fg-ja', { scale: 0.93, duration: 0.07, yoyo: true, repeat: 1 }, w('freigeben'));
-tl.to('#fg-h2', { opacity: 1, duration: 0.25 }, w('freigeben') + 0.1); sfx(w('freigeben') + 0.12, 'send', 0.8);
+tl.to('#fg-h2', { opacity: 1, duration: 0.25 }, w('freigeben') + 0.1); sfx(w('freigeben') + 0.7, 'send', 0.45);
 tl.to('#cursor', { opacity: 0, duration: 0.25 }, w('freigeben') + 0.5);
 // out: the sent message lands in the dashboard's "Gerade eben"
 tl.to('#h1-win', { x: -700, opacity: 0, duration: 0.55, ease: 'power3.in' }, 32.55);
 fadeOut('#nh1', 32.5, 0.3);
 tl.to('#fg', { x: M.fi0.cx - M.fg.cx, y: M.fi0.cy - M.fg.cy, scale: M.fi0.w / M.fg.w, rotation: 0, duration: 0.7, ease: 'power3.inOut' }, 32.62);
 tl.to('#fg', { opacity: 0, duration: 0.2 }, 33.22);
-sfx(32.62, 'whoosh', 0.55, 0.4);
+sfx(32.78, 'whoosh', 0.3, 0.4);
 
 /* H2 dashboard */
 vis('#h2', 32.6, w('passende2') - 0.02);
@@ -507,14 +507,14 @@ cursorTo(M.send.cx - 4, M.send.cy - 4, w('antwortentwurf') + 0.3, 0.75);
 click(w('klick') + 0.02);
 tl.to('#send', { scale: 0.92, duration: 0.07, yoyo: true, repeat: 1 }, w('klick'));
 tl.to('#pill1', { opacity: 0, duration: 0.15 }, w('raus2') - 0.05); tl.to('#pill2', { opacity: 1, duration: 0.25 }, w('raus2') - 0.05);
-tl.fromTo('#toast', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: 'back.out(1.6)' }, w('raus2')); sfx(w('raus2'), 'send', 0.75);
+tl.fromTo('#toast', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: 'back.out(1.6)' }, w('raus2')); sfx(w('raus2') + 0.05, 'pop', 0.35);
 tl.to('#cursor', { opacity: 0, duration: 0.2 }, w('raus2') + 0.2);
 // zoom through the 82 % chip
 const zx = M.chip82.cx, zy = M.chip82.cy + xpH * 0;
 tl.to('#h2-cam', { scale: 10, transformOrigin: `${zx}px ${zy}px`, duration: 0.55, ease: 'power3.in' }, w('passende2') - 0.5);
 fadeOut(['#nh2', '#toast'], w('passende2') - 0.55, 0.2);
 tl.to('#zoomflash', { opacity: 1, duration: 0.18, ease: 'power1.in' }, w('passende2') - 0.2);
-sfx(w('passende2') - 0.5, 'whoosh_big', 0.6);
+sfx(w('passende2') - 0.45, 'whoosh', 0.3);
 
 /* H3 matching */
 vis('#h3', w('passende2') - 0.02, 46.4);
@@ -531,7 +531,7 @@ $$('#mapsvg .cdot').forEach((d, k) => pop(d, w('matching') + 0.3 + k * 0.07, 0.3
 $$('#mapsvg .route').forEach((p, k) => tl.to(p, { strokeDashoffset: 0, duration: 0.7, ease: 'power2.inOut' }, w('fahrzeit') + k * 0.06));
 // push to the tablet
 tl.to('#h3-move', { x: -1500, duration: 0.6, ease: 'power3.inOut' }, w('vorstellungsgespräch') - 0.32);
-sfx(w('vorstellungsgespräch') - 0.32, 'whoosh_big', 0.55, -0.3);
+sfx(w('vorstellungsgespräch') - 0.32, 'whoosh', 0.35, -0.3);
 fadeOut('#nh3', w('vorstellungsgespräch') - 0.4, 0.22);
 
 /* H4 tablet */
@@ -550,7 +550,7 @@ $$('#vs1 .q').forEach((q, i) => tl.fromTo(q, { y: 20, opacity: 0 }, { y: 0, opac
 $$('#vs1 .opt span.will').forEach((s, i) => { tl.set(s, { borderColor: '#229b63', backgroundColor: '#e7f6ee', color: '#18704a' }, w('fragebogen') + 0.05 + i * 0.14); sfx(w('fragebogen') + 0.05 + i * 0.14, 'tick', 0.6); });
 const sp = $('#sigpath'), sl = sp.getTotalLength(); sp.style.strokeDasharray = sl; sp.style.strokeDashoffset = sl;
 tl.to('#sigpath', { strokeDashoffset: 0, duration: 0.75, ease: 'power1.inOut' }, w('unterschrift') + 0.05); sfx(w('unterschrift') + 0.05, 'scratch', 0.55);
-$$('#vs4 .proto div').forEach((d, i) => { tl.fromTo(d, { opacity: 0, clipPath: 'inset(0% 100% 0% 0%)' }, { opacity: 1, clipPath: 'inset(0% 0% 0% 0%)', duration: 0.45 }, w('protokoll') + 0.15 + i * 0.2); sfx(w('protokoll') + 0.15 + i * 0.2, 'type', 0.4); });
+$$('#vs4 .proto div').forEach((d, i) => { tl.fromTo(d, { opacity: 0, clipPath: 'inset(0% 100% 0% 0%)' }, { opacity: 1, clipPath: 'inset(0% 0% 0% 0%)', duration: 0.45 }, w('protokoll') + 0.15 + i * 0.2); sfx(w('protokoll') + 0.15 + i * 0.2, 'type', 0.22); });
 tl.fromTo('#h4-card', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, w('ki') - 0.05);
 tl.set(['#h4-ok', '.h4v'], { opacity: 0 }, 0);
 [0, 1, 2, 3].forEach(i => {
@@ -560,9 +560,9 @@ tl.set(['#h4-ok', '.h4v'], { opacity: 0 }, 0);
   tl.to('#fly' + i, { opacity: 0, duration: 0.12 }, t + 0.66);
   tl.to('#h4v' + i, { opacity: 1, duration: 0.15 }, t + 0.62);
   $('#h4v' + i).textContent = $('#fly' + i).textContent;
-  sfx(t + 0.05, 'swish', 0.3, -0.4);
+  sfx(t + 0.05, 'swish', 0.15, -0.4);
 });
-tl.fromTo('#h4-ok', { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4 }, w('direkt') + 1.1); sfx(w('direkt') + 1.1, 'ping', 0.5);
+tl.fromTo('#h4-ok', { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4 }, w('direkt') + 1.1); sfx(w('direkt') + 1.1, 'ping', 0.25);
 // out: the card collapses to a line that becomes the top edge of the call list
 const lineT = w('vertrieb') - 0.5;
 tl.to('#h4-card', { scaleY: 0.012, duration: 0.24, ease: 'power3.in' }, lineT);
@@ -571,7 +571,7 @@ tl.fromTo('#morphline', { x: M.card4.x, y: M.card4.cy, width: M.card4.w, opacity
 tl.to('#morphline', { opacity: 0, duration: 0.2 }, lineT + 0.85);
 tl.to('#tab', { x: 1350, duration: 0.45, ease: 'power3.in' }, lineT);
 fadeOut('#nh4', lineT, 0.25);
-sfx(lineT, 'snap', 0.6); sfx(lineT + 0.24, 'whoosh', 0.5, 0.3);
+sfx(lineT, 'snap', 0.35); sfx(lineT + 0.24, 'whoosh', 0.28, 0.3);
 
 /* H5 sales */
 vis('#h5', lineT + 0.2, 61.0);
@@ -596,7 +596,7 @@ REPLIES.forEach(([l], i) => {
   $('#rc' + i).style.width = (L.w - 20) + 'px'; $('#rc' + i).style.left = '0px';
   sfx(t + 0.2, 'tick', 0.35, -0.5 + l * 0.33);
 });
-tl.to('#all', { scale: 1.06, duration: 0.22, yoyo: true, repeat: 3, ease: 'power1.inOut' }, w('sortieren')); sfx(w('sortieren'), 'ping', 0.6);
+tl.to('#all', { scale: 1.06, duration: 0.22, yoyo: true, repeat: 3, ease: 'power1.inOut' }, w('sortieren')); sfx(w('sortieren') + 0.45, 'ping', 0.35);
 // out: lanes fold together, back to paper
 $$('#h5 .lane').forEach((l, i) => tl.to(l, { scaleX: 0, transformOrigin: i < 2 ? 'right' : 'left', duration: 0.32, ease: 'power3.in' }, 60.46 + Math.abs(i - 1.5) * 0.05));
 tl.to('#h5 .rc', { opacity: 0, duration: 0.2 }, 60.42);
