@@ -427,7 +427,7 @@ tl.to('#pc-indeed', { scale: 0.5, opacity: 0, duration: 0.22, ease: 'power2.in' 
 pop('#jp-card', w('indeed') + 0.12, 0.5, 0.8); sfx(w('indeed') + 0.12, 'pop', 0.8, -0.2);
 // out: everything drops away, the CV sheet falls in
 if (!CUT) fadeOut(['#n1', '#s1-win', ...PCH.map((_, i) => '#pc' + i)], 9.62, 0.35, { y: 40 });
-else { tl.to(['#n1', '#s1-win', ...PCH.map((_, i) => '#pc' + i)], { y: -1250, duration: 0.42, ease: 'power3.in', stagger: 0.02 }, w('alles') - 0.45); sfx(w('alles') - 0.42, 'whoosh', 0.3); }
+else { tl.to(['#n1', '#s1-win', ...PCH.map((_, i) => '#pc' + i)], { y: -1250, duration: 0.42, ease: 'power3.in', stagger: 0.02 }, w('alles') - 0.45); sfx(w('alles') - 0.36, 'whoosh', 0.15); }
 
 if (!CUT) {
 /* S2 CV */
