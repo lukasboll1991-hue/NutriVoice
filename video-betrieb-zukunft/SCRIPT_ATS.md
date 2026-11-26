@@ -1,6 +1,6 @@
-# IATS – Feature-Spot · Skript & Storyboard (Entwurf zur Freigabe)
+# ATS – Feature-Spot · Skript & Storyboard (freigegeben)
 
-**Produkt:** IATS (ATS von Betrieb Zukunft) · **Zielgruppe:** Personaldienstleister
+**Produkt:** ATS von Betrieb Zukunft (kein eigener Produktname) · **Zielgruppe:** Personaldienstleister
 **Botschaft:** Erst das Pflichtprogramm, dann die Kür. Alles, was ein ATS braucht – plus KI, die wirklich Arbeit abnimmt.
 **Stimme:** Theo (ElevenLabs), Sie-Form · **Musik/SFX:** im Code erzeugt, 118 BPM, Schnitte auf Wort oder Beat
 **Bild:** komplett im Code. ATS-Oberfläche originalgetreu nachgebaut nach den Screenshots (Neutral-Look: Navy-Seitenleiste, weiße Karten, Blau-Akzent, getönte Board-Spalten), gerahmt vom Betrieb-Zukunft-Look (Papier, Raster, Signalgrün). Nur erfundene Personen, Firmen und Nummern. Kein Gesicht, keine Fotos, keine fremden Logos (Portale als Text-Chips).
@@ -18,7 +18,7 @@
 
 | Szene | Text |
 |---|---|
-| S0 Hook | Das ATS aus dem Alltag eines Personaldienstleisters: **IATS.** |
+| S0 Hook | Das ATS aus dem Alltag eines Personaldienstleisters: |
 | S1 Pflicht | Erst das Pflichtprogramm. Bewerbungen aus allen Portalen – von Indeed bis zur Arbeitsagentur. Lebenslauf rein, Profil fertig. Kandidaten, Kunden und Vakanzen auf einen Blick. WhatsApp und E-Mail in einem Verlauf. Einsätze, Termine, Controlling. Alles drin. |
 | S2 Kür | Jetzt die Kür. |
 | H1 KI-Assistent | Ein KI-Assistent, mit dem Sie einfach sprechen. Er sucht, matcht, plant Termine und schreibt Nachrichten. Raus geht erst, was Sie freigeben. |
@@ -26,16 +26,16 @@
 | H3 Matching | Passende Kandidaten findet das Matching selbst. Mit Trefferquote und Fahrzeit. |
 | H4 Tablet | Das Vorstellungsgespräch läuft am Tablet: Fragebogen, Unterschrift, Aufnahme. Das Protokoll schreibt die KI – direkt ins Profil. |
 | H5 Vertrieb | Und für den Vertrieb: Telefonlisten auf Knopfdruck. Und Mailings, deren Antworten sich selbst sortieren. |
-| Ende | IATS. Ihr eigenes ATS – angepasst an Ihren Betrieb. |
+| Ende | Ihr eigenes ATS – angepasst an Ihren Betrieb. |
 | CTA (nur A) | Jetzt kostenloses Erstgespräch vereinbaren. |
 
-Aussprache: „IATS“ Buchstabe für Buchstabe (I-A-T-S), „ATS“ ebenso.
+Aussprache: „ATS“ Buchstabe für Buchstabe (A-T-S). Aufnahme: Theo, eleven_v4, zwei Varianten; das ursprünglich gesprochene „I-A-T-S“ ist an beiden Stellen herausgeschnitten (Variante A 65,8 s, B 66,4 s).
 
 ## Storyboard Hauptfassung
 
 | Zeit | Szene | Bild (alles Code) | Übergang raus | Ton |
 |---|---|---|---|---|
-| 0:00–0:04 | **S0 Hook** | Papier-Raster, Etikett „Für Personaldienstleister“. Zeile „Das ATS aus dem Alltag eines Personaldienstleisters“ setzt sich Wort für Wort. Auf „IATS“ schlagen die vier Buchstaben breit ins Bild, je einer pro Beat. | Die vier Buchstaben werden zu vier Spalten, die aufziehen (Spalten-Wipe). | leise Spannung, 4 Schläge auf I-A-T-S |
+| 0:00–0:04 | **S0 Hook** | Papier-Raster, Etikett „Für Personaldienstleister“. Zeile „Das ATS aus dem Alltag eines Personaldienstleisters“ setzt sich Wort für Wort, „ATS“ schlägt breit ins Bild (drei Buchstaben, je einer pro Beat). | Die drei Buchstaben werden zu Spalten, die aufziehen (Spalten-Wipe). | leise Spannung, 3 Schläge auf A-T-S |
 | 0:04–0:08 | **S1a Portale** | Bewerbungen-Board (Orange). Chips **Indeed · StepStone · Kleinanzeigen · Bundesagentur für Arbeit · Meta · Ihre Stellenseite · WhatsApp-Bot** fliegen auf drei Tiefenebenen (Parallaxe) ein und landen als Karten in „Neu“, Zähler läuft hoch. Ecke: „Pflichtprogramm 01/06“. | Eine Karte (PDF) fällt ins nächste Bild. | treibender Groove, Pluck je Chip |
 | 0:08–0:10 | **S1b Lebenslauf** | Lebenslauf-Blatt fällt aufs Profil, Felder füllen sich Zeile für Zeile, „Staplerschein ✓“. | Zellen-Maske | Papier-Swoosh |
 | 0:10–0:12 | **S1c Auf einen Blick** | Kamera zieht von einer Karte zurück: Kandidaten-Pipeline mit getönten Spalten wie im Screenshot, dahinter Unternehmen und Vakanzen als Ebenen. | harter Schnitt auf „WhatsApp“ | – |
@@ -48,7 +48,7 @@ Aussprache: „IATS“ Buchstabe für Buchstabe (I-A-T-S), „ATS“ ebenso.
 | 0:38–0:44 | **H3 Matching** | Treffer zur Vakanz „Staplerfahrer (m/w/d)“: Zeilen mit Prozent-Balken, die hochzählen, Fahrzeit „12 Min · 4,7 km“, Häkchen Staplerschein / Deutsch B1. Daneben eine kleine Karte mit Punkten im Umkreis (zweite Ebene). | Beste Zeile schiebt nach rechts ins Tablet (Push). | Zähl-Ticks |
 | 0:44–0:52 | **H4 Tablet** | Tablet-Rahmen. Fragebogen-Schritte, auf „Unterschrift“ zeichnet sich die Unterschrift, auf „Aufnahme“ roter Punkt + Wellenform. „Das Protokoll schreibt die KI“: Angaben tippen sich ins Protokoll und fliegen ins Kandidatenprofil. | Profilfelder ziehen sich zu einer Linie zusammen, die zur Telefonliste wird. | Stift, Aufnahme-Piep |
 | 0:52–1:00 | **H5 Vertrieb** | Telefonliste wie Screenshot: Chip „Staplerfahrer“, die KI ergänzt „Lagerhelfer“, „Kommissionierer“, „Fachlagerist“; Tabelle baut sich auf, Fortschritt „1 von 20“, Knopf „Nächster“. Dann Mailing: Antworten fallen ein und sortieren sich in Spalten **Abwesend · Vertretung · Interesse · Kein Interesse**, Knopf „Alle bestätigen“. | Spalten falten sich zur Endkarte zusammen. | Karten-Sortier-Ticks |
-| 1:00–1:10 | **Ende** | Papier. Wortmarke **IATS**, Zeile „Ihr eigenes ATS. Angepasst an Ihren Betrieb.“, „von Betrieb Zukunft“ mit Logo. A: Feld „Kostenloses Erstgespräch · betrieb-zukunft.de“. B: ohne Feld, Wortmarke steht. | – | Schluss-Akkord |
+| 1:00–1:10 | **Ende** | Papier. Logo Betrieb Zukunft, Zeile „Ihr eigenes ATS. Angepasst an Ihren Betrieb.“ A: Feld „Kostenloses Erstgespräch · betrieb-zukunft.de“. B: ohne Feld, Logo und Zeile stehen. | – | Schluss-Akkord |
 
 Übergänge in Folge: Spalten-Wipe · Parallaxe-Einflug · Zellen-Maske · Rückzoom · harter Schnitt · Dreiteilung · Durchlauf · Vorhang · Match-Cut Skalierung · Match-Cut Bewegung · Zoom-Durchflug · Push · Linien-Morph · Falten. Keine zwei gleichen hintereinander, alles mit Easing.
 
@@ -65,4 +65,4 @@ Wird es mit der echten Sprechzeit zu eng, entfällt in der Kurzfassung „von In
 
 ## Kosten
 
-Nur die Stimme: ca. 990 Zeichen, zwei Varianten zur Auswahl ≈ 2.000 ElevenLabs-Credits (beim letzten Mal 1.326 Credits ≈ 0,13 $). Genaue Zahl mit dem echten Auftrag vor dem Generieren. Bilder, Musik und Effekte entstehen im Code.
+Nur die Stimme: 2.030 ElevenLabs-Credits für zwei Varianten (Starter-Konto, laut ElevenLabs 0,41 $). Bilder, Musik und Effekte entstehen im Code.
